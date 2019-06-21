@@ -1,0 +1,12 @@
+{% extends 'scansion/base.html' %}
+{% block body_block %}
+<p><h2>Welcome to the How To page</h2></p>
+<br>
+<div class="container">
+    <p>Here is a list of the How to pages for each of Scansion's functions.</p>
+    <br>
+    <p><a href="{% url 'analyse_how_to' %}">How to use the Analyse function.</a></p>
+    <br>
+    <p><a href="{% url 'writing_how_to' %}">How to use the Writing function.</a></p>
+</div>
+{% endblock %}

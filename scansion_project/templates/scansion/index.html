@@ -1,4 +1,14 @@
 {% extends 'scansion/base.html' %}
 {% block body_block %}
-<p>Welcome to Scansion</p>
+<p><h2>Welcome to Scansion</h2></p>
+<br>
+<div class="container">
+    <p><a href="{% url 'about' %}">Go to the 'About' page</a> - Here you'll find more information about Scansion and what it can be used for</p>
+    <br>
+    <p><a href="{% url 'how_to' %}">Go to the 'How to' page</a> - Here you'll find our guides for how to use each of Scansion's functions</p>
+    <br>
+    <p><a href="{% url 'analyse' %}">Go to the 'Analyse' page</a> - Got a text you'd like to run through Scansion's analysis?</p>
+    <br>
+    <p><a href="{% url 'writing' %}">Go to the 'Writing' page</a> - Working on something of your own you'd like to put through Scansion?</p>
+</div>
 {% endblock %}
