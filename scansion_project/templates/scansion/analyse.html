@@ -2,26 +2,32 @@
 {% block body_block %}
 <div class ="container">
     <div class="title-box">
-    <p2><h2>Analysis</h2>         <div class="how_to_link"><a href="{% url 'analyse_how_to' %}">Go to the How to Page</a></div>
+    <p2><h2>Analysis</h2><div class="how_to_link"><a href="{% url 'analyse_how_to' %}">Go to the How to Page</a></div>
     </p2>
     </div>
     <br>
 
     <br>
-    <!-- <div class="container"> -->
         <p>Enter a text in the left column to begin:</p>
 
         <div class="analyser-columns">
-            <div class ="analyser-column-one">
-                <input class="form-control" type="text" name="input" id="input" placeholder="Enter text here">
-                <button class="enter-button">Enter Text</button>
+            <div class ="analyser-column-one" id="column-one">
+                <input class="form-control" type="text" name="input" id="input" value="" placeholder="Enter text here">
+                <button class="enter-button" id="analyser-button" onclick="textEntered()">Enter Text</button>
             </div>
 
-            <div class = "analyser-column-one">
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            <div class = "analyser-column-one" id="column-two" name="column-two">
                 </div>
 
         </div>
-    <!-- </div> -->
 </div>
+
+<script type="text/javascript">
+
+    function textEntered() {
+        var enterredText = document.getElementById("input").value;
+        document.getElementById("column-two").innerHTML = enterredText;
+
+    }
+</script>
 {% endblock %}
