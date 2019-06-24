@@ -32,7 +32,74 @@ a:active {
     color: black;
 }
 
+.how_to_link {
+    float: right;
+}
+
+.title-box {
+    border-bottom: 1px solid #666;
+}
 
 body {
     padding-top: 40px;
 }
+
+.content {
+    margin-left: 10px;
+}
+
+.analyser-columns {
+    display: flex;
+}
+
+.analyser-column-one {
+    flex: 50%;
+    /* border-right-color: #666;
+    border-right-width: 1px;
+    border-right-style: solid; */
+    padding: 5px;
+}
+
+.analyser-column-one:last-child {
+    border-right: none;
+    margin-left: 5px;
+}
+
+input[type=text] {
+    width: 100%;
+    height: 500px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    display: inline-block;
+    /* border: 1px solid #666;
+    border-radius: 2px; */
+}
+input[type=text]:focus {
+    border: 2px solid #666;  
+    outline-style: none;  
+}
+.form-control {
+    display: inline;
+}
+.form-control:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.enter-button {
+    text-align: center;
+    text-decoration: none;
+    background-color: #e7e7e7;
+    border-radius: 12px;
+    float: right;
+    padding: 15px 32px;
+}
+
+.enter-button:focus {
+    box-shadow: #e7e7e7;
+    outline: none;
+}
+
+
+
