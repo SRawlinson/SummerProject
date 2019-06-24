@@ -1,0 +1,38 @@
+nav { 
+    list-style-type: none;
+    margin: 0;
+    padding: 50;
+    border: 1px solid #e7e7e7;
+    background-color: #f3f3f3;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+nav-li a {
+    display: block;
+    color: #666;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    float: left;
+}
+
+a {
+    color: #666;
+}
+
+a:hover { 
+    text-decoration: none;
+    color: black;
+}
+
+a:active {
+    text-decoration: none;
+    color: black;
+}
+
+
+body {
+    padding-top: 40px;
+}

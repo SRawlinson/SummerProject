@@ -1,7 +1,19 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
-    <h1><a href="{% url 'index' %}">SCANSION</a></h1>
-
+<head>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/scansion.css' %}">
+    <title>Scansion</title>
+</head>
+    <nav>
+        <nav-li><a href="{% url 'index' %}">Scansion</a></li>
+        <nav-li><a href="{% url 'about' %}">About</a></li>
+        <nav-li><a href="{% url 'how_to' %}">How To</a></li>
+        </nav>
+    <br>
     {% block body_block %}
     {% endblock %}
 </html>
