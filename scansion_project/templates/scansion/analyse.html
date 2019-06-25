@@ -17,7 +17,10 @@
             <div class ="analyser-column-one" id="column-one">
                 <p>Enter a text in the left column to begin:</p>
                 <textarea class="form-control" type="text" name="text-input" id="text-input" value="" rows="20" placeholder="Enter text here"></textarea>
-                <button class="enter-button" id="analyser-button" onclick="textEntered()">Scan Text</button>
+                <div class ="tab">
+                    <button class="tablinks" id="analyser-button" onClick="textEntered()">Scan Text</button>
+                    <!-- <button class="tablinks" id="clear-button" onClick="clearText()">Clear Text</button> -->
+                </div>
             </div>
 
             <div class = "analyser-column-one" id="column-two" name="column-two">
@@ -28,12 +31,68 @@
 
                 <div id="Scanner" class="tabcontent">
                     <br>
-                    <textarea class="form-control" id="scan-output" type="text" rows="20" placeholder="Scan output will go here"></textarea>
+                    <textarea type="text" readonly class="form-control-plaintext" id="scan-output" value="Scan output will go here"></textarea>
+                    <p>Most likely meter:</p>
+                    <p>Wordcount:</p>
+                    <p>Most frequent:</p>
+                    <br>
+                    Highlight:
+                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="nouns-checkbox">
+                        <label class="form-check-label" for="nouns-checkbox">Nouns</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="verbs-checkbox">
+                        <label class="form-check-label" for="verbs-checkbox">Verbs</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="adjectives-checkbox">
+                        <label class="form-check-label" for="adjectives-checkbox">Adjectives</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="adverbs-checkbox">
+                        <label class="form-check-label" for="adverbs-checkbox">Adverbs</label>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="highlighted">
+                        <small id="higlighterHelp class="form-text text-muted">Enter a word to be highlighted</small>
+                    </div>
                 </div>
 
                 <div id="Editor" class="tabcontent">
-                    <h3>Editor</h3>
-                    <p>Here is the Editor</p>
+                    <br>
+                    Remove:
+                    <br>
+                    <br>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="nouns-checkbox">
+                        <label class="form-check-label" for="nouns-checkbox">Nouns</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="verbs-checkbox">
+                        <label class="form-check-label" for="verbs-checkbox">Verbs</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="adjectives-checkbox">
+                        <label class="form-check-label" for="adjectives-checkbox">Adjectives</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="adverbs-checkbox">
+                        <label class="form-check-label" for="adverbs-checkbox">Adverbs</label>
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="highlighted">
+                        <small id="higlighterHelp class="form-text text-muted">Enter a word to be highlighted</small>
+                    </div>
+
+                    
+
+
+
+
                 </div>
             </div>
 
@@ -45,9 +104,12 @@
 
     function textEntered() {
         var enterredText = document.getElementById("text-input").value;
-        document.getElementById("scan-output").innerHTML = enterredText;
-
+        document.getElementById("scan-output").value = enterredText;
     }
+
+    // function clearText() {
+    //     document.getElementById("text-input").innerHTML = "";
+    // }
 
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
@@ -59,11 +121,11 @@
 
         tablinks =document.getElementsByClassName("tablinks");
         for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace("active", "");
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
         }
 
         document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.className += "active";
+        evt.currentTarget.className += " active";
     }
 </script>
 {% endblock %}
