@@ -1,6 +1,9 @@
 {% extends 'scansion/base.html' %}
 {% block body_block %}
+
 <div class ="container">
+
+    <!--Separate title box for now, might be an idea to introduce this to the base though -->
     <div class="title-box">
     <p2><h2>Analysis</h2><div class="how_to_link"><a href="{% url 'analyse_how_to' %}">Go to the How to Page</a></div>
     </p2>
@@ -8,26 +11,59 @@
     <br>
 
     <br>
-        <p>Enter a text in the left column to begin:</p>
 
+        <!-- Two columns: left for input, right for output. Eventually, the right will show the stresses of each word/line-->
         <div class="analyser-columns">
             <div class ="analyser-column-one" id="column-one">
-                <input class="form-control" type="text" name="input" id="input" value="" placeholder="Enter text here">
-                <button class="enter-button" id="analyser-button" onclick="textEntered()">Enter Text</button>
+                <p>Enter a text in the left column to begin:</p>
+                <textarea class="form-control" type="text" name="text-input" id="text-input" value="" rows="20" placeholder="Enter text here"></textarea>
+                <button class="enter-button" id="analyser-button" onclick="textEntered()">Scan Text</button>
             </div>
 
             <div class = "analyser-column-one" id="column-two" name="column-two">
+                <div class="tab">
+                    <button class="tablinks" id="defaultOpen" onClick="openTab(event, 'Scanner')">Scanner</button>
+                    <button class="tablinks" onClick="openTab(event, 'Editor')">Editor</button>
                 </div>
+
+                <div id="Scanner" class="tabcontent">
+                    <br>
+                    <textarea class="form-control" id="scan-output" type="text" rows="20" placeholder="Scan output will go here"></textarea>
+                </div>
+
+                <div id="Editor" class="tabcontent">
+                    <h3>Editor</h3>
+                    <p>Here is the Editor</p>
+                </div>
+            </div>
 
         </div>
 </div>
 
 <script type="text/javascript">
+    document.getElementById("defaultOpen").click();
 
     function textEntered() {
-        var enterredText = document.getElementById("input").value;
-        document.getElementById("column-two").innerHTML = enterredText;
+        var enterredText = document.getElementById("text-input").value;
+        document.getElementById("scan-output").innerHTML = enterredText;
 
+    }
+
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+
+        tablinks =document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace("active", "");
+        }
+
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += "active";
     }
 </script>
 {% endblock %}
