@@ -31,13 +31,27 @@ function getSyllables() {
     callAPI(thisurl, function (returned) {
         var s = "";
         var vowelFound = false;
+        var vowels = /[aeiou]/i;
 
         for (var i = 0; i < returned.length; i++) {
+
             for (var j = 0; j < returned[i].text.length; j++) {
-                s += "x";
+                var letter = returned[i].text.charAt(j);
+
+                if (vowels.test(letter) && vowelFound == false) {
+                    if (returned[i].type) {
+                        s += "/";
+                    } else {
+                        s += "x";
+                    }
+                    vowelFound = true;
+                } else {
+                    s += "  ";
+                }
 
 
             } 
+            vowelFound = false;
         }
 
 
@@ -51,16 +65,6 @@ function getSyllables() {
             //     s += " | ";
             // }
         }
-
-
-
-
-        // for (var i = 0; i < returned.length; i++) {
-        //     s += "text: " + returned[i].text + " "
-        //     if (returned[i].type) {
-        //         s += " stress ";
-        //     }
-        // }
         document.getElementById("scan-output").innerHTML = (s);
     });
 }
