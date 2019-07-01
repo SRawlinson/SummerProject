@@ -29,6 +29,7 @@ var randomWordURL = "https://api.wordnik.com/v4/words.json/randomWord?hasDiction
 var hyphenationURL = "/hyphenation?useCanonical=false&limit=50&api_key=";
 
 var outputText = "";
+var wordsNotFound = "";
  
 //So this seems to work but its v delicate - doesn't like misspelled words or hyphens etc. Need some error handling. 
 //Also it relies upon the ajax being synchronous, which i feel is amateurish or hacky or something. 
@@ -37,6 +38,7 @@ function scanText(){
     textForScan.trim();
     // alert(textForScan);
     outputText = "";
+    wordsNotFound = "";
     var linesArray = textForScan.split("\n");
 
     for (var i = 0; i < linesArray.length; i++) {
@@ -48,9 +50,16 @@ function scanText(){
         }
         outputText += "\n" + line + "\n";
     }
-
+    var notFoundArray = wordsNotFound.split(" ");
+    outputText += "\nWords not found: "
+    for(var i = 0; i < notFoundArray - 1; i++) {
+        outputText += notFoundArray[i] + ", "
+    }
+    outputText += notFoundArray[notFoundArray.length-1];
+    outputText += "\n" + wordsNotFound;
     document.getElementById("scan-output").innerHTML = outputText;
-    alert("finished");
+
+    // alert("finished");
 }
 
 //This works fine for individual words but at the moment stores output in a global variable. 
@@ -58,7 +67,7 @@ function getSyllables(wordForScan) {
     // alert("get syllables for: " + wordForScan);
     var thisurl = baseJSONURL + wordForScan + hyphenationURL + APIKey;
 
-    callAPI(thisurl, function (returned) {
+    callAPI(thisurl, wordForScan, function (returned) {
         // alert("callback")
         var s = "";
         var vowelFound = false;
@@ -80,8 +89,10 @@ function getSyllables(wordForScan) {
                 } else {
                     s += "  ";
                 }
+                
             } 
             vowelFound = false;
+            // s += " | ";
         }
         outputText += s;
 
@@ -98,22 +109,42 @@ function getRandom() {
 }
 
 //Main api function - simply calls the url supplied as parameter and sends back a parsed object. 
-function callAPI(theURL, callback) {
+
+//Swapped int he success/error messages and they seem to be working better now. 
+function callAPI(theURL, wordForScan, callback) {
     var jxhr = $.ajax ({
         url: theURL,
         async: false,
         dataType: "text" ,
-        timeout: 30000
-    })
-    .success (function (data, status) {
-        var array = JSON.parse (data);
-        callback (array)
-    })
-    .error (function (status) {
-        console.log ("callAPI error: url ==" + url + ", error == " + JSON.stringify (status, undefined, 4));
-        alert ("callAPI error: url ==" + url + ", error == " + JSON.stringify (status, undefined, 4));
-
+        timeout: 30000,
+        error: function(status) {
+            var statusmessage = JSON.stringify(status.responseText, undefined, 4);
+            if (statusmessage.error === "timeout") {
+                alert("callAPI timed out!");
+            } else if (statusmessage.match(/404/)) {
+                wordsNotFound += wordForScan + " ";
+                for (var i = 0; i < wordForScan.length; i++) {
+                    outputText += "  ";
+                }
+                alert("Word not found: \"" + wordForScan + "\"");
+            } else {
+                alert(statusmessage);
+            }
+        },
+        success: function (data, status) {
+            var array = JSON.parse (data);
+            callback (array)
+        }
     });
+    // .success (function (data, status) {
+    //     var array = JSON.parse (data);
+    //     callback (array)
+    // })
+    // .error (function (status) {
+    //     console.log ("callAPI error: url ==" + url + ", error == " + JSON.stringify (status, undefined, 4));
+    //     alert ("callAPI error: url ==" + url + ", error == " + JSON.stringify (status, undefined, 4));
+
+    // });
 
 
 }
