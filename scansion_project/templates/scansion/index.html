@@ -8,15 +8,20 @@
         <div class="analyser-column-one" id="input-column">
             <p>Enter/paste a text below to begin:</p>
             <textarea class="form-control" type="text" name="text-input" id="text-input" value="" rows="20" placeholder="Enter text here"></textarea>
-            <button class="tablinks" id="input-button" onclick="analyseLink()">Input Text</button> 
+            <button class="tablinks" id="input-button">Input Text</button> 
         </div>
     </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
+var text_input_value = "Shall I compare thee to a summer's day?";
 function analyseLink() {
-    var text_input = document.getElementById("text-input").value;
-    location.href = "{% url 'analyse' text_input %}";
+    if (document.getElementById("text-input").value == ""){
+        text_input_value = "Shall I compare thee to a summer's day?";
+    } else {
+        text_input_value = document.getElementById("text-input").value;
+    }
+    // location.href = "{% url 'analyse' text_input_value %}";
 }
-</script>
+</script> -->
 {% endblock %}

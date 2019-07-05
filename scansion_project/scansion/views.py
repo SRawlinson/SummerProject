@@ -13,10 +13,13 @@ def about(request):
 def how_to(request):
     return render(request, 'scansion/how_to.html')
 
-def analyse(request, text_input):
-    
-    context_dict = {'sonnet': text_input}
-    return render(request, 'scansion/analyse.html', context_dict)
+# def analyse(request):
+#     # text_input = "Shall I compare thee to a summer's day?"
+#     # try:
+#     #     context_dict = {'sonnet': text_input}
+#     # except text_input.DoesNotExist:
+#     #     context_dict = {'sonnet': "Shall I compare thee to a summer's day?"}
+#     return render(request, 'scansion/analyse.html')
 
 def analyse_how_to(request):
     return render(request, 'scansion/analyse_how_to.html')
