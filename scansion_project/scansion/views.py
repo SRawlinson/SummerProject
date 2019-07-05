@@ -3,8 +3,6 @@ from django.http import HttpResponse
 # import prosodic as p
 
 def index(request):
-    
-
     return render(request, 'scansion/index.html')
 
 def about(request):
@@ -22,6 +20,7 @@ def how_to(request):
 #     return render(request, 'scansion/analyse.html')
 def analyse(request):
     return render(request, 'scansion/analyse.html')
+    
 def analyse_how_to(request):
     return render(request, 'scansion/analyse_how_to.html')
 

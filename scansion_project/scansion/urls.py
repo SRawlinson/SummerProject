@@ -3,6 +3,7 @@ from scansion import views
 
 urlpatterns =  [
     url(r'^$', views.index, name='index'),
+    # url(r'^index/$', views.index, name='index'),
     url(r'^about/$', views.about, name='about'),
     url(r'^howto/$', views.how_to, name='how_to'),
     url(r'^analyse/$', views.analyse, name='analyse'),
