@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-import prosodic as p
+# import prosodic as p
 
 def index(request):
     
@@ -20,7 +20,8 @@ def how_to(request):
 #     # except text_input.DoesNotExist:
 #     #     context_dict = {'sonnet': "Shall I compare thee to a summer's day?"}
 #     return render(request, 'scansion/analyse.html')
-
+def analyse(request):
+    return render(request, 'scansion/analyse.html')
 def analyse_how_to(request):
     return render(request, 'scansion/analyse_how_to.html')
 
