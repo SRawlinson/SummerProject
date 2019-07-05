@@ -11,6 +11,7 @@ def how_to(request):
     return render(request, 'scansion/how_to.html')
 
 def analyse(request):
+    # context_dict = {'sonnet': input_text}
     return render(request, 'scansion/analyse.html')
 
 def analyse_how_to(request):
