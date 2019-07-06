@@ -6,21 +6,19 @@
 
     <div class="analyser-columns">
         <div class="analyser-column-one" id="input-column">
-            <p>Enter/paste a text below to begin:</p>
+            <form id="input-form" method="post" action="{% url 'index' %}">
+                {% csrf_token %}
 
+                {{ form.as_p }}
+                <div class="tab">
+                <button class ="tablinks" type="submit">Submit</button>
+            </div>
+            </form>
+            
+            </div>
         </div>
     </div>
+
 </div> 
 
-<script type="text/javascript">
-var text_input_value = "Shall I compare thee to a summer's day?";
-function analyseLink() {
-    if (document.getElementById("text-input").value == ""){
-        text_input_value = "Shall I compare thee to a summer's day?";
-    } else {
-        text_input_value = document.getElementById("text-input").value;
-    }
-    // location.href = "{% url 'analyse' %}";
-}
-</script>
 {% endblock %}

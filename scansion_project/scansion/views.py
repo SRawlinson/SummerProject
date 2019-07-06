@@ -1,9 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from scansion.forms import TextForm
 # import prosodic as p
 
 def index(request):
-    return render(request, 'scansion/index.html')
+
+    if request.method == 'POST':
+        form = TextForm(request.POST)
+        if form.is_valid():
+            cd = form.cleaned_data
+            text = cd.get('text')
+            context_dict = {'text': text}
+            return analyse(request, context_dict)
+    else:
+        form = TextForm()
+    return render(request, 'scansion/index.html', {'form': form})
 
 def about(request):
     return render(request, 'scansion/about.html')
@@ -11,15 +22,8 @@ def about(request):
 def how_to(request):
     return render(request, 'scansion/how_to.html')
 
-# def analyse(request):
-#     # text_input = "Shall I compare thee to a summer's day?"
-#     # try:
-#     #     context_dict = {'sonnet': text_input}
-#     # except text_input.DoesNotExist:
-#     #     context_dict = {'sonnet': "Shall I compare thee to a summer's day?"}
-#     return render(request, 'scansion/analyse.html')
-def analyse(request):
-    return render(request, 'scansion/analyse.html')
+def analyse(request, context_dict):
+    return render(request, 'scansion/analyse.html', context_dict)
     
 def analyse_how_to(request):
     return render(request, 'scansion/analyse_how_to.html')
