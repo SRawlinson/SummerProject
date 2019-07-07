@@ -9,19 +9,28 @@
     </p2>
     </div>
     <br>
-    <!-- {{ sonnet }} -->
-    {{ text }}
+    <!-- {{ text }} -->
     <br>
 
         <!-- Two columns: left for input, right for output. Eventually, the right will show the stresses of each word/line-->
         <div class="analyser-columns">
             <div class ="analyser-column-one" id="column-one">
-                <p>Enter a text in the left column to begin:</p>
-                <textarea class="form-control" type="text" name="text-input" id="text-input" value="" rows="20" placeholder="Enter text here"></textarea>
+                <textarea type="text" readonly class="form-control-plaintext" id="scan-output"></textarea>
+
                 <div class ="tab">
                     <button class="tablinks" id="analyser-button" onClick="textEntered()">Scan Text</button>
-                    <!-- <button class="tablinks" id="clear-button" onClick="clearText()">Clear Text</button> -->
                 </div>
+                {% if text %}
+                <ul>
+                {% for line in text %}
+             
+                    {{ line }}
+                    <br>
+                {% endfor %}
+            </ul>
+            {% else %}
+                Shall I compare thee to a summer's day?
+                {% endif %}
             </div>
 
             <div class = "analyser-column-one" id="column-two" name="column-two">
@@ -32,7 +41,6 @@
 
                 <div id="Scanner" class="tabcontent">
                     <br>
-                    <textarea type="text" readonly class="form-control-plaintext" id="scan-output" value="Scan output will go here"></textarea>
                     <p>Most likely meter:</p>
                     <p>Wordcount:</p>
                     <p>Most frequent:</p>
@@ -103,14 +111,15 @@
 <script type="text/javascript">
     document.getElementById("defaultOpen").click();
 
+    // var text = "{{ value|json_script:'text' }}"
+
+
+    // document.getElementById("scan-output").innerHTML = text
+
     function textEntered() {
         var enterredText = document.getElementById("text-input").value;
         document.getElementById("scan-output").value = enterredText;
     }
-
-    // function clearText() {
-    //     document.getElementById("text-input").innerHTML = "";
-    // }
 
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;

@@ -10,6 +10,7 @@ def index(request):
         if form.is_valid():
             cd = form.cleaned_data
             text = cd.get('text')
+            text = text.splitlines()
             context_dict = {'text': text}
             return analyse(request, context_dict)
     else:
