@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from scansion.forms import TextForm
-# import prosodic as p
+import prosodic as p
+import re
+# import syllabify
+# from prosodic import syllabifier as syl 
 
 def index(request):
 
@@ -11,11 +14,38 @@ def index(request):
             cd = form.cleaned_data
             text = cd.get('text')
             text = text.splitlines()
+            output = ""
+            for line in text:
+                t = p.Text(line)
+                t.parse()
+                for parse in t.bestParses():
+                    print(parse)
+                    output += parse.__str__() + "\n"
+ 
+                
+                    
+            
+            # print(output)
+            text = output
             context_dict = {'text': text}
             return analyse(request, context_dict)
     else:
         form = TextForm()
     return render(request, 'scansion/index.html', {'form': form})
+
+
+#Hopefully a helper function to detect stressed syllables in a word
+#Syllable objects don't  behave as I'd expect - can't treat them like strings?
+def stressedSylls(word):
+    sylls = word.syllables()
+    shapes=[syll.getShape() for syll in sylls]
+    for syl in sylls:
+        print(syl)
+    
+    # for shape in shapes:
+    #     print(shape)
+
+    return True
 
 def about(request):
     return render(request, 'scansion/about.html')
