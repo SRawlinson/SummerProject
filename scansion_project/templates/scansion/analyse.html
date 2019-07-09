@@ -15,18 +15,44 @@
         <!-- Two columns: left for input, right for output. Eventually, the right will show the stresses of each word/line-->
         <div class="analyser-columns">
             <div class ="analyser-column-one" id="column-one">
-                <textarea type="text" readonly class="form-control-plaintext" id="scan-output"></textarea>
+                <div class="tab">
+                    <button class="viewtablinks" id="defaultOpenAsWell" onClick="openViewTab(event, 'Original')">Original</button>
+                    <button class="viewtablinks" onClick="openViewTab(event, 'Prosodic')">Prosodic</button>
+                </div>
+
+                <div id="Original" class="viewtabcontent">
+                    <textarea type="text" readonly class="form-control-plaintext" id="original-scan-output">
+                        {% for line in original %}
+                        {{ line }}
+                        {% endfor %}
+                    </textarea>
+                </div>
+
+                <div id="Prosodic" class="viewtabcontent">
+                    <textarea type="text" readonly class="form-control-plaintext" id="prosodic-scan-output">
+                            {% for line in lines %}
+                            {{ line }}
+                            {% endfor %}
+                    </textarea>
+            
+
+                </div>
 
                 <div class ="tab">
-                    <button class="tablinks" id="analyser-button" onClick="textEntered()">Scan Text</button>
+                    <button class="tablinks" id="analyser-button" onClick="scanText()">Scan Text</button>
                 </div>
-                {% if text %}
-                {{ text }}
-
-            </ul>
-            {% else %}
+                {% if lines %}
+                {{ lines }}
+                {% else %}
                 Shall I compare thee to a summer's day?//Test
                 {% endif %}
+
+                {% if sylls %}
+                {% for syll in sylls %}
+                {{ syll }} <br>
+                {% endfor %}
+                {% endif %}
+
             </div>
 
             <div class = "analyser-column-one" id="column-two" name="column-two">
@@ -105,8 +131,14 @@
 </div>
 
 <script type="text/javascript">
-    document.getElementById("defaultOpen").click();
+    document.getElementById("defaultOpenAsWell").click();
 
+    document.getElementById("defaultOpen").click();
+    
+    function scanText() {
+        var prosodicText = document.getElementById("prosodic-scan-output").value;
+        alert(prosodicText);
+    }
 
 
 </script>

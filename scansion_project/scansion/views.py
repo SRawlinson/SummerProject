@@ -14,20 +14,21 @@ def index(request):
             cd = form.cleaned_data
             text = cd.get('text')
             text = text.splitlines()
-            output = ""
+            lines = []
             for line in text:
                 t = p.Text(line)
                 t.parse()
+
                 for parse in t.bestParses():
-                    print(parse)
-                    output += parse.__str__() + "\n"
- 
-                
-                    
+                    # print(parse)
+                    lines.append(parse)
+            for line in lines:
+                print(line.str_stress)
+            sylls = []
+            # for word in words:
+            #     sylls.append(word.syllables())
             
-            # print(output)
-            text = output
-            context_dict = {'text': text}
+            context_dict = {'lines': lines, 'original': text, 'sylls': sylls}
             return analyse(request, context_dict)
     else:
         form = TextForm()
