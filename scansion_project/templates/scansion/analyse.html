@@ -46,10 +46,18 @@
                 {% else %}
                 Shall I compare thee to a summer's day?//Test
                 {% endif %}
+                <br>
 
                 {% if sylls %}
                 {% for syll in sylls %}
                 {{ syll }} <br>
+                {% endfor %}
+                {% endif %}
+
+                {% if everything %}
+                {% for x in everything %}
+                {{ x }}
+                <br>
                 {% endfor %}
                 {% endif %}
 

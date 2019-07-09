@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from scansion.forms import TextForm
 import prosodic as p
 import re
+import Words
 # import syllabify
 # from prosodic import syllabifier as syl 
 
@@ -15,20 +16,27 @@ def index(request):
             text = cd.get('text')
             text = text.splitlines()
             lines = []
+            giveMeEverything = []
+            # For loop splits text from the form into lines and parses them using prosodic
             for line in text:
                 t = p.Text(line)
                 t.parse()
 
                 for parse in t.bestParses():
-                    # print(parse)
+                    # This adds the top parse to the lines list.
                     lines.append(parse)
-            for line in lines:
-                print(line.str_stress)
-            sylls = []
-            # for word in words:
-            #     sylls.append(word.syllables())
+            # This loops through the lines list and breaks each one into words, then Words. 
+            # It then calls giveMeEverything and adds that data to a list
+            for x in range(0, len(lines)):
+                line = lines[x].words()
+                for y in range(0, len(line)):
+                    stringWord = line[y].__str__() # This returns more than just the string of the word - hence using split() etc to just retrieve what I need.
+                    stringWord = stringWord.split()
+                    word = Words.Word(stringWord[0])
+                    giveMeEverything.append(word.giveMeEverything())
+
             
-            context_dict = {'lines': lines, 'original': text, 'sylls': sylls}
+            context_dict = {'lines': lines, 'original': text, 'everything': giveMeEverything}
             return analyse(request, context_dict)
     else:
         form = TextForm()

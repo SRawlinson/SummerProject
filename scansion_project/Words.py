@@ -30,9 +30,9 @@ class Syllable:
         else:
             self.stressed = "stressed"
 
-w1 = Word("banana")
-print(w1.string)
+# w1 = Word("banana")
+# print(w1.string)
 # for x in range(0, len(w1.sylls)):
 #     print(w1.sylls[x].string + ": " + w1.sylls[x].stressed)
 
-print(w1.giveMeEverything())
+# print(w1.giveMeEverything())
