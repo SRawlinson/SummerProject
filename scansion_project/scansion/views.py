@@ -15,8 +15,9 @@ def index(request):
             cd = form.cleaned_data
             text = cd.get('text')
             text = text.splitlines()
-            lines = []
+            prosodicLines = []
             giveMeEverything = []
+            words = []
             # For loop splits text from the form into lines and parses them using prosodic
             for line in text:
                 t = p.Text(line)
@@ -24,37 +25,28 @@ def index(request):
 
                 for parse in t.bestParses():
                     # This adds the top parse to the lines list.
-                    lines.append(parse)
+                    prosodicLines.append(parse)
             # This loops through the lines list and breaks each one into words, then Words. 
             # It then calls giveMeEverything and adds that data to a list
-            for x in range(0, len(lines)):
-                line = lines[x].words()
+            for x in range(0, len(prosodicLines)):
+                line = prosodicLines[x].words()
                 for y in range(0, len(line)):
                     stringWord = line[y].__str__() # This returns more than just the string of the word - hence using split() etc to just retrieve what I need.
                     stringWord = stringWord.split()
                     word = Words.Word(stringWord[0])
+                    words.append(word)
                     giveMeEverything.append(word.giveMeEverything())
-
+            lines = []
+            for line in text:
+                l1 = Words.Line(line)
+                lines.append(l1)
             
-            context_dict = {'lines': lines, 'original': text, 'everything': giveMeEverything}
+            context_dict = {'prosodicLines': prosodicLines, 'original': text, 'everything': giveMeEverything, 'words': words, 'lines': lines}
             return analyse(request, context_dict)
     else:
         form = TextForm()
     return render(request, 'scansion/index.html', {'form': form})
 
-
-#Hopefully a helper function to detect stressed syllables in a word
-#Syllable objects don't  behave as I'd expect - can't treat them like strings?
-def stressedSylls(word):
-    sylls = word.syllables()
-    shapes=[syll.getShape() for syll in sylls]
-    for syl in sylls:
-        print(syl)
-    
-    # for shape in shapes:
-    #     print(shape)
-
-    return True
 
 def about(request):
     return render(request, 'scansion/about.html')

@@ -18,6 +18,8 @@
                 <div class="tab">
                     <button class="viewtablinks" id="defaultOpenAsWell" onClick="openViewTab(event, 'Original')">Original</button>
                     <button class="viewtablinks" onClick="openViewTab(event, 'Prosodic')">Prosodic</button>
+                    <button class="viewtablinks" onClick="openViewTab(event, 'Words')">Words</button>
+                    <button class="viewtablinks" onClick="openViewTab(event, 'Lines')">Lines</button>
                 </div>
 
                 <div id="Original" class="viewtabcontent">
@@ -30,7 +32,7 @@
 
                 <div id="Prosodic" class="viewtabcontent">
                     <textarea type="text" readonly class="form-control-plaintext" id="prosodic-scan-output">
-                            {% for line in lines %}
+                            {% for line in prosodicLines %}
                             {{ line }}
                             {% endfor %}
                     </textarea>
@@ -38,11 +40,27 @@
 
                 </div>
 
+                <div id="Words" class="viewtabcontent">
+                    <textarea type="text" readonly class="form-control-plaintext" id="words-scan-output">
+                        {% for word in words %}
+                        {{ word }}
+                        {% endfor %}
+                    </textarea>
+                </div>
+
+                <div id="Lines" class="viewtabcontent">
+                    <textarea type="text" readonly class="form-control-plaintext" id="lines-scan-output">
+                        {% for line in lines %}
+                        {{ line }}
+                        {% endfor %}
+                    </textarea>
+                </div>
+
                 <div class ="tab">
                     <button class="tablinks" id="analyser-button" onClick="scanText()">Scan Text</button>
                 </div>
-                {% if lines %}
-                {{ lines }}
+                {% if prosodicLines %}
+                {{ prosodicLines }}
                 {% else %}
                 Shall I compare thee to a summer's day?//Test
                 {% endif %}
@@ -142,7 +160,16 @@
     document.getElementById("defaultOpenAsWell").click();
 
     document.getElementById("defaultOpen").click();
-    
+    var listOfWords = document.getElementById("words-scan-output").value;
+
+    var listOfWordSylls = "";
+
+    for(var i = 0; i < listOfWords.length; i++) {
+        listOfWordSylls.concat(listOfWords[i].sylls[0].string);
+    }
+
+    alert(listOfWordSylls);
+
     function scanText() {
         var prosodicText = document.getElementById("prosodic-scan-output").value;
         alert(prosodicText);
