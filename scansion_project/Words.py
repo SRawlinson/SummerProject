@@ -11,6 +11,9 @@ class Line:
             z = re.match("\w+", y)
             if z:
                 self.list[x] = Word(self.list[x])
+    
+    def showFirstSyllStress(self):
+        return self.list[0].sylls[0].stressed
 
     def __str__(self):
         stringRep = ""
@@ -20,22 +23,20 @@ class Line:
                 stringRep += " " + self.list[x].__str__()
             else:
                 stringRep += self.list[x].__str__()
-        return stringRep
+        return stringRep      
 
-    # def printTheList(self):
-    #     stringRep = ""
-    #     for x in range(0, len(self.list)):
-    #         z = re.match("\w", self.list[x].__str__())
-    #         if z and (x > 0):
-    #             stringRep += " " + self.list[x].__str__()
-    #         else:
-    #             stringRep += self.list[x].__str__()
-    #     return stringRep
-
-
-
-        
-
+    def syll_str_line(self):
+        outputLine = """<html>"""
+        for x in range(0, len(self.list)):
+            z = re.match("\w", self.list[x].__str__())
+            if z and (x > 0):
+                outputLine += " " + self.list[x].syll_str()
+            if z and (x == 0):
+                outputLine += self.list[x].syll_str()
+            # else:
+            #     outputLine += self.list[x].__str__()
+        outputLine += """</html>"""
+        return outputLine
 
 class Word:
     def __init__(self, stringOfWord):
@@ -52,33 +53,42 @@ class Word:
     def giveMeEverything(self):
         everything = self.string + " = "
         for x in range(0, len(self.sylls)):
-            everything += self.sylls[x].string + self.sylls[x].stressed #Notes from meeting 10/7 --> + ": <span style=\"state: hidden;\">" + self.sylls[x].stressed + "</span>. "
+            everything += self.sylls[x].string + ": " #Notes from meeting 10/7 --> + ": <span style=\"state: hidden;\">" + self.sylls[x].stressed + "</span>. "
+            if self.sylls[x].stressed:
+                everything += "stressed"
+            else:
+                everything += "unstressed"
         return everything
 
     def __str__(self):
         return self.string
 
+    def syll_str(self):
+        output = ""
+        for syll in self.sylls:
+            output += syll.colours()
+        return output
+
 class Syllable:
     def __init__(self, str):
+        self.stressed = True
         self.string = str.lower()
         regexMatcher = "[a-z]+"
         if(re.match(regexMatcher, str)):
-            self.stressed = "unstressed"
+            self.stressed = False
+            
+
+    def colours(self):
+        if self.stressed:
+            return "<p class=\"stress\">"+ self.__str__() + "</p>"
         else:
-            self.stressed = "stressed"
+            return "<p class=\"unstressed\">" + self.__str__() + "</p>"
+    
+    def __str__(self):
+        return self.string
 
-# l1 = Line("Shall I, compare '           thee")
+# l1 = Line("Shall I compare thee")
 # print(l1)
-# print(len(l1.list))
-# print(l1.list[3])
-# print(l1.list[3].sylls[0].stressed)
-
-
-
-
-# w1 = Word("banana")
-# print(w1.string)
-# for x in range(0, len(w1.sylls)):
-#     print(w1.sylls[x].string + ": " + w1.sylls[x].stressed)
-
-# print(w1.giveMeEverything())
+# print(l1.syll_str_line())
+# print(l1.list[0].syll_str())
+# print(l1.list[0].sylls[0].colours())
