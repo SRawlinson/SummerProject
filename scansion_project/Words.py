@@ -26,7 +26,7 @@ class Line:
         return stringRep      
 
     def syll_str_line(self):
-        outputLine = """<html>"""
+        outputLine = ""
         for x in range(0, len(self.list)):
             z = re.match("\w", self.list[x].__str__())
             if z and (x > 0):
@@ -35,7 +35,7 @@ class Line:
                 outputLine += self.list[x].syll_str()
             # else:
             #     outputLine += self.list[x].__str__()
-        outputLine += """</html>"""
+        outputLine += ""
         return outputLine
 
 class Word:
@@ -70,19 +70,19 @@ class Word:
         return output
 
 class Syllable:
-    def __init__(self, str):
+    def __init__(self, stringRep):
         self.stressed = True
-        self.string = str.lower()
+        self.string = stringRep.lower()
         regexMatcher = "[a-z]+"
-        if(re.match(regexMatcher, str)):
+        if(re.match(regexMatcher, stringRep)):
             self.stressed = False
             
 
     def colours(self):
         if self.stressed:
-            return "<p class=\"stress\">"+ self.__str__() + "</p>"
+            return "<output-font class=\"stress\">"+ self.__str__() + "</output-font>"
         else:
-            return "<p class=\"unstressed\">" + self.__str__() + "</p>"
+            return "<output-font class=\"unstressed\">" + self.__str__() + "</output-font>"
     
     def __str__(self):
         return self.string

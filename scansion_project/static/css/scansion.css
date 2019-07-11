@@ -175,11 +175,16 @@ input[type=textarea]:focus {
     font-weight: normal;
 }
 
-p.stress {
-    color: red
+output-font.stress {
+    font-weight: normal;
 }
 
-p.unstressed {
-    color: blue
+output-font.unstressed {
+    font-weight: normal;
+}
+
+output-font {
+    text-align: left;
+
 }
 

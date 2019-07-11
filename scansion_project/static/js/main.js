@@ -37,3 +37,49 @@
         document.getElementById(viewtabName).style.display = "block";
         evt.currentTarget.className += " active";
     }
+
+    function displayNormalText() {
+        var stressContent = document.getElementsByClassName("stress");
+        for (var i = 0; i < stressContent.length; i++) {
+            var text = stressContent[i].innerHTML;
+            stressContent[i].innerHTML = text.toLowerCase();
+            stressContent[i].style.color = "black";
+        }
+        var unstressContent = document.getElementsByClassName("unstressed");
+        for (var i = 0; i < unstressContent.length; i++) {
+            var text = unstressContent[i].innerHTML;
+            unstressContent[i].innerHTML = text.toLowerCase();
+            unstressContent[i].style.color = "black";
+        }
+
+    }
+
+    function displayColours() {
+        var stressContent = document.getElementsByClassName("stress");
+        for (var i = 0; i < stressContent.length; i++) {
+            var text = stressContent[i].innerHTML;
+            stressContent[i].innerHTML = text.toLowerCase();
+            stressContent[i].style.color = "red";
+        }
+        var unstressContent = document.getElementsByClassName("unstressed");
+        for (var i = 0; i < unstressContent.length; i++) {
+            var text = unstressContent[i].innerHTML;
+            unstressContent[i].innerHTML = text.toLowerCase();
+            unstressContent[i].style.color = "blue";
+        }
+    }
+
+    function displayCapitals() {
+        var stressContent = document.getElementsByClassName("stress");
+        for (var i = 0; i < stressContent.length; i++) {
+            stressContent[i].style.color = "black";
+            var text = stressContent[i].innerHTML;
+            // alert(text.toUpperCase());
+            stressContent[i].innerHTML = text.toUpperCase();
+            
+        }
+        var unstressContent = document.getElementsByClassName("unstressed");
+        for (var i = 0; i < unstressContent.length; i++) {
+            unstressContent[i].style.color = "black";
+        }
+    }

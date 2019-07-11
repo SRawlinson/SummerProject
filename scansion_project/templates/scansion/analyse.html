@@ -80,7 +80,6 @@
                 {% endif %}
                 <br>
                 <br>
-                <h3 class="stress">shall</h3> <h3 class="stress">i</h3>I <h3 class="unstressed">com</h3><h3 class="stress">pare</h3>compare <h3 class="unstressed">thee</h3>thee 
 
             </div>
 
@@ -92,33 +91,11 @@
 
                 <div id="Scanner" class="tabcontent">
                     <br>
-                    <p>Most likely meter:</p>
-                    <p>Wordcount:</p>
-                    <p>Most frequent:</p>
-                    <br>
-                    Highlight:
-                    <br>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="nouns-checkbox">
-                        <label class="form-check-label" for="nouns-checkbox">Nouns</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="verbs-checkbox">
-                        <label class="form-check-label" for="verbs-checkbox">Verbs</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="adjectives-checkbox">
-                        <label class="form-check-label" for="adjectives-checkbox">Adjectives</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="adverbs-checkbox">
-                        <label class="form-check-label" for="adverbs-checkbox">Adverbs</label>
-                    </div>
-                    <br>
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="highlighted">
-                        <small id="higlighterHelp class="form-text text-muted">Enter a word to be highlighted</small>
-                    </div>
+                    <input type="radio" id="default-checked" name="display-type" onClick="displayNormalText()" value="normal"> Normal Text <br>
+                    <input type="radio" name="display-type" value="colours" onClick="displayColours()"> Colours <br>
+                    <input type="radio" name="display-type" value="capitals" onClick="displayCapitals()"> Capitals <br>
+
+
                 </div>
 
                 <div id="Editor" class="tabcontent">
@@ -163,11 +140,9 @@
     document.getElementById("defaultOpenAsWell").click();
 
     document.getElementById("defaultOpen").click();
+    document.getElementById("default-checked").click();
 
-    var colours = document.getElementById("lines-scan-output").value;
-    alert(colours)
-    document.getElementById("lines-scan-output").value = "";
-    document.getElementById("lines-scan-output").value = colours;
+
 
     function scanText() {
         var prosodicText = document.getElementById("prosodic-scan-output").value;
