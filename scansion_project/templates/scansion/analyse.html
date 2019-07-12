@@ -16,19 +16,11 @@
         <div class="analyser-columns">
             <div class ="analyser-column-one" id="column-one">
                 <div class="tab">
-                    <button class="viewtablinks" id="defaultOpenAsWell" onClick="openViewTab(event, 'Original')">Original</button>
+                    <button class="viewtablinks" id="defaultViewTab" onClick="openViewTab(event, 'Lines')">Lines</button>
                     <button class="viewtablinks" onClick="openViewTab(event, 'Prosodic')">Prosodic</button>
                     <button class="viewtablinks" onClick="openViewTab(event, 'Words')">Words</button>
-                    <button class="viewtablinks" onClick="openViewTab(event, 'Lines')">Lines</button>
                 </div>
 
-                <div id="Original" class="viewtabcontent">
-                    <textarea type="text" readonly class="form-control-plaintext" id="original-scan-output">
-                        {% for line in original %}
-                        {{ line }}
-                        {% endfor %}
-                    </textarea>
-                </div>
 
                 <div id="Prosodic" class="viewtabcontent">
                     <textarea type="text" readonly class="form-control-plaintext" id="prosodic-scan-output">
@@ -54,46 +46,28 @@
                         {{ line.syll_str_line }}
                         {% endautoescape %}
                         {% endfor %}
+
                 </div>
 
                 <div class ="tab">
                     <button class="tablinks" id="analyser-button" onClick="scanText()">Scan Text</button>
                 </div>
-                {% if prosodicLines %}
-                {{ prosodicLines }}
-                {% else %}
-                Shall I compare thee to a summer's day?//Test
-                {% endif %}
-                <br>
 
-                {% if sylls %}
-                {% for syll in sylls %}
-                {{ syll }} <br>
-                {% endfor %}
-                {% endif %}
-
-                {% if everything %}
-                {% for x in everything %}
-                {{ x }}
-                <br>
-                {% endfor %}
-                {% endif %}
-                <br>
-                <br>
 
             </div>
 
             <div class = "analyser-column-one" id="column-two" name="column-two">
                 <div class="tab">
-                    <button class="tablinks" id="defaultOpen" onClick="openTab(event, 'Scanner')">Scanner</button>
+                    <button class="tablinks" id="defaultToolsTab" onClick="openTab(event, 'Scanner')">Scanner</button>
                     <button class="tablinks" onClick="openTab(event, 'Editor')">Editor</button>
                 </div>
 
                 <div id="Scanner" class="tabcontent">
                     <br>
-                    <input type="radio" id="default-checked" name="display-type" onClick="displayNormalText()" value="normal"> Normal Text <br>
+                    <input type="radio" id="default-radio" name="display-type" onClick="displayNormalText()" value="normal"> Normal Text <br>
                     <input type="radio" name="display-type" value="colours" onClick="displayColours()"> Colours <br>
-                    <input type="radio" name="display-type" value="capitals" onClick="displayCapitals()"> Capitals <br>
+                    <input type="radio" name="display-type" value="bold" onClick="boldSylls()"> Bold <br>
+                    <input type="radio" name="display-type" value="separate" onClick="separateSylls()"> Separate <br>
 
 
                 </div>
@@ -137,10 +111,12 @@
 </div>
 
 <script type="text/javascript">
-    document.getElementById("defaultOpenAsWell").click();
 
-    document.getElementById("defaultOpen").click();
-    document.getElementById("default-checked").click();
+    document.getElementById("defaultViewTab").click();
+    document.getElementById("defaultToolsTab").click();
+    document.getElementById("default-radio").click();
+
+
 
 
 

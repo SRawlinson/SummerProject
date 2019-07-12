@@ -33,8 +33,8 @@ class Line:
                 outputLine += " " + self.list[x].syll_str()
             if z and (x == 0):
                 outputLine += self.list[x].syll_str()
-            # else:
-            #     outputLine += self.list[x].__str__()
+            if z == None:
+                outputLine += self.list[x].__str__()
         outputLine += ""
         return outputLine
 
@@ -46,14 +46,20 @@ class Word:
         bestParses = t.bestParses()
         bestParse = str(bestParses[0])
         syllsList = bestParse.replace('|', ' ').replace('.', ' ').split()
+        self.syllsActual = []
         self.sylls = []
+        x = 0
         for syll in range(0, len(syllsList)):
-            self.sylls.append(Syllable(syllsList[syll]))
+            y = x
+            x += len(syllsList[syll])
+            self.syllsActual.append(stringOfWord[y:x])
+        for syll in range(0, len(syllsList)):
+            self.sylls.append(Syllable(syllsList[syll], self.syllsActual[syll]))
     
     def giveMeEverything(self):
         everything = self.string + " = "
         for x in range(0, len(self.sylls)):
-            everything += self.sylls[x].string + ": " #Notes from meeting 10/7 --> + ": <span style=\"state: hidden;\">" + self.sylls[x].stressed + "</span>. "
+            everything += self.sylls[x].string + ": " 
             if self.sylls[x].stressed:
                 everything += "stressed"
             else:
@@ -70,9 +76,9 @@ class Word:
         return output
 
 class Syllable:
-    def __init__(self, stringRep):
+    def __init__(self, stringRep, stringActual):
         self.stressed = True
-        self.string = stringRep.lower()
+        self.string = stringActual
         regexMatcher = "[a-z]+"
         if(re.match(regexMatcher, stringRep)):
             self.stressed = False
@@ -87,7 +93,7 @@ class Syllable:
     def __str__(self):
         return self.string
 
-# l1 = Line("Shall I compare thee")
+# l1 = Line("Shall, I compare thee?")
 # print(l1)
 # print(l1.syll_str_line())
 # print(l1.list[0].syll_str())

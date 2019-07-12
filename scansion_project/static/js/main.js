@@ -38,48 +38,67 @@
         evt.currentTarget.className += " active";
     }
 
+    //Display text functions here
+    // var displayText = document.getElementById("lines-scans-output").innerHTML;
+    
     function displayNormalText() {
         var stressContent = document.getElementsByClassName("stress");
         for (var i = 0; i < stressContent.length; i++) {
-            var text = stressContent[i].innerHTML;
-            stressContent[i].innerHTML = text.toLowerCase();
             stressContent[i].style.color = "black";
+            stressContent[i].style.fontWeight = "normal";
         }
         var unstressContent = document.getElementsByClassName("unstressed");
         for (var i = 0; i < unstressContent.length; i++) {
-            var text = unstressContent[i].innerHTML;
-            unstressContent[i].innerHTML = text.toLowerCase();
             unstressContent[i].style.color = "black";
+            unstressContent[i].style.fontWeight = "normal";
+
         }
 
     }
 
     function displayColours() {
+        displayNormalText();
         var stressContent = document.getElementsByClassName("stress");
         for (var i = 0; i < stressContent.length; i++) {
-            var text = stressContent[i].innerHTML;
-            stressContent[i].innerHTML = text.toLowerCase();
             stressContent[i].style.color = "red";
+
         }
         var unstressContent = document.getElementsByClassName("unstressed");
         for (var i = 0; i < unstressContent.length; i++) {
-            var text = unstressContent[i].innerHTML;
-            unstressContent[i].innerHTML = text.toLowerCase();
             unstressContent[i].style.color = "blue";
+
         }
     }
 
-    function displayCapitals() {
-        var stressContent = document.getElementsByClassName("stress");
-        for (var i = 0; i < stressContent.length; i++) {
-            stressContent[i].style.color = "black";
-            var text = stressContent[i].innerHTML;
-            // alert(text.toUpperCase());
-            stressContent[i].innerHTML = text.toUpperCase();
-            
+    function separateSylls() {
+        displayNormalText();
+        var stress = document.getElementsByClassName("stress");
+        for (var i = 0; i < stress.length; i++) {
+            stress[i].innerHTML += " | "
         }
-        var unstressContent = document.getElementsByClassName("unstressed");
-        for (var i = 0; i < unstressContent.length; i++) {
-            unstressContent[i].style.color = "black";
+        var unstressed = document.getElementsByClassName("unstressed");
+        for (var i = 0; i < unstressed.length; i++) {
+            unstressed[i].innerHTML += " | "
         }
     }
+
+    function boldSylls() {
+        displayNormalText();
+        var stressed = document.getElementsByClassName("stress");
+        for (var i = 0; i < stressed.length; i++) {
+            stressed[i].style.fontWeight = "bold";
+        }
+    }
+    // function displayCapitals() {
+    //     var stressContent = document.getElementsByClassName("stress");
+    //     for (var i = 0; i < stressContent.length; i++) {
+    //         stressContent[i].style.color = "black";
+    //         var text = stressContent[i].innerHTML;
+    //         // alert(text.toUpperCase());
+    //         stressContent[i].innerHTML = text.toUpperCase();
+            
+    //     }
+    //     var unstressContent = document.getElementsByClassName("unstressed");
+    //     for (var i = 0; i < unstressContent.length; i++) {
+    //         unstressContent[i].style.color = "black";
+    //     }

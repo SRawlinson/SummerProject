@@ -176,15 +176,15 @@ input[type=textarea]:focus {
 }
 
 output-font.stress {
-    font-weight: normal;
+    animation: fadeEffect 1s;
 }
 
 output-font.unstressed {
-    font-weight: normal;
+    animation: fadeEffect 1s;
 }
 
 output-font {
-    text-align: left;
+    animation: fadeEffect 1s;
 
 }
 
