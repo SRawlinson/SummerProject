@@ -70,18 +70,6 @@
         }
     }
 
-    function separateSylls() {
-        displayNormalText();
-        var stress = document.getElementsByClassName("stress");
-        for (var i = 0; i < stress.length; i++) {
-            stress[i].innerHTML += " | "
-        }
-        var unstressed = document.getElementsByClassName("unstressed");
-        for (var i = 0; i < unstressed.length; i++) {
-            unstressed[i].innerHTML += " | "
-        }
-    }
-
     function boldSylls() {
         displayNormalText();
         var stressed = document.getElementsByClassName("stress");
@@ -89,6 +77,19 @@
             stressed[i].style.fontWeight = "bold";
         }
     }
+
+    // function separateSylls() {
+    //     displayNormalText();
+    //     var stress = document.getElementsByClassName("stress");
+    //     for (var i = 0; i < stress.length; i++) {
+    //         stress[i].innerHTML += " | "
+    //     }
+    //     var unstressed = document.getElementsByClassName("unstressed");
+    //     for (var i = 0; i < unstressed.length; i++) {
+    //         unstressed[i].innerHTML += " | "
+    //     }
+    // }
+
     // function displayCapitals() {
     //     var stressContent = document.getElementsByClassName("stress");
     //     for (var i = 0; i < stressContent.length; i++) {

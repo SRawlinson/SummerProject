@@ -28,14 +28,14 @@ def index(request):
                     prosodicLines.append(parse)
             # This loops through the lines list and breaks each one into words, then Words. 
             # It then calls giveMeEverything and adds that data to a list
-            for x in range(0, len(prosodicLines)):
-                line = prosodicLines[x].words()
-                for y in range(0, len(line)):
-                    stringWord = line[y].__str__() # This returns more than just the string of the word - hence using split() etc to just retrieve what I need.
-                    stringWord = stringWord.split()
-                    word = Words.Word(stringWord[0])
-                    words.append(word)
-                    giveMeEverything.append(word.giveMeEverything())
+            # for x in range(0, len(prosodicLines)):
+            #     line = prosodicLines[x].words()
+            #     for y in range(0, len(line)):
+            #         stringWord = line[y].__str__() # This returns more than just the string of the word - hence using split() etc to just retrieve what I need.
+            #         stringWord = stringWord.split()
+            #         word = Words.Word(stringWord[0])
+            #         words.append(word)
+            #         giveMeEverything.append(word.giveMeEverything())
             lines = []
             for line in text:
                 l1 = Words.Line(line)

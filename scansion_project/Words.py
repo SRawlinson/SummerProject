@@ -23,6 +23,7 @@ class Line:
                 stringRep += " " + self.list[x].__str__()
             else:
                 stringRep += self.list[x].__str__()
+        stringRep += "\n"
         return stringRep      
 
     def syll_str_line(self):
@@ -70,9 +71,10 @@ class Word:
         return self.string
 
     def syll_str(self):
-        output = ""
+        output = "<span class=\"word\">"
         for syll in self.sylls:
             output += syll.colours()
+        output += "<div class=\"dropdown-content\">" + self.__str__() + ": And here is the definition</div></span>"
         return output
 
 class Syllable:

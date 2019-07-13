@@ -18,32 +18,23 @@
                 <div class="tab">
                     <button class="viewtablinks" id="defaultViewTab" onClick="openViewTab(event, 'Lines')">Lines</button>
                     <button class="viewtablinks" onClick="openViewTab(event, 'Prosodic')">Prosodic</button>
-                    <button class="viewtablinks" onClick="openViewTab(event, 'Words')">Words</button>
                 </div>
 
 
                 <div id="Prosodic" class="viewtabcontent">
                     <textarea type="text" readonly class="form-control-plaintext" id="prosodic-scan-output">
                             {% for line in prosodicLines %}
-                            {{ line }}
+                            {{ line }} 
                             {% endfor %}
                     </textarea>
             
 
                 </div>
 
-                <div id="Words" class="viewtabcontent">
-                    <textarea type="text" readonly class="form-control-plaintext" id="words-scan-output">
-                        {% for word in words %}
-                        {{ word.giveMeEverything }}
-                        {% endfor %}
-                    </textarea>
-                </div>
-
                 <div id="Lines" class="viewtabcontent" id="lines-scan-output">
                         {% for line in lines %}
                         {% autoescape off %}
-                        {{ line.syll_str_line }}
+                        {{ line.syll_str_line }} <br>
                         {% endautoescape %}
                         {% endfor %}
 
@@ -67,7 +58,7 @@
                     <input type="radio" id="default-radio" name="display-type" onClick="displayNormalText()" value="normal"> Normal Text <br>
                     <input type="radio" name="display-type" value="colours" onClick="displayColours()"> Colours <br>
                     <input type="radio" name="display-type" value="bold" onClick="boldSylls()"> Bold <br>
-                    <input type="radio" name="display-type" value="separate" onClick="separateSylls()"> Separate <br>
+                    <!-- <input type="radio" name="display-type" value="separate" onClick="separateSylls()"> Separate <br> -->
 
 
                 </div>
@@ -115,10 +106,6 @@
     document.getElementById("defaultViewTab").click();
     document.getElementById("defaultToolsTab").click();
     document.getElementById("default-radio").click();
-
-
-
-
 
     function scanText() {
         var prosodicText = document.getElementById("prosodic-scan-output").value;
