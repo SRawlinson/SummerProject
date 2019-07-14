@@ -56,6 +56,7 @@ class Word:
             self.syllsActual.append(stringOfWord[y:x])
         for syll in range(0, len(syllsList)):
             self.sylls.append(Syllable(syllsList[syll], self.syllsActual[syll]))
+        self.getPattern() 
     
     def giveMeEverything(self):
         everything = self.string + " = "
@@ -70,11 +71,18 @@ class Word:
     def __str__(self):
         return self.string
 
+    def getPattern(self):
+        output = ""
+        for x in range(0, len(self.sylls)-1):
+            output += self.sylls[x].pattern + " | "
+        output += self.sylls[len(self.sylls)-1].pattern
+        self.pattern = output
+
     def syll_str(self):
         output = "<span class=\"word\">"
         for syll in self.sylls:
             output += syll.colours()
-        output += "<div class=\"dropdown-content\">" + self.__str__() + ": And here is the definition</div></span>"
+        output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>And here is the definition...</div></span>"
         return output
 
 class Syllable:
@@ -84,6 +92,10 @@ class Syllable:
         regexMatcher = "[a-z]+"
         if(re.match(regexMatcher, stringRep)):
             self.stressed = False
+        if self.stressed:
+            self.pattern = "/"
+        else:
+            self.pattern = "x"
             
 
     def colours(self):
@@ -91,6 +103,12 @@ class Syllable:
             return "<output-font class=\"stress\">"+ self.__str__() + "</output-font>"
         else:
             return "<output-font class=\"unstressed\">" + self.__str__() + "</output-font>"
+    
+    def syllPattern(self):
+        if self.stressed:
+            return "/"
+        else:
+            return "x"
     
     def __str__(self):
         return self.string
