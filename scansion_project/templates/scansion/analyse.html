@@ -17,6 +17,7 @@
             <div class ="analyser-column-one" id="column-one">
                 <div class="tab">
                     <button class="viewtablinks" id="defaultViewTab" onClick="openViewTab(event, 'Lines')">Lines</button>
+                    <button class="viewtablinks" onClick="openViewTab(event, 'Separated')">Separated</button>
                     <button class="viewtablinks" onClick="openViewTab(event, 'Prosodic')">Prosodic</button>
                 </div>
 
@@ -32,12 +33,23 @@
                 </div>
 
                 <div id="Lines" class="viewtabcontent" id="lines-scan-output">
+                    <br>
                         {% for line in lines %}
                         {% autoescape off %}
                         {{ line.syll_str_line }} <br>
                         {% endautoescape %}
                         {% endfor %}
+                    <br>
+                </div>
 
+                <div id="Separated" class="viewtabcontent" id="separated-sylls">
+                    <br>
+                        {% for line in lines %}
+                        {% autoescape off %}
+                        {{ line.syll_str_sep_line }}<br>
+                        {% endautoescape %}
+                        {% endfor %}
+                    <br>
                 </div>
 
                 <div class ="tab">

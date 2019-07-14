@@ -177,14 +177,26 @@ input[type=textarea]:focus {
 
 output-font.stress {
     animation: fadeEffect 1s;
+    
+}
+
+output-font.strees:hover {
+    font-weight: inherit;
+
+}
+
+output-font.unstressed:hover {
+    font-weight: inherit;
+
 }
 
 output-font.unstressed {
     animation: fadeEffect 1s;
 }
 
-output-font {
+output-font:hover {
     animation: fadeEffect 1s;
+
 
 }
 

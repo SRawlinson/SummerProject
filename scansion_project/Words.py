@@ -39,6 +39,19 @@ class Line:
         outputLine += ""
         return outputLine
 
+    def syll_str_sep_line(self):
+        outputLine = "| "
+        for x in range(0, len(self.list)):
+            z = re.match("\w", self.list[x].__str__())
+            if z and (x > 0):
+                outputLine += " " + self.list[x].syll_str_separated()
+            if z and (x == 0):
+                outputLine += self.list[x].syll_str_separated()
+            if z == None:
+                outputLine += self.list[x].__str__()
+        outputLine += ""
+        return outputLine
+
 class Word:
     def __init__(self, stringOfWord):
         self.string = stringOfWord
@@ -84,6 +97,15 @@ class Word:
             output += syll.colours()
         output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>And here is the definition...</div></span>"
         return output
+
+    def syll_str_separated(self):
+        output = "<span class=\"word\">"
+        for syll in self.sylls:
+            output += syll.colours() + " | "
+        output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>And here is the definition...</div></span>"
+        return output
+
+
 
 class Syllable:
     def __init__(self, stringRep, stringActual):
