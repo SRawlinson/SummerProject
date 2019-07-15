@@ -1,5 +1,8 @@
 import prosodic as p
 import re
+from PyDictionary import PyDictionary
+
+
 #Building this into the structure all words will be put into - when a dictionary api works I'll store word type here as well. 
 
 class Line:
