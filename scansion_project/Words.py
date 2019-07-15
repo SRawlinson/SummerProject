@@ -1,10 +1,9 @@
 import prosodic as p
 import re
 from PyDictionary import PyDictionary
+dictionary = PyDictionary()
 
-
-#Building this into the structure all words will be put into - when a dictionary api works I'll store word type here as well. 
-
+# print(dictionary.meaning("indentation"))
 class Line:
     def __init__(self, lineString):
         self.string = lineString
@@ -65,6 +64,7 @@ class Word:
         syllsList = bestParse.replace('|', ' ').replace('.', ' ').split()
         self.syllsActual = []
         self.sylls = []
+
         x = 0
         for syll in range(0, len(syllsList)):
             y = x
@@ -73,7 +73,18 @@ class Word:
         for syll in range(0, len(syllsList)):
             self.sylls.append(Syllable(syllsList[syll], self.syllsActual[syll]))
         self.getPattern() 
-    
+        self.getDefinition()
+
+    def getDefinition(self):
+        definition_dict = dictionary.meaning(self.string)
+        if definition_dict == None:
+            self.definition = "Scansion could not find a dictionary definition for " + self.string
+        else:
+            definition_str = ""
+            for x in definition_dict:
+                definition_str += str(x) + ": " + str(definition_dict[x]) + "<br>"
+            self.definition = definition_str
+
     def giveMeEverything(self):
         everything = self.string + " = "
         for x in range(0, len(self.sylls)):
@@ -98,14 +109,14 @@ class Word:
         output = "<span class=\"word\">"
         for syll in self.sylls:
             output += syll.colours()
-        output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>And here is the definition...</div></span>"
+        output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br><br>" + self.definition + "<br></div></span>"
         return output
 
     def syll_str_separated(self):
         output = "<span class=\"word\">"
         for syll in self.sylls:
             output += syll.colours() + " | "
-        output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>And here is the definition...</div></span>"
+        output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br><br>" + self.definition + "<br></div></span>"
         return output
 
 
@@ -143,3 +154,6 @@ class Syllable:
 # print(l1.syll_str_line())
 # print(l1.list[0].syll_str())
 # print(l1.list[0].sylls[0].colours())
+w1 = Word("Shallow")
+print(w1)
+print(w1.definition)
