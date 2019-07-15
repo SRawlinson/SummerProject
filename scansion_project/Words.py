@@ -57,23 +57,39 @@ class Line:
 class Word:
     def __init__(self, stringOfWord):
         self.string = stringOfWord
-        t = p.Text(stringOfWord)
-        t.parse()
-        bestParses = t.bestParses()
-        bestParse = str(bestParses[0])
-        syllsList = bestParse.replace('|', ' ').replace('.', ' ').split()
-        self.syllsActual = []
-        self.sylls = []
+        try:
+            t = p.Text(stringOfWord)
+            t.parse()
+            bestParses = t.bestParses()
+            bestParse = str(bestParses[0])
+            syllsList = bestParse.replace('|', ' ').replace('.', ' ').split()
+            self.syllsActual = []
+            self.sylls = []
 
-        x = 0
-        for syll in range(0, len(syllsList)):
-            y = x
-            x += len(syllsList[syll])
-            self.syllsActual.append(stringOfWord[y:x])
-        for syll in range(0, len(syllsList)):
-            self.sylls.append(Syllable(syllsList[syll], self.syllsActual[syll]))
-        self.getPattern() 
-        self.getDefinition()
+            x = 0
+            for syll in range(0, len(syllsList)):
+                y = x
+                x += len(syllsList[syll])
+                self.syllsActual.append(stringOfWord[y:x])
+            for syll in range(0, len(syllsList)):
+                self.sylls.append(Syllable(syllsList[syll], self.syllsActual[syll]))
+            self.getPattern() 
+            self.getDefinition()
+            self.known = True
+        except AttributeError as error:
+            self.pattern = "Scansion could not find a stress pattern for this word"
+            self.sylls = UnknownWord(self.string)
+            self.known = False
+            self.getDefinition()
+            print(error)
+        except Exception as exception:
+            self.pattern = "Scansion encountered an unexpected error"
+            self.sylls = UnknownWord(self.string)
+            self.getDefinition()
+            self.known = False
+            print(exception)
+
+
 
     def getDefinition(self):
         definition_dict = dictionary.meaning(self.string)
@@ -107,15 +123,21 @@ class Word:
 
     def syll_str(self):
         output = "<span class=\"word\">"
-        for syll in self.sylls:
-            output += syll.colours()
+        if self.known:
+            for syll in self.sylls:
+                output += syll.colours()
+        else:
+            output += self.sylls.colours()
         output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br><br>" + self.definition + "<br></div></span>"
         return output
 
     def syll_str_separated(self):
         output = "<span class=\"word\">"
-        for syll in self.sylls:
-            output += syll.colours() + " | "
+        if self.known:
+            for syll in self.sylls:
+                output += syll.colours() + " | "
+        else:
+            output += self.sylls.colours() + " | "
         output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br><br>" + self.definition + "<br></div></span>"
         return output
 
@@ -149,11 +171,23 @@ class Syllable:
     def __str__(self):
         return self.string
 
+class UnknownWord:
+    def __init__(self, stringRep):
+        self.string = stringRep
+        self.pattern = "?"
+
+    def colours(self):
+        return "<output-font class=\"unknown\">" + self.__str__() + "</output-font>"
+    
+    def __str__(self):
+        return self.string
+
+
 # l1 = Line("Shall, I compare thee?")
 # print(l1)
 # print(l1.syll_str_line())
 # print(l1.list[0].syll_str())
 # print(l1.list[0].sylls[0].colours())
-w1 = Word("Shallow")
-print(w1)
-print(w1.definition)
+# w1 = Word("Shallow")
+# print(w1)
+# print(w1.definition)

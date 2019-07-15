@@ -68,6 +68,10 @@
             unstressContent[i].style.color = "blue";
 
         }
+        var unknownWords = document.getElementsByClassName("unknown");
+        for (var i = 0; i < unknownWords.length; i++) {
+            unknownWords[i].style.color = "purple";
+        }
     }
 
     function boldSylls() {
