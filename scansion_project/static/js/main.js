@@ -53,6 +53,12 @@
             unstressContent[i].style.fontWeight = "normal";
 
         }
+        var unknownWords = document.getElementsByClassName("unknown");
+        for (var i = 0; i < unknownWords.length; i++) {
+            unknownWords[i].style.color = "black";
+            unknownWords[i].style.fontWeight = "normal";
+
+        }
 
     }
 
@@ -107,3 +113,36 @@
     //     for (var i = 0; i < unstressContent.length; i++) {
     //         unstressContent[i].style.color = "black";
     //     }
+    function getDefinition() {
+        getMeaning("banana", function (returned) {
+            alert("callback");
+        });
+    }
+
+    function getMeaning(theWord, callback) {
+        alert("callAPI");
+        var jxhr = $.ajaz({
+            url: "http://pydictionary-geekpradd.rhcloud.com/api/meaning/" + theWord,
+            async: false,
+            dataType: "text",
+            timeout:3000,
+
+            error: function(status) {
+                var statusmessage = JSON.stringify(status.responseText, undefined, 4);
+                if (statusmessage.error === "timeout") {
+                    alert("callAPI timed out!");
+                } else if (statusmessage.match(/404/)) {
+                    alert("Coudn't find word");
+                } else {
+                    alert(statusmessage);
+                }
+            },
+            success: function (data, status) {
+                alert("success");
+                var array = JSON.parse (data);
+                callback(array)
+            }
+
+        });
+
+    }

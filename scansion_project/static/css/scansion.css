@@ -224,3 +224,6 @@ output-font:hover {
     display: block;
 }
 
+.Noun:hover {
+    color: red !important
+}
