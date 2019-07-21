@@ -18,7 +18,7 @@
                 <div class="tab">
                     <button class="viewtablinks" id="defaultViewTab" onClick="openViewTab(event, 'Lines')">Lines</button>
                     <button class="viewtablinks" onClick="openViewTab(event, 'Separated')">Separated</button>
-                    <button class="viewtablinks" onClick="openViewTab(event, 'Prosodic')">Prosodic</button>
+                    <button class="viewtablinks" onClick="openViewTab(event, 'Patterns')">Patterns</button>
                 </div>
 
 
@@ -49,6 +49,16 @@
                         {{ line.syll_str_sep_line }}<br>
                         {% endautoescape %}
                         {% endfor %}
+                    <br>
+                </div>
+
+                <div id="Patterns" class="viewtabcontent" id="patterns-output">
+                    <br>
+                    {% for line in lines %}
+                    {% autoescape off %}
+                    {{ line.linePattern }}<br>
+                    {% endautoescape %}
+                    {% endfor %}
                     <br>
                 </div>
 

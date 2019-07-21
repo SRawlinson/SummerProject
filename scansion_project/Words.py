@@ -19,7 +19,114 @@ class Line:
             if z:
                 self.list[x] = Word(self.list[x], pos_tags[classes])
                 classes += 1
+        self.linePattern = ""
+        self.getPattern()
+        self.identifyPattern()
     
+    def getPattern(self):
+        linePattern = "<pre>"
+        for x in range(0, len(self.list)):
+            z = re.match("\w+", self.list[x].__str__())
+            if z:
+                linePattern += self.list[x].pattern + "\t"
+        self.linePattern = linePattern + "</pre>"
+
+    def identifyPattern(self):
+        linePattern = ""
+        for x in range(0, len(self.list)):
+            z = re.match("\w+", self.list[x].__str__())
+            if z:
+                if self.list[x].pattern == None:
+                    linePattern += '?'
+                else:
+                    linePattern += self.list[x].pattern
+                    # print(self.list[x].__str__() + ": " + self.list[x].pattern)
+        pattern = linePattern.replace('|', ' ').replace(' ', '')
+        pattern = pattern.replace('/', 's')
+        patternLength = len(pattern)
+        self.foot = ""
+        self.numOfFeet = ""
+        if patternLength < 4 or patternLength > 24:
+            self.foot = "unknown"
+            self.numOfFeet = "unknown"
+        elif patternLength % 2 == 0 and (patternLength != 6 or patternLength != 12) and patternLength < 17:
+            iambic = 0
+            spondaic = 0
+            trochaic = 0
+            if patternLength == 4:
+                self.numOfFeet = "dimeter"
+            elif patternLength == 8:
+                self.numOfFeet = "tetrameter"
+            elif patternLength == 10:
+                self.numOfFeet = "pentameter"
+            elif patternLength == 14:
+                self.numOfFeet = "heptamter"
+            elif patternLength == 16:
+                self.numOfFeet = "octometer"
+            else:
+                self.numOfFeet = "unknown"
+            
+            listOfFeet = self.separateIntoFeet(pattern, 2)
+            for foot in listOfFeet:
+                z = re.match("xs", foot)
+                if z:
+                    iambic = iambic + 1
+                y = re.match("sx", foot)
+                if y:
+                    trochaic = trochaic + 1
+                x = re.match("ss", foot)
+                if x:
+                    spondaic = spondaic + 1
+            if (iambic >= spondaic) and (iambic >= trochaic) and (iambic >= (patternLength/4)):
+                self.foot = "iambic"
+            elif (trochaic >= iambic) and (trochaic >= spondaic) and (trochaic >= (patternLength/4)):
+                self.foot = "trochaic"
+            elif (spondaic >= iambic) and (spondaic >= trochaic) and (spondaic >= (patternLength/4)):
+                self.foot = "spondaic"
+            else:
+                self.foot = "unknown"
+        elif patternLength % 3 == 0 and (patternLength != 6 or patternLength != 12):
+            dactylic = 0
+            anapestic = 0
+            if patternLength == 9:
+                self.numOfFeet = "trimeter"
+            elif patternLength == 15:
+                self.numOfFeet = "pentameter"
+            elif patternLength == 18:
+                self.numOfFeet = "hexameter"
+            elif patternLength == 21:
+                self.numOfFeet = "heptameter"
+            elif patternLength == 24:
+                self.numOfFeet = "octometer"
+            listOfFeet = self.separateIntoFeet(pattern, 3)
+            for foot in listOfFeet:
+                z = re.match("xxs", foot)
+                if z:
+                    anapestic = anapestic + 1
+                y = re.match("sxx", foot)
+                if y:
+                    dactylic = dactylic + 1
+            if (anapestic >= dactylic and anapestic >= ((patternLength/3)/2)):
+                self.foot = "anapestic"
+            elif (dactylic >= anapestic and dactylic >= ((patternLength/3)/2)):
+                self.foot = "dactylic"
+        #Need to add in code to work out patternlength of 6 and 12
+        else:
+            self.foot = "unknown"
+            self.numOfFeet = "unknown"
+
+
+
+        
+                
+
+
+    def separateIntoFeet(self, array, size):
+        listOfFeet = []
+        for i in range(0, len(array), size):
+            listOfFeet.append(array[i:i + size])
+        return listOfFeet            
+
     def showFirstSyllStress(self):
         return self.list[0].sylls[0].stressed
 
@@ -238,25 +345,10 @@ class UnknownWord:
 
 
 # l1 = Line("Shall, I compare thee?")
-# print(l1)
 # print(l1.syll_str_line())
 # print(l1.list[0].syll_str())
 # print(l1.list[0].sylls[0].colours())
 # w1 = Word("Shallow")
 # print(w1)
-# print(w1.definition)
-
-# text = nltk.word_tokenize("happy")
-# pos_tags = nltk.pos_tag(text)
-# for x in pos_tags:
-#     print(x)
-
-# w1 = Word("fall")
-# for x in range(0, len(w1.wordClass)):
-#     print(w1.string + ": " + w1.wordClass[x])
-
-#I think it's supposed to get more accurate if it's within a sentence - so need to tokenize it but then separately send the token with the word to the Word __init__ function
-# text = nltk.word_tokenize("The quick brown fox jumped over the lazy dog.")
-# pos_tags = nltk.pos_tag(text)
-# for x in pos_tags:
-#     print(x)
+l1 = Line("Shall I compare thee to a summer's day?")
+print(l1.foot + " " + l1.numOfFeet)
