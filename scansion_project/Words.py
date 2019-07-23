@@ -110,7 +110,87 @@ class Line:
                 self.foot = "anapestic"
             elif (dactylic >= anapestic and dactylic >= ((patternLength/3)/2)):
                 self.foot = "dactylic"
-        #Need to add in code to work out patternlength of 6 and 12
+            else:
+                self.foot = "unknown"
+                self.foot = "unknown"
+        elif patternLength == 6:
+            listOfFeet = self.separateIntoFeet(pattern, 3)
+            for foot in listOfFeet:
+                z = re.match("xxs", foot)
+                if z:
+                    anapestic = anapestic + 1
+                y = re.match("sxx", foot)
+                if y:
+                    dactylic = dactylic + 1
+            if anapestic == 2:
+                self.foot = "anapestic"
+                self.numOfFeet = "dimeter"
+            elif dactylic == 2:
+                self.foot = "dactylic"
+                self.numOfFeet = "dimeter"
+            else:
+                listOfFeet = self.separateIntoFeet(pattern, 2)
+                for foot in listOfFeet:
+                    z = re.match("xs", foot)
+                    if z:
+                        iambic = iambic + 1
+                    y = re.match("sx", foot)
+                    if y:
+                        trochaic = trochaic + 1
+                    x = re.match("ss", foot)
+                    if x:
+                        spondaic = spondaic + 1
+                if (iambic >= 2):
+                    self.foot = "iambic"
+                    self.numOfFeet = "trimeter"
+                elif (trochaic >= 2):
+                    self.foot = "trochaic"
+                    self.numOfFeet = "trimeter"
+                elif (spondaic >= 2):
+                    self.foot = "spondaic"
+                    self.numOfFeet = "trimeter"
+                else:
+                    self.foot = "unknown"
+                    self.foot = "unknown"
+        elif patternLength == 12:
+            listOfFeet = self.separateIntoFeet(pattern, 3)
+            for foot in listOfFeet:
+                z = re.match("xxs", foot)
+                if z:
+                    anapestic = anapestic + 1
+                y = re.match("sxx", foot)
+                if y:
+                    dactylic = dactylic + 1
+            if anapestic >= 2:
+                self.foot = "anapestic"
+                self.numOfFeet = "dimeter"
+            elif dactylic >= 2:
+                self.foot = "dactylic"
+                self.numOfFeet = "dimeter"
+            else:
+                listOfFeet = self.separateIntoFeet(pattern, 2)
+                for foot in listOfFeet:
+                    z = re.match("xs", foot)
+                    if z:
+                        iambic = iambic + 1
+                    y = re.match("sx", foot)
+                    if y:
+                        trochaic = trochaic + 1
+                    x = re.match("ss", foot)
+                    if x:
+                        spondaic = spondaic + 1
+                if (iambic >= 3):
+                    self.foot = "iambic"
+                    self.numOfFeet = "trimeter"
+                elif (trochaic >= 3):
+                    self.foot = "trochaic"
+                    self.numOfFeet = "trimeter"
+                elif (spondaic >= 3):
+                    self.foot = "spondaic"
+                    self.numOfFeet = "trimeter"
+                else:
+                    self.foot = "unknown"
+                    self.foot = "unknown"
         else:
             self.foot = "unknown"
             self.numOfFeet = "unknown"
@@ -218,15 +298,6 @@ class Word:
     #             definition_str += str(x) + ": " + str(definition_dict[x]) + "<br>"
     #         self.definition = definition_str
 
-    # def giveMeEverything(self):
-    #     everything = self.string + " = "
-    #     for x in range(0, len(self.sylls)):
-    #         everything += self.sylls[x].string + ": " 
-    #         if self.sylls[x].stressed:
-    #             everything += "stressed"
-    #         else:
-    #             everything += "unstressed"
-    #     return everything
     def getWordClass(self, classList):
         if classList[1] == "JJ" or classList[1] == "JJR" or classList[1] == "JJS":
             self.wordClass = "Adjective"
@@ -350,5 +421,3 @@ class UnknownWord:
 # print(l1.list[0].sylls[0].colours())
 # w1 = Word("Shallow")
 # print(w1)
-l1 = Line("Shall I compare thee to a summer's day?")
-print(l1.foot + " " + l1.numOfFeet)

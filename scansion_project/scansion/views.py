@@ -31,13 +31,65 @@ def index(request):
             for line in text:
                 l1 = Words.Line(line)
                 lines.append(l1)
-            
+            info = []
+            for line in lines:
+                l1  ={'foot': line.foot, 'numOfFeet': line.numOfFeet}
+                info.append(l1)
             # context_dict = {'prosodicLines': prosodicLines, 'lines': lines}
-            context_dict = {'lines': lines}
+            foot = getBestMeter(lines)
+            context_dict = {'lines': lines, 'info': info, 'foot': foot}
             return analyse(request, context_dict)
     else:
         form = TextForm()
     return render(request, 'scansion/index.html', {'form': form})
+
+def getBestMeter(lines):
+    biggest = 1
+    foot = ""
+    footLine = ""
+    numLine = ""
+    for line in lines:
+        footLine = footLine + line.foot
+        numLine = numLine + line.numOfFeet
+    trochaic = footLine.count("trochaic")
+    if trochaic >= biggest:
+        biggest = trochaic
+        foot = "trochaic"
+    spondaic = footLine.count("spondaic")
+    if spondaic >= biggest:
+        biggest = spondaic
+        foot = "spondaic"
+    anapestic = footLine.count("anapestic")
+    if anapestic >= biggest:
+        biggest = anapestic
+        foot = "anapestic"
+    dactylic = footLine.count("dactylic")
+    if dactylic >= biggest:
+        biggest = dactylic
+        foot = "dactylic"
+    # unknown = footLine.count("unknown")
+    # if unknown >= biggest:
+    #     biggest = unknown
+    #     foot = "unknown"
+    iambic = footLine.count("iambic")
+    if iambic >= biggest:
+        biggest = iambic
+        foot = "iambic"
+    dimeter = numLine.count("dimeter")
+    trimeter = numLine.count("trimeter")
+    tetrameter = numLine.count("tetrameter")
+    pentameter = numLine.count("pentameter")
+    hexameter = numLine.count("hexameter")
+    heptameter = numLine.count("heptameter")
+    octometer = numLine.count("octometer")
+    numOfFeetDict = {'dimeter': dimeter, 'trimeter': trimeter, 'tetrameter': tetrameter, 'pentameter': pentameter, 'hexameter': hexameter, 'heptameter': heptameter, 'octometer': octometer}
+    numDictSorted = sorted(numOfFeetDict, key=numOfFeetDict.__getitem__)
+    num = len(numDictSorted) -1
+    numOfFeetForText = numDictSorted[num]
+    foot = foot + " " + numOfFeetForText
+    return foot
+    
+        
 
 
 def about(request):

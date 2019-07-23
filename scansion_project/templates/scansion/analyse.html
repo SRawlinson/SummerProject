@@ -82,7 +82,14 @@
                     <input type="radio" name="display-type" value="bold" onClick="boldSylls()"> Bold <br>
                     <!-- <input type="radio" name="display-type" value="separate" onClick="separateSylls()"> Separate <br> -->
                     <div id="infoBox">
-                        
+                       <br>
+                        Best guess: {{ foot }}
+                        <br><br>
+                        {% for line in lines %}
+                        {% autoescape off %}
+                        {{ line.foot }} {{ line.numOfFeet }}<br>
+                        {% endautoescape %}
+                        {% endfor %}
                     </div>
 
                 </div>
@@ -131,10 +138,6 @@
     document.getElementById("defaultToolsTab").click();
     document.getElementById("default-radio").click();
 
-    function scanText() {
-        var prosodicText = document.getElementById("prosodic-scan-output").value;
-        alert(prosodicText);
-    }
 
 
 </script>

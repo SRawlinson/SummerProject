@@ -119,6 +119,8 @@
         });
     }
 
+
+
     function getMeaning(theWord, callback) {
         alert("callAPI");
         var jxhr = $.ajaz({
