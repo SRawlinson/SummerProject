@@ -9,20 +9,24 @@ from nltk.corpus import wordnet
 class Line:
     def __init__(self, lineString):
         self.string = lineString
-        self.list = re.findall(r"[\w']+|[.,!?;]", lineString)
-        text = nltk.word_tokenize(self.string)
+        #Separate line into words and punctuation 
+        self.list = re.findall(r"[\w']+|[-.,!?;]", lineString)
+        #Tokenizes using nltk
+        text = nltk.word_tokenize(str(self.list))
         pos_tags = nltk.pos_tag(text)
         classes = 0
+        # For each element in self.list,if it's a word, replace with a Word object. 
         for x in range(0, len(self.list)):
             y = self.list[x]
             z = re.match("\w+", y)
             if z:
                 self.list[x] = Word(self.list[x], pos_tags[classes])
                 classes += 1
+        #Identify the overall pattern of stresses in the line. 
         self.linePattern = ""
         self.getPattern()
         self.identifyPattern()
-    
+    #getPattern is more for the display purposes, builds a html string similar to the below methods. 
     def getPattern(self):
         linePattern = "<pre>"
         for x in range(0, len(self.list)):
@@ -31,6 +35,8 @@ class Line:
                 linePattern += self.list[x].pattern + "\t"
         self.linePattern = linePattern + "</pre>"
 
+#identifyPattern also gathers a string representation of the patterns of each word and then 
+#evaluates if it is a close enough match to a known metric pattern. 
     def identifyPattern(self):
         linePattern = ""
         for x in range(0, len(self.list)):
@@ -85,6 +91,7 @@ class Line:
                 self.foot = "spondaic"
             else:
                 self.foot = "unknown"
+                self.numOfFeet = "unknown"
         elif patternLength % 3 == 0 and (patternLength != 6 or patternLength != 12):
             dactylic = 0
             anapestic = 0
@@ -112,7 +119,7 @@ class Line:
                 self.foot = "dactylic"
             else:
                 self.foot = "unknown"
-                self.foot = "unknown"
+                self.numOfFeet = "unknown"
         elif patternLength == 6:
             listOfFeet = self.separateIntoFeet(pattern, 3)
             for foot in listOfFeet:

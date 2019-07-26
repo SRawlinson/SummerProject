@@ -85,9 +85,16 @@ def getBestMeter(lines):
     numOfFeetDict = {'dimeter': dimeter, 'trimeter': trimeter, 'tetrameter': tetrameter, 'pentameter': pentameter, 'hexameter': hexameter, 'heptameter': heptameter, 'octometer': octometer}
     numDictSorted = sorted(numOfFeetDict, key=numOfFeetDict.__getitem__)
     num = len(numDictSorted) -1
-    numOfFeetForText = numDictSorted[num]
-    foot = foot + " " + numOfFeetForText
-    return foot
+    if num > (len(lines)/3):
+        numOfFeetForText = numDictSorted[num]
+        foot = foot + " " + numOfFeetForText
+        return foot
+    else:
+        string = "Scansion was not able to find a regular meter for this poem. The most recurring regular meter was " + foot
+        numOfFeetForText = numDictSorted[num]
+        string = string + " " + numOfFeetForText
+        return string
+
     
         
 
