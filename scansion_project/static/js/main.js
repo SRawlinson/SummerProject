@@ -113,22 +113,42 @@
     //     for (var i = 0; i < unstressContent.length; i++) {
     //         unstressContent[i].style.color = "black";
     //     }
-    function getDefinition() {
-        getMeaning("banana", function (returned) {
-            alert("callback");
-        });
+    function getDefinition(evt) {
+        // getMeaning("banana", function (wordDef) {
+        //     alert(wordDef);
+        //     document.getElementById("definition-output").innerHTML = wordDef;
+        // });
+        alert(evt.currentTarget);
+        var defURL = baseJSONURL + wordInput + definitionURL + APIKey;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                document.getElementById("definition-output").innerHTML = data[0].text;
+            }
+        };
+        xhttp.open("GET", defURL, true);
+        xhttp.send();
     }
 
+    var APIKey = "kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
+    var baseJSONURL = "https://api.wordnik.com/v4/word.json/";
+    var relatedWords = "/relatedWords?useCanonical=false&limitPerRelationshipType=10&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
+    var randomWordURL = "https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
+    var hyphenationURL = "/hyphenation?useCanonical=false&limit=50&api_key=";
+    var definitionURL = "/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=";
+    var fullURL = "https://api.wordnik.com/v4/word.json/banana/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
 
 
     function getMeaning(theWord, callback) {
-        alert("callAPI");
-        var jxhr = $.ajaz({
-            url: "http://pydictionary-geekpradd.rhcloud.com/api/meaning/" + theWord,
-            async: false,
+        thisURL = baseJSONURL + theWord + definitionURL + APIKey;
+        alert("Got here")
+        var jxhr = $.ajax({
+            url: fullURL,
+            type: "GET",
+            async: false, 
             dataType: "text",
             timeout:3000,
-
             error: function(status) {
                 var statusmessage = JSON.stringify(status.responseText, undefined, 4);
                 if (statusmessage.error === "timeout") {

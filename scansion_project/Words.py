@@ -368,7 +368,7 @@ class Word:
         self.pattern = output
 
     def syll_str(self):
-        output = "<span class=\"word\" onClick=\"getDefinition()\"><div class=\"" + self.wordClass + "\">"
+        output = "<span class=\"word\" onClick=\"getDefinition(event)\"><div class=\"" + self.wordClass + "\" id=\""+ self.__str__() + "\">"
         if self.known:
             for syll in self.sylls:
                 output += syll.colours()
