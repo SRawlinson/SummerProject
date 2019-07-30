@@ -82,9 +82,14 @@
                     <input type="radio" name="display-type" value="bold" onClick="boldSylls()"> Bold <br>
                     <!-- <input type="radio" name="display-type" value="separate" onClick="separateSylls()"> Separate <br> -->
                     <div id="infoBox">
+                        {% if foot.message %}
+                        <br> 
+                        Scansion was unable to detect a regular meter for this text. 
+                        The most common recurring meter was {{ foot.meter }}, which was found in {{ foot.count }} out of {{ foot.total }} lines.
+                        {% else %}
                        <br>
-                        Scansion thinks this text is writtern in {{ foot.meter }}. <br>
-                        {{ foot.count }} of the total {{ foot.total }} lines were identified as {{ foot.meter }}
+                        Scansion thinks this text is writtern in {{ foot.meter }}, which was found in {{ foot.count }} of the toal {{ foot.total }} lines. <br>
+                        {% endif %}
                         <br><br>
                         <button id="detailsButton" onClick="toggleDetails()">Show/Hide Line details</button>
                         <br><br>

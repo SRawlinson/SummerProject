@@ -208,6 +208,7 @@ class Word:
             self.known = True
             self.wordClass = ""
             self.getWordClass(classList)
+            self.getSynsAndAnts()
         except AttributeError as error:
             self.pattern = "Scansion could not find a stress pattern for this word"
             self.sylls = UnknownWord(self.string)
@@ -292,7 +293,7 @@ class Word:
                 output += syll.colours()
         else:
             output += self.sylls.colours()
-        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
+        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br>" + str(self.synonyms) + "<br>" + str(self.antonyms) + "<br></div></span>"
         return output
 
     def syll_str_separated(self):
@@ -304,6 +305,17 @@ class Word:
             output += self.sylls.colours() + " | "
         output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
         return output
+
+    def getSynsAndAnts(self):
+        synonyms = []
+        antonyms = []
+        for syn in wordnet.synsets(self.string):
+            for l in syn.lemmas():
+                synonyms.append(l.name())
+                if l.antonyms():
+                    antonyms.append(l.antonyms()[0].name())
+        self.synonyms = synonyms
+        self.antonyms = antonyms
 
 
 

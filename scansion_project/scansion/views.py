@@ -32,6 +32,8 @@ def index(request):
 
 def getBestMeter(lines):
     allPatterns = []
+    totalLines = len(lines)
+
     for line in lines:
         allPatterns.append(str(line.foot + " " + line.numOfFeet))
     
@@ -40,9 +42,16 @@ def getBestMeter(lines):
     for meter, frequency in data:
         textMeter = meter
         count = frequency
-    totalLines = len(lines)
-    info = {'meter': textMeter, 'count': count, 'total': totalLines}
-    return info
+    if re.match("unknown", textMeter):
+        
+        for meter, frequency in counter.most_common(2):
+            textMeter = meter
+            count = frequency
+        info = {'meter': textMeter, 'count': count, 'total': totalLines, 'message': "Unknown"}
+        return info
+    else:
+        info = {'meter': textMeter, 'count': count, 'total': totalLines}
+        return info
 
 
 def about(request):
