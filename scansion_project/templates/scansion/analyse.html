@@ -83,13 +83,18 @@
                     <!-- <input type="radio" name="display-type" value="separate" onClick="separateSylls()"> Separate <br> -->
                     <div id="infoBox">
                        <br>
-                        Best guess: {{ foot }}
+                        Scansion thinks this text is writtern in {{ foot.meter }}. <br>
+                        {{ foot.count }} of the total {{ foot.total }} lines were identified as {{ foot.meter }}
                         <br><br>
-                        {% for line in lines %}
-                        {% autoescape off %}
-                        {{ line.foot }} {{ line.numOfFeet }}<br>
-                        {% endautoescape %}
-                        {% endfor %}
+                        <button id="detailsButton" onClick="toggleDetails()">Show/Hide Line details</button>
+                        <br><br>
+                        <div id="detailsInfo">
+                            {% for line in lines %}
+                            {% autoescape off %}
+                            {{ line.foot }} {{ line.numOfFeet }}<br>
+                            {% endautoescape %}
+                            {% endfor %}
+                        </div>
                     </div>
 
                 </div>
@@ -98,8 +103,7 @@
                     <br>
                     <div class="definition">
                         <textarea class="form-control" type="text" name="text-input" id="definition-output" value="" rows="20" placeholder="Enter text here">
-                            {% autoescape off %}
-                            {% endautoescape %}
+
                         </textarea>
                     </div>
 
@@ -144,6 +148,7 @@
     document.getElementById("defaultViewTab").click();
     document.getElementById("defaultToolsTab").click();
     document.getElementById("default-radio").click();
+    document.getElementById("detailsButton").click();
 
 
 

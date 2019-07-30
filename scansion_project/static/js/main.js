@@ -87,84 +87,33 @@
             stressed[i].style.fontWeight = "bold";
         }
     }
+    function toggleDetails() {
+        var info = document.getElementById("detailsInfo");
+        if (info.style.display === "none") {
+            info.style.display = "block";
+        } else {
+            info.style.display = "none";
+        }
+    }
+    // API related functions + data below
+    var APIKey = "kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
+    var baseJSONURL = "https://api.wordnik.com/v4/word.json/";
+    var relatedWords = "/relatedWords?useCanonical=false&limitPerRelationshipType=10&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
+    var randomWordURL = "https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
+    var definitionURL = "/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=";
 
-    // function separateSylls() {
-    //     displayNormalText();
-    //     var stress = document.getElementsByClassName("stress");
-    //     for (var i = 0; i < stress.length; i++) {
-    //         stress[i].innerHTML += " | "
-    //     }
-    //     var unstressed = document.getElementsByClassName("unstressed");
-    //     for (var i = 0; i < unstressed.length; i++) {
-    //         unstressed[i].innerHTML += " | "
-    //     }
-    // }
-
-    // function displayCapitals() {
-    //     var stressContent = document.getElementsByClassName("stress");
-    //     for (var i = 0; i < stressContent.length; i++) {
-    //         stressContent[i].style.color = "black";
-    //         var text = stressContent[i].innerHTML;
-    //         // alert(text.toUpperCase());
-    //         stressContent[i].innerHTML = text.toUpperCase();
-            
-    //     }
-    //     var unstressContent = document.getElementsByClassName("unstressed");
-    //     for (var i = 0; i < unstressContent.length; i++) {
-    //         unstressContent[i].style.color = "black";
-    //     }
     function getDefinition(evt) {
-        // getMeaning("banana", function (wordDef) {
-        //     alert(wordDef);
-        //     document.getElementById("definition-output").innerHTML = wordDef;
-        // });
-        alert(evt.currentTarget);
+        var wordInput = evt.currentTarget.id;
         var defURL = baseJSONURL + wordInput + definitionURL + APIKey;
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function() {
             if(this.readyState == 4 && this.status == 200) {
                 var data = JSON.parse(this.responseText);
-                document.getElementById("definition-output").innerHTML = data[0].text;
+                var definition = wordInput + ": \n\n" + data[0].text;
+                document.getElementById("definition-output").innerHTML = definition;
             }
         };
         xhttp.open("GET", defURL, true);
         xhttp.send();
     }
 
-    var APIKey = "kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
-    var baseJSONURL = "https://api.wordnik.com/v4/word.json/";
-    var relatedWords = "/relatedWords?useCanonical=false&limitPerRelationshipType=10&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
-    var randomWordURL = "https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
-    var hyphenationURL = "/hyphenation?useCanonical=false&limit=50&api_key=";
-    var definitionURL = "/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=";
-    var fullURL = "https://api.wordnik.com/v4/word.json/banana/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
-
-
-    function getMeaning(theWord, callback) {
-        thisURL = baseJSONURL + theWord + definitionURL + APIKey;
-        alert("Got here")
-        var jxhr = $.ajax({
-            url: fullURL,
-            type: "GET",
-            async: false, 
-            dataType: "text",
-            timeout:3000,
-            error: function(status) {
-                var statusmessage = JSON.stringify(status.responseText, undefined, 4);
-                if (statusmessage.error === "timeout") {
-                    alert("callAPI timed out!");
-                } else if (statusmessage.match(/404/)) {
-                    alert("Coudn't find word");
-                } else {
-                    alert(statusmessage);
-                }
-            },
-            success: function (data, status) {
-                alert("success");
-                var array = JSON.parse (data);
-                callback(array)
-            }
-
-        });
-
-    }

@@ -4,6 +4,7 @@ from scansion.forms import TextForm
 import prosodic as p
 import re
 import Words
+import collections
 # import syllabify
 # from prosodic import syllabifier as syl 
 
@@ -15,88 +16,33 @@ def index(request):
             cd = form.cleaned_data
             text = cd.get('text')
             text = text.splitlines()
-            # prosodicLines = []
-            # giveMeEverything = []
-            # words = []
-            # For loop splits text from the form into lines and parses them using prosodic
-            # for line in text:
-            #     t = p.Text(line)
-            #     t.parse()
-
-            #     for parse in t.bestParses():
-            #         # This adds the top parse to the lines list.
-            #         prosodicLines.append(parse)
 
             lines = []
             for line in text:
                 l1 = Words.Line(line)
                 lines.append(l1)
-            info = []
             for line in lines:
                 l1  ={'foot': line.foot, 'numOfFeet': line.numOfFeet}
-                info.append(l1)
-            # context_dict = {'prosodicLines': prosodicLines, 'lines': lines}
             foot = getBestMeter(lines)
-            context_dict = {'lines': lines, 'info': info, 'foot': foot}
+            context_dict = {'lines': lines, 'foot': foot}
             return analyse(request, context_dict)
     else:
         form = TextForm()
     return render(request, 'scansion/index.html', {'form': form})
 
 def getBestMeter(lines):
-    biggest = 1
-    foot = ""
-    footLine = ""
-    numLine = ""
+    allPatterns = []
     for line in lines:
-        footLine = footLine + line.foot
-        numLine = numLine + line.numOfFeet
-    trochaic = footLine.count("trochaic")
-    if trochaic >= biggest:
-        biggest = trochaic
-        foot = "trochaic"
-    spondaic = footLine.count("spondaic")
-    if spondaic >= biggest:
-        biggest = spondaic
-        foot = "spondaic"
-    anapestic = footLine.count("anapestic")
-    if anapestic >= biggest:
-        biggest = anapestic
-        foot = "anapestic"
-    dactylic = footLine.count("dactylic")
-    if dactylic >= biggest:
-        biggest = dactylic
-        foot = "dactylic"
-    # unknown = footLine.count("unknown")
-    # if unknown >= biggest:
-    #     biggest = unknown
-    #     foot = "unknown"
-    iambic = footLine.count("iambic")
-    if iambic >= biggest:
-        biggest = iambic
-        foot = "iambic"
-    dimeter = numLine.count("dimeter")
-    trimeter = numLine.count("trimeter")
-    tetrameter = numLine.count("tetrameter")
-    pentameter = numLine.count("pentameter")
-    hexameter = numLine.count("hexameter")
-    heptameter = numLine.count("heptameter")
-    octometer = numLine.count("octometer")
-    numOfFeetDict = {'dimeter': dimeter, 'trimeter': trimeter, 'tetrameter': tetrameter, 'pentameter': pentameter, 'hexameter': hexameter, 'heptameter': heptameter, 'octometer': octometer}
-    numDictSorted = sorted(numOfFeetDict, key=numOfFeetDict.__getitem__)
-    num = len(numDictSorted) -1
-    if num > (len(lines)/3):
-        numOfFeetForText = numDictSorted[num]
-        foot = foot + " " + numOfFeetForText
-        return foot
-    else:
-        string = "Scansion was not able to find a regular meter for this poem. The most recurring regular meter was " + foot
-        numOfFeetForText = numDictSorted[num]
-        string = string + " " + numOfFeetForText
-        return string
-
+        allPatterns.append(str(line.foot + " " + line.numOfFeet))
     
-        
+    counter = collections.Counter(allPatterns)
+    data = counter.most_common(1)
+    for meter, frequency in data:
+        textMeter = meter
+        count = frequency
+    totalLines = len(lines)
+    info = {'meter': textMeter, 'count': count, 'total': totalLines}
+    return info
 
 
 def about(request):

@@ -36,7 +36,7 @@ class Line:
         self.linePattern = linePattern + "</pre>"
 
 #identifyPattern also gathers a string representation of the patterns of each word and then 
-#evaluates if it is a close enough match to a known metric pattern. 
+#evaluates if it is a close enough match to a known metric pattern.         
     def identifyPattern(self):
         linePattern = ""
         for x in range(0, len(self.list)):
@@ -54,165 +54,95 @@ class Line:
         self.numOfFeet = ""
         if patternLength < 4 or patternLength > 24:
             self.foot = "unknown"
-            self.numOfFeet = "unknown"
+            self.numOfFeet = " "
         elif patternLength % 2 == 0 and (patternLength != 6 or patternLength != 12) and patternLength < 17:
-            iambic = 0
-            spondaic = 0
-            trochaic = 0
-            if patternLength == 4:
-                self.numOfFeet = "dimeter"
-            elif patternLength == 8:
-                self.numOfFeet = "tetrameter"
-            elif patternLength == 10:
-                self.numOfFeet = "pentameter"
-            elif patternLength == 14:
-                self.numOfFeet = "heptamter"
-            elif patternLength == 16:
-                self.numOfFeet = "octometer"
-            else:
-                self.numOfFeet = "unknown"
+            self.countFeet(patternLength, 2)
+            self.matchForDoubleSylls(patternLength, pattern)
             
-            listOfFeet = self.separateIntoFeet(pattern, 2)
-            for foot in listOfFeet:
-                z = re.match("xs", foot)
-                if z:
-                    iambic = iambic + 1
-                y = re.match("sx", foot)
-                if y:
-                    trochaic = trochaic + 1
-                x = re.match("ss", foot)
-                if x:
-                    spondaic = spondaic + 1
-            if (iambic >= spondaic) and (iambic >= trochaic) and (iambic >= (patternLength/4)):
-                self.foot = "iambic"
-            elif (trochaic >= iambic) and (trochaic >= spondaic) and (trochaic >= (patternLength/4)):
-                self.foot = "trochaic"
-            elif (spondaic >= iambic) and (spondaic >= trochaic) and (spondaic >= (patternLength/4)):
-                self.foot = "spondaic"
-            else:
-                self.foot = "unknown"
-                self.numOfFeet = "unknown"
         elif patternLength % 3 == 0 and (patternLength != 6 or patternLength != 12):
-            dactylic = 0
-            anapestic = 0
-            if patternLength == 9:
-                self.numOfFeet = "trimeter"
-            elif patternLength == 15:
-                self.numOfFeet = "pentameter"
-            elif patternLength == 18:
-                self.numOfFeet = "hexameter"
-            elif patternLength == 21:
-                self.numOfFeet = "heptameter"
-            elif patternLength == 24:
-                self.numOfFeet = "octometer"
-            listOfFeet = self.separateIntoFeet(pattern, 3)
-            for foot in listOfFeet:
-                z = re.match("xxs", foot)
-                if z:
-                    anapestic = anapestic + 1
-                y = re.match("sxx", foot)
-                if y:
-                    dactylic = dactylic + 1
-            if (anapestic >= dactylic and anapestic >= ((patternLength/3)/2)):
-                self.foot = "anapestic"
-            elif (dactylic >= anapestic and dactylic >= ((patternLength/3)/2)):
-                self.foot = "dactylic"
-            else:
-                self.foot = "unknown"
-                self.numOfFeet = "unknown"
-        elif patternLength == 6:
-            listOfFeet = self.separateIntoFeet(pattern, 3)
-            for foot in listOfFeet:
-                z = re.match("xxs", foot)
-                if z:
-                    anapestic = anapestic + 1
-                y = re.match("sxx", foot)
-                if y:
-                    dactylic = dactylic + 1
-            if anapestic == 2:
-                self.foot = "anapestic"
-                self.numOfFeet = "dimeter"
-            elif dactylic == 2:
-                self.foot = "dactylic"
-                self.numOfFeet = "dimeter"
-            else:
-                listOfFeet = self.separateIntoFeet(pattern, 2)
-                for foot in listOfFeet:
-                    z = re.match("xs", foot)
-                    if z:
-                        iambic = iambic + 1
-                    y = re.match("sx", foot)
-                    if y:
-                        trochaic = trochaic + 1
-                    x = re.match("ss", foot)
-                    if x:
-                        spondaic = spondaic + 1
-                if (iambic >= 2):
-                    self.foot = "iambic"
-                    self.numOfFeet = "trimeter"
-                elif (trochaic >= 2):
-                    self.foot = "trochaic"
-                    self.numOfFeet = "trimeter"
-                elif (spondaic >= 2):
-                    self.foot = "spondaic"
-                    self.numOfFeet = "trimeter"
-                else:
-                    self.foot = "unknown"
-                    self.foot = "unknown"
-        elif patternLength == 12:
-            listOfFeet = self.separateIntoFeet(pattern, 3)
-            for foot in listOfFeet:
-                z = re.match("xxs", foot)
-                if z:
-                    anapestic = anapestic + 1
-                y = re.match("sxx", foot)
-                if y:
-                    dactylic = dactylic + 1
-            if anapestic >= 2:
-                self.foot = "anapestic"
-                self.numOfFeet = "dimeter"
-            elif dactylic >= 2:
-                self.foot = "dactylic"
-                self.numOfFeet = "dimeter"
-            else:
-                listOfFeet = self.separateIntoFeet(pattern, 2)
-                for foot in listOfFeet:
-                    z = re.match("xs", foot)
-                    if z:
-                        iambic = iambic + 1
-                    y = re.match("sx", foot)
-                    if y:
-                        trochaic = trochaic + 1
-                    x = re.match("ss", foot)
-                    if x:
-                        spondaic = spondaic + 1
-                if (iambic >= 3):
-                    self.foot = "iambic"
-                    self.numOfFeet = "trimeter"
-                elif (trochaic >= 3):
-                    self.foot = "trochaic"
-                    self.numOfFeet = "trimeter"
-                elif (spondaic >= 3):
-                    self.foot = "spondaic"
-                    self.numOfFeet = "trimeter"
-                else:
-                    self.foot = "unknown"
-                    self.foot = "unknown"
+            self.countFeet(patternLength, 3)
+            self.matchForTripleSylls(patternLength, pattern)
+
+        elif patternLength == 6 or patternLength == 12:
+            self.countFeet(patternLength, 3)
+            self.matchForTripleSylls(patternLength, pattern)
+            if self.foot == "unknown":
+                self.countFeet(patternLength, 2)
+                self.matchForDoubleSylls(patternLength, pattern)
+
         else:
             self.foot = "unknown"
-            self.numOfFeet = "unknown"
-
-
-
-        
-                
-
+        if self.foot == "unknown":
+            self.numOfFeet == " "
 
     def separateIntoFeet(self, array, size):
         listOfFeet = []
         for i in range(0, len(array), size):
             listOfFeet.append(array[i:i + size])
-        return listOfFeet            
+        return listOfFeet   
+
+    def countFeet(self, numOfSylls, divider):
+        numOfFeet = numOfSylls/divider
+        if numOfFeet == 2:
+            self.numOfFeet = "dimeter"
+        elif numOfFeet == 3:
+            self.numOfFeet = "trimeter"
+        elif numOfFeet == 4:
+            self.numOfFeet = "tetrameter"
+        elif numOfFeet == 5:
+            self.numOfFeet = "pentameter"
+        elif numOfFeet == 6:
+            self.numOfFeet = "hexameter"
+        elif numOfFeet == 7:
+            self.numOfFeet = "heptameter"
+        elif numOfFeet == 8:
+            self.numOfFeet = "octometer"
+        else:
+            self.numOfFeet = "unknown"
+
+    def matchForDoubleSylls(self, patternLength, pattern):
+        listOfFeet = self.separateIntoFeet(pattern, 2)
+        iambic = 0
+        spondaic = 0
+        trochaic = 0
+        for foot in listOfFeet:
+            z = re.match("xs", foot)
+            if z:
+                iambic = iambic + 1
+            y = re.match("sx", foot)
+            if y:
+                trochaic = trochaic + 1
+            x = re.match("ss", foot)
+            if x:
+                spondaic = spondaic + 1
+        if (iambic >= spondaic) and (iambic >= trochaic) and (iambic >= (patternLength/4)):
+            self.foot = "iambic"
+        elif (trochaic >= iambic) and (trochaic >= spondaic) and (trochaic >= (patternLength/4)):
+            self.foot = "trochaic"
+        elif (spondaic >= iambic) and (spondaic >= trochaic) and (spondaic >= (patternLength/4)):
+            self.foot = "spondaic"
+        else:
+            self.foot = "unknown"
+            self.numOfFeet = " "
+
+    def matchForTripleSylls(self, patternLength, pattern):
+        listOfFeet = self.separateIntoFeet(pattern, 3)
+        anapestic = 0
+        dactylic = 0
+        for foot in listOfFeet:
+            z = re.match("xxs", foot)
+            if z:
+                anapestic = anapestic + 1
+            y = re.match("sxx", foot)
+            if y:
+                dactylic = dactylic + 1
+        if (anapestic >= dactylic and anapestic >= ((patternLength/3)/2)):
+            self.foot = "anapestic"
+        elif (dactylic >= anapestic and dactylic >= ((patternLength/3)/2)):
+            self.foot = "dactylic"
+        else:
+            self.foot = "unknown"
+            self.numOfFeet = " "
 
     def showFirstSyllStress(self):
         return self.list[0].sylls[0].stressed
@@ -293,18 +223,6 @@ class Word:
             self.wordClass = "Unknown"
             print(exception)
 
-
-
-    # def getDefinition(self):
-    #     definition_dict = dictionary.meaning(self.string)
-    #     if definition_dict == None:
-    #         self.definition = "Scansion could not find a dictionary definition for " + self.string
-    #     else:
-    #         definition_str = ""
-    #         for x in definition_dict:
-    #             definition_str += str(x) + ": " + str(definition_dict[x]) + "<br>"
-    #         self.definition = definition_str
-
     def getWordClass(self, classList):
         if classList[1] == "JJ" or classList[1] == "JJR" or classList[1] == "JJS":
             self.wordClass = "Adjective"
@@ -368,7 +286,7 @@ class Word:
         self.pattern = output
 
     def syll_str(self):
-        output = "<span class=\"word\" onClick=\"getDefinition(event)\"><div class=\"" + self.wordClass + "\" id=\""+ self.__str__() + "\">"
+        output = "<span class=\"word\" id=\""+ self.__str__() + "\" onClick=\"getDefinition(event)\"><div class=\"" + self.wordClass + "\">"
         if self.known:
             for syll in self.sylls:
                 output += syll.colours()
@@ -428,3 +346,6 @@ class UnknownWord:
 # print(l1.list[0].sylls[0].colours())
 # w1 = Word("Shallow")
 # print(w1)
+# l1 = Line("I whirled out wings that spell")
+# print(l1.linePattern)
+# print(l1.foot + " " + l1.numOfFeet)
