@@ -2,25 +2,24 @@ import prosodic as p
 import re
 import nltk
 from nltk.corpus import wordnet
+import collections
 # from PyDictionary import PyDictionary
 # dictionary = PyDictionary()
 
 # print(dictionary.meaning("indentation"))
 class Line:
-    def __init__(self, lineString):
+    def __init__(self, lineString, lineTags):
         self.string = lineString
         #Separate line into words and punctuation 
         self.list = re.findall(r"[\w']+|[-.,!?;]", lineString)
-        #Tokenizes using nltk
-        text = nltk.word_tokenize(str(self.list))
-        pos_tags = nltk.pos_tag(text)
+
         classes = 0
         # For each element in self.list,if it's a word, replace with a Word object. 
         for x in range(0, len(self.list)):
             y = self.list[x]
             z = re.match("\w+", y)
             if z:
-                self.list[x] = Word(self.list[x], pos_tags[classes])
+                self.list[x] = Word(self.list[x], lineTags[classes])
                 classes += 1
         #Identify the overall pattern of stresses in the line. 
         self.linePattern = ""
@@ -208,7 +207,7 @@ class Word:
             self.known = True
             self.wordClass = ""
             self.getWordClass(classList)
-            self.getSynsAndAnts()
+            # self.getSynsAndAnts()
         except AttributeError as error:
             self.pattern = "Scansion could not find a stress pattern for this word"
             self.sylls = UnknownWord(self.string)
@@ -293,7 +292,7 @@ class Word:
                 output += syll.colours()
         else:
             output += self.sylls.colours()
-        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br>" + str(self.synonyms) + "<br>" + str(self.antonyms) + "<br></div></span>"
+        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
         return output
 
     def syll_str_separated(self):
@@ -350,6 +349,50 @@ class UnknownWord:
     
     def __str__(self):
         return self.string
+
+def turnTextIntoObjects(text):
+    tags = nltk.word_tokenize(text)
+    pos_tags = nltk.pos_tag(tags)
+    for tag in pos_tags:
+        x = re.match('POS', tag[1])
+        if x:
+            pos_tags.remove(tag)
+    x = 0
+    lines = []
+    textSplit = text.splitlines()
+    for line in textSplit:
+        listForLength = re.findall(r"[\w']+|[-.,!?;]", line)
+        length = len(listForLength)
+        lineTags = pos_tags[x: x + length]
+        x+=length
+        l1 = Line(line, lineTags)
+        lines.append(l1)
+    return lines
+
+
+# text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
+# lines = []
+# textSplit =text.splitlines()
+# for line in textSplit:
+#     l1 = Line(line)
+#     lines.append(l1)
+# listForTags = re.findall(r"[\w']+|[-.,!?;]", text)
+# #Tokenizes using nltk
+# tags = nltk.word_tokenize(text)
+# pos_tags = nltk.pos_tag(tags)
+# # print(pos_tags)
+# for tag in pos_tags:
+#     x = re.match('POS', tag[1])
+#     if x:
+#         pos_tags.remove(tag)
+# # print(pos_tags)
+# x = 0
+# for line in textSplit:
+#     listForLength = re.findall(r"[\w']+|[-.,!?;]", line)
+#     length = len(listForLength)
+#     lineTags = pos_tags[x: x + length]
+#     x += length
+
 
 
 # l1 = Line("Shall, I compare thee?")

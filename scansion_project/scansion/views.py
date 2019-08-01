@@ -15,14 +15,11 @@ def index(request):
         if form.is_valid():
             cd = form.cleaned_data
             text = cd.get('text')
-            text = text.splitlines()
+            # text = text.splitlines()
 
-            lines = []
-            for line in text:
-                l1 = Words.Line(line)
-                lines.append(l1)
-            for line in lines:
-                l1  ={'foot': line.foot, 'numOfFeet': line.numOfFeet}
+            lines = Words.turnTextIntoObjects(text)
+            # for line in lines:
+            #     l1  ={'foot': line.foot, 'numOfFeet': line.numOfFeet}
             foot = getBestMeter(lines)
             context_dict = {'lines': lines, 'foot': foot}
             return analyse(request, context_dict)
