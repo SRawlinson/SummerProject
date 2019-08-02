@@ -106,12 +106,27 @@ function toggleDetails() {
 
 function getDefinitionOrEdit(evt) {
     var word = evt.currentTarget;
+    // highlightText(word.id);
     if (document.getElementById("Scanner").style.display == "block") {
         getDefinition(word.id);
     } else {
         editWord(word);
     }
 }
+
+// function highlightText(word) {
+//     // alert("Started highlight");
+//     var inputText = document.getElementById("lines-scan-output");
+//     var innerHTML = inputText.value;
+//     alert("Finished highlight");
+
+    // var index = innerHTML.indexOf(word);
+    // alert("Got halfway through highlight");
+    // if (index >= 0) {
+    //     innerHTML = innerHTML.substring(0, index) + "<span class ='highlight'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index + text.length);
+    //     inputText.innerHTML = innerHTML;
+    // }
+// }
 
 function editWord(word) {
     // var wordInput = evt.currentTarget.id;
@@ -123,7 +138,45 @@ function editWord(word) {
     }
     re = /<br>/g;
     newString = stringRep.replace(re, '\n');
-    document.getElementById("word-to-be-edited").innerHTML = word.id + "\n" + newString;
+    var n = newString.lastIndexOf(":");
+    synsString = newString.substring(n+2);
+    newString = newString.substring(0, n-9);
+    document.getElementById("word-to-be-edited").innerHTML = newString;
+
+    synsArray = synsString.split(" ");
+    for (var i = 0; i < 3; i++) {
+        makeRadioButton("radio", synsArray[i]);
+    }
+    makeRadioButton("radio", "Custom");
+    textInput = document.createElement("input");
+    textInput.setAttribute("type", "text");
+    label = document.createElement("small");
+    label.setAttribute("value", "Enter another word to replace the selected one");
+    label.appendChild(textInput);
+    var space = document.getElementById("radio-button-space");
+    space.appendChild(label);
+    linebreak = document.createElement("br");
+    space.appendChild(linebreak);
+}
+
+function makeRadioButton(type, text) {
+    // alert("Got here");
+    var label = document.createElement("label");
+
+    var element = document.createElement("input");
+    //Assign different attributes to the element.
+    element.setAttribute("type", type);
+    element.setAttribute("value", type);
+    element.setAttribute("name", type);
+
+    label.appendChild(element);
+    label.innerHTML += " " + text;
+
+    var space = document.getElementById("radio-button-space");
+    //Append the element in page (in span).
+    space.appendChild(label);
+    linebreak = document.createElement("br");
+    space.appendChild(linebreak);
 }
 // API related functions + data below
 var APIKey = "kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
