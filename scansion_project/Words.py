@@ -287,15 +287,15 @@ class Word:
         self.pattern = output
 
     def syll_str(self):
-        output = "<span class=\"word\" id=\""+ self.__str__() + "\" onClick=\"getDefinition(event)\"><div class=\"" + self.wordClass + "\">"
+        output = "<span class=\"word\" id=\""+ self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"" + self.wordClass + "\">"
         if self.known:
             for syll in self.sylls:
                 output += syll.colours()
         else:
             output += self.sylls.colours()
-        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br>"
+        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " " <br> " + self.pattern + " <br> " + self.wordClass + " <br> "
         if self.synonyms != "none":
-            output += str(self.synonyms) + "<br>"   
+            output += str(self.synonyms) + " <br> "   
         output += "</div></span>"
         return output
 

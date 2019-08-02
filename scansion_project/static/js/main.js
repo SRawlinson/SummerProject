@@ -103,6 +103,28 @@ function toggleDetails() {
         info.style.display = "none";
     }
 }
+
+function getDefinitionOrEdit(evt) {
+    var word = evt.currentTarget;
+    if (document.getElementById("Scanner").style.display == "block") {
+        getDefinition(word.id);
+    } else {
+        editWord(word);
+    }
+}
+
+function editWord(word) {
+    // var wordInput = evt.currentTarget.id;
+    var dropdownTent = word.getElementsByClassName("dropdown-content");
+
+    var stringRep = "";
+    for (var i = 0; i < dropdownTent.length; i++){
+        stringRep += dropdownTent[i].innerHTML;
+    }
+    re = /<br>/g;
+    newString = stringRep.replace(re, '\n');
+    document.getElementById("word-to-be-edited").innerHTML = word.id + "\n" + newString;
+}
 // API related functions + data below
 var APIKey = "kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
 var baseJSONURL = "https://api.wordnik.com/v4/word.json/";
@@ -110,14 +132,14 @@ var relatedWords = "/relatedWords?useCanonical=false&limitPerRelationshipType=10
 var randomWordURL = "https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
 var definitionURL = "/definitions?limit=200&includeRelated=false&useCanonical=false&includeTags=false&api_key=";
 
-function getDefinition(evt) {
-    var wordInput = evt.currentTarget.id;
-    var defURL = baseJSONURL + wordInput + definitionURL + APIKey;
+function getDefinition(word) {
+    // var wordInput = evt.currentTarget.id;
+    var defURL = baseJSONURL + word + definitionURL + APIKey;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if(this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
-            var definition = wordInput + ": \n\n" + data[0].text;
+            var definition = word + ": \n\n" + data[0].text;
             document.getElementById("definition-output").innerHTML = definition;
         }
     };
