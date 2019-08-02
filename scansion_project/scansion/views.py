@@ -18,8 +18,6 @@ def index(request):
             # text = text.splitlines()
 
             lines = Words.turnTextIntoObjects(text)
-            # for line in lines:
-            #     l1  ={'foot': line.foot, 'numOfFeet': line.numOfFeet}
             foot = getBestMeter(lines)
             context_dict = {'lines': lines, 'foot': foot}
             return analyse(request, context_dict)

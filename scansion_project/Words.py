@@ -207,7 +207,8 @@ class Word:
             self.known = True
             self.wordClass = ""
             self.getWordClass(classList)
-            # self.getSynsAndAnts()
+            # self.synonyms = "Synonyms: "
+            self.getSyns()
         except AttributeError as error:
             self.pattern = "Scansion could not find a stress pattern for this word"
             self.sylls = UnknownWord(self.string)
@@ -292,7 +293,10 @@ class Word:
                 output += syll.colours()
         else:
             output += self.sylls.colours()
-        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
+        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br>"
+        if self.synonyms != "none":
+            output += str(self.synonyms) + "<br>"   
+        output += "</div></span>"
         return output
 
     def syll_str_separated(self):
@@ -305,17 +309,19 @@ class Word:
         output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
         return output
 
-    def getSynsAndAnts(self):
-        synonyms = []
-        antonyms = []
+    def getSyns(self):
+        synonyms = ""
+        synCount = 0
         for syn in wordnet.synsets(self.string):
             for l in syn.lemmas():
-                synonyms.append(l.name())
-                if l.antonyms():
-                    antonyms.append(l.antonyms()[0].name())
-        self.synonyms = synonyms
-        self.antonyms = antonyms
-
+                if self.string not in l.name() and synCount < 3:
+                    synonyms += l.name() + " "
+                    synCount += 1
+        if synonyms != "":
+            self.synonyms = "Synonyms: " + synonyms
+        else:
+            self.synonyms = "none"
+        # self.synonyms += " " + synonyms
 
 
 class Syllable:
@@ -393,6 +399,8 @@ def turnTextIntoObjects(text):
 #     lineTags = pos_tags[x: x + length]
 #     x += length
 
+# t = turnTextIntoObjects("dog")
+# print(t[0].list[0].synonyms)
 
 
 # l1 = Line("Shall, I compare thee?")
