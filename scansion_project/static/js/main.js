@@ -112,10 +112,15 @@ function toggleDetails() {
 }
 
 function getDefinitionOrEdit(evt) {
-    var word = evt.currentTarget;
-
+    var fullword = evt.currentTarget;
+    var fullID = fullword.id;
+    fullID = fullID.split(' ');
+    // var id = fullID[0];
+    var word = fullID[1];
+    // alert(fullID + " " + id + " " + word);
     if (document.getElementById("Scanner").style.display == "block") {
-        getDefinition(word.id);
+        getDefinition(word);
+        // alert(word.name);
     } else {
         document.getElementById("word-to-be-edited").innerHTML = "";
         document.getElementById("radio-button-space").innerHTML = "";
@@ -124,7 +129,7 @@ function getDefinitionOrEdit(evt) {
             words[i].style.backgroundColor = "transparent";
         }
         evt.currentTarget.style.backgroundColor = "yellow";
-        editWord(word, words);
+        editWord(fullword, words);
         
     }
 }
@@ -133,31 +138,39 @@ function getDefinitionOrEdit(evt) {
 function editWord(word, words) {
     // var wordInput = evt.currentTarget.id;
     var dropdownTent = word.getElementsByClassName("dropdown-content");
-
     var stringRep = "";
     for (var i = 0; i < dropdownTent.length; i++){
         stringRep += dropdownTent[i].innerHTML;
     }
     re = /<br>/g;
     newString = stringRep.replace(re, '\n');
-    var n = newString.lastIndexOf(":");
-    synsString = newString.substring(n+2);
-    newString = newString.substring(0, n-9);
+
+    editorText = document.createElement("p");
+    innerText =  "Select or type a word to replace \"" + "\":";
+    editorText.setAttribute("innerText", innerText);
+    var space = document.getElementById("radio-button-space");
+    space.appendChild(editorText);
+
+
+    if (newString.match("Synonyms:")) {
+        var n = newString.lastIndexOf(":");
+        synsString = newString.substring(n+2);
+        newString = newString.substring(0, n-9);    
+        synsArray = synsString.split(" ");
+        
+        for (var i = 0; i < 3; i++) {
+            makeRadioButton("radio", synsArray[i]);
+        }
+
+    } 
     document.getElementById("word-to-be-edited").innerHTML = newString;
 
-    // makeCheckButton(word.id);
-
-    synsArray = synsString.split(" ");
-    for (var i = 0; i < 3; i++) {
-        makeRadioButton("radio", synsArray[i]);
-    }
     makeRadioButton("radio", "Custom");
     textInput = document.createElement("input");
     textInput.setAttribute("type", "text");
     label = document.createElement("small");
     label.setAttribute("value", "Enter another word to replace the selected one");
     label.appendChild(textInput);
-    var space = document.getElementById("radio-button-space");
     space.appendChild(label);
     linebreak = document.createElement("br");
     space.appendChild(linebreak);
@@ -208,7 +221,7 @@ function highlightAllExamples(word) {
     if (checkbox.checked == true) {
         var words = document.getElementsByClassName("word");
         for (var i = 0; i < words.length; i++) {
-            if (words[i].id == word) {
+            if (words[i].name == word) {
                 words[i].style.backgroundColor = "yellow";
             }
         }

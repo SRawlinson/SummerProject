@@ -8,7 +8,7 @@ import collections
 
 # print(dictionary.meaning("indentation"))
 class Line:
-    def __init__(self, lineString, lineTags):
+    def __init__(self, lineString, lineTags, idNum):
         self.string = lineString
         #Separate line into words and punctuation 
         self.list = re.findall(r"[\w']+|[-.,!?;]", lineString)
@@ -19,8 +19,9 @@ class Line:
             y = self.list[x]
             z = re.match("\w+", y)
             if z:
-                self.list[x] = Word(self.list[x], lineTags[classes])
+                self.list[x] = Word(self.list[x], lineTags[classes], idNum)
                 classes += 1
+                idNum.increaseNumber()
         #Identify the overall pattern of stresses in the line. 
         self.linePattern = ""
         self.getPattern()
@@ -184,7 +185,7 @@ class Line:
         return outputLine
 
 class Word:
-    def __init__(self, stringOfWord, classList):
+    def __init__(self, stringOfWord, classList, idNum):
         self.string = stringOfWord
         try:
             t = p.Text(stringOfWord)
@@ -208,17 +209,18 @@ class Word:
             self.wordClass = ""
             self.getWordClass(classList)
             # self.synonyms = "Synonyms: "
-            self.getSyns()
+            self.getSyns()#
+            self.num = idNum.number
         except AttributeError as error:
             self.pattern = "Scansion could not find a stress pattern for this word"
-            self.sylls = UnknownWord(self.string)
+            self.sylls = UnknownWord(self.string, idNum)
             self.known = False
             self.wordClass = "Unknown"
             # self.getDefinition()
             print(error)
         except Exception as exception:
             self.pattern = "Scansion encountered an unexpected error"
-            self.sylls = UnknownWord(self.string)
+            self.sylls = UnknownWord(self.string, idNum)
             # self.getDefinition()
             self.known = False
             self.wordClass = "Unknown"
@@ -287,7 +289,7 @@ class Word:
         self.pattern = output
 
     def syll_str(self):
-        output = "<span class=\"word\" id=\""+ self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"" + self.wordClass + "\">"
+        output = "<span class=\"word\" id=\""+ str(self.num) + " " +  self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"" + self.wordClass + "\">"
         if self.known:
             for syll in self.sylls:
                 output += syll.colours()
@@ -296,6 +298,7 @@ class Word:
         output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " " <br> " + self.pattern + " <br> " + self.wordClass + " <br> "
         if self.synonyms != "none":
             output += str(self.synonyms) + " <br> "   
+        #output += "<br>ID: " + str(self.num) #Included to check id-numbering was working properly. 
         output += "</div></span>"
         return output
 
@@ -346,10 +349,10 @@ class Syllable:
         return self.string
 
 class UnknownWord:
-    def __init__(self, stringRep):
+    def __init__(self, stringRep, idNum):
         self.string = stringRep
         self.pattern = "?"
-
+        self.num = idNum
     def colours(self):
         return "<output-font class=\"unknown\">" + self.__str__() + "</output-font>"
     
@@ -357,6 +360,7 @@ class UnknownWord:
         return self.string
 
 def turnTextIntoObjects(text):
+    id = idNum()
     tags = nltk.word_tokenize(text)
     pos_tags = nltk.pos_tag(tags)
     for tag in pos_tags:
@@ -371,11 +375,16 @@ def turnTextIntoObjects(text):
         length = len(listForLength)
         lineTags = pos_tags[x: x + length]
         x+=length
-        l1 = Line(line, lineTags)
+        l1 = Line(line, lineTags, id)
         lines.append(l1)
     return lines
 
+class idNum:
+    def __init__(self):
+        self.number = 0
 
+    def increaseNumber(self):
+        self.number += 1
 # text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
 # lines = []
 # textSplit =text.splitlines()
