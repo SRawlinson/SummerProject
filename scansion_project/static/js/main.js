@@ -145,14 +145,16 @@ function getDefinitionOrEdit(evt) {
             words[i].style.backgroundColor = "transparent";
         }
         evt.currentTarget.style.backgroundColor = "yellow";
-        editWord(fullword, words);
+        editWord(fullword, words, word);
         
     }
 }
 
 
-function editWord(word, words) {
+function editWord(word, words, wordString) {
     // var wordInput = evt.currentTarget.id;
+    var space = document.getElementById("radio-button-space");
+
     var dropdownTent = word.getElementsByClassName("dropdown-content");
     var stringRep = "";
     for (var i = 0; i < dropdownTent.length; i++){
@@ -160,13 +162,16 @@ function editWord(word, words) {
     }
     re = /<br>/g;
     newString = stringRep.replace(re, '\n');
-
+    var allWordsText = document.createElement("P");
+    var allWords = document.createTextNode("Highlight all occurences of \'" + wordString + "\':");
+    allWordsText.appendChild(allWords);
+    space.appendChild(allWordsText);
+    makeCheckButton(wordString, word);
     var editorText = document.createElement("P");
     var t = document.createTextNode("Select or type a word to replace selected word:")
     // var innerText =  "Select or type a word to replace \"" + "\":";
     editorText.appendChild(t);
 
-    var space = document.getElementById("radio-button-space");
     space.appendChild(editorText);
 
 
@@ -215,7 +220,7 @@ function makeRadioButton(type, text) {
     space.appendChild(linebreak);
 }
 
-function makeCheckButton(word) {
+function makeCheckButton(word, fullWord) {
     var checkButtonLabel = "Highlight all examples of \"" + word + "\"";
 
     var label = document.createElement("label");
@@ -223,8 +228,13 @@ function makeCheckButton(word) {
     element.setAttribute("type", "checkbox");
     element.setAttribute("value", "checkbox");
     element.setAttribute("id", "highlighterCheckbox");
-    var highlightAllExamples = "highlightAllExamples(" + word + ")";
-    element.setAttribute("onclick", highlightAllExamples);
+    var highlightAllExamplesText = 'highlightAllExamples(\'' + fullWord.id + '\', \'' + word + '\');';
+    element.setAttribute("onclick", highlightAllExamplesText);
+    // var clicky = element.getAttribute("onclick");
+    // alert(clicky);
+    element.onclick = function() {
+        highlightAllExamples(fullWord.id, word);
+    }
     label.appendChild(element);
     label.innerHTML += " " + checkButtonLabel;
     var space = document.getElementById("radio-button-space");
@@ -235,17 +245,21 @@ function makeCheckButton(word) {
 
 }
 
-function highlightAllExamples(word) {
+function highlightAllExamples(wordID, word) {
     var checkbox = document.getElementById("highlighterCheckbox");
+    var words = document.getElementsByClassName("word");
     if (checkbox.checked == true) {
-        var words = document.getElementsByClassName("word");
         for (var i = 0; i < words.length; i++) {
-            if (words[i].name == word) {
+            if (words[i].id.match(word)) {
                 words[i].style.backgroundColor = "yellow";
             }
         }
     } else {
-
+        for (var i = 0; i < words.length; i++) {
+            if (words[i].id != wordID) {
+                words[i].style.backgroundColor = "transparent";
+            }
+        }
     }
 }
 // API related functions + data below
