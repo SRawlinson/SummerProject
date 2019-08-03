@@ -14,7 +14,7 @@ function textEntered() {
 
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
-    if (tabName == "Scanner") {
+    if (tabName != "Swap Words") {
         document.getElementById("word-to-be-edited").innerHTML = "";
         document.getElementById("radio-button-space").innerHTML = "";
         var words = document.getElementsByClassName("word");
@@ -102,6 +102,22 @@ function boldSylls() {
         stressed[i].style.fontWeight = "bold";
     }
 }
+
+function highlight(inputString, highlightColour, evt) {
+    var box = evt.currentTarget;
+    if (box.checked == true) {
+        var wordType = document.getElementsByClassName(inputString);
+        for (var i = 0; i < wordType.length; i++) {
+            wordType[i].style.backgroundColor = highlightColour;
+        }
+    } else {
+        var wordType = document.getElementsByClassName(inputString);
+        for (var i = 0; i < wordType.length; i++) {
+            wordType[i].style.backgroundColor = "transparent";
+        }
+    }
+
+}
 function toggleDetails() {
     var info = document.getElementById("detailsInfo");
     if (info.style.display === "none") {
@@ -121,7 +137,7 @@ function getDefinitionOrEdit(evt) {
     if (document.getElementById("Scanner").style.display == "block") {
         getDefinition(word);
         // alert(word.name);
-    } else {
+    } else if (document.getElementById("Swap Words").style.display == "block") {
         document.getElementById("word-to-be-edited").innerHTML = "";
         document.getElementById("radio-button-space").innerHTML = "";
         var words = document.getElementsByClassName("word");
@@ -145,9 +161,11 @@ function editWord(word, words) {
     re = /<br>/g;
     newString = stringRep.replace(re, '\n');
 
-    editorText = document.createElement("p");
-    innerText =  "Select or type a word to replace \"" + "\":";
-    editorText.setAttribute("innerText", innerText);
+    var editorText = document.createElement("P");
+    var t = document.createTextNode("Select or type a word to replace selected word:")
+    // var innerText =  "Select or type a word to replace \"" + "\":";
+    editorText.appendChild(t);
+
     var space = document.getElementById("radio-button-space");
     space.appendChild(editorText);
 
@@ -165,7 +183,7 @@ function editWord(word, words) {
     } 
     document.getElementById("word-to-be-edited").innerHTML = newString;
 
-    makeRadioButton("radio", "Custom");
+    makeRadioButton("radio", "Choose your own:");
     textInput = document.createElement("input");
     textInput.setAttribute("type", "text");
     label = document.createElement("small");
@@ -181,10 +199,11 @@ function makeRadioButton(type, text) {
     var label = document.createElement("label");
 
     var element = document.createElement("input");
+    text = text.replace('_', ' ');
     //Assign different attributes to the element.
     element.setAttribute("type", type);
     element.setAttribute("value", type);
-    element.setAttribute("name", text);
+    element.setAttribute("name", "editor-type");
 
     label.appendChild(element);
     label.innerHTML += " " + text;

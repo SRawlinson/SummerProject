@@ -68,7 +68,8 @@
             <div class = "analyser-column-one" id="column-two" name="column-two">
                 <div class="tab">
                     <button class="tablinks" id="defaultToolsTab" onClick="openTab(event, 'Scanner')">Scanner</button>
-                    <button class="tablinks" onClick="openTab(event, 'Editor')">Editor</button>
+                    <button class="tablinks" onClick="openTab(event, 'Swap Words')">Swap Words</button>
+                    <button class="tablinks" onClick="openTab(event, 'Word Types')">Word Types</button>
                 </div>
 
                 <div id="Scanner" class="tabcontent">
@@ -105,7 +106,7 @@
 
                 </div>
 
-                <div id="Editor" class="tabcontent">
+                <div id="Swap Words" class="tabcontent">
                     <br>
                     <div id="editor-word">
                         <textarea class="form-control" id="word-to-be-edited" value="" rows="4">
@@ -118,28 +119,29 @@
                     <div id="radio-button-space"></div>
                     <br>
                     <br>
-                    <br>
-                    <br>
-                    <br>
-                    <br>
+                    <div class ="tab">
+                        <button class="tablinks" id="analyser-button" onClick="scanText()">Re-Scan Text</button>
+                    </div>
 
-                    Remove:
+                </div>
+                <div id="Word Types" class="tabcontent">
+                    Highlight:
                     <br>
                     <br>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="nouns-checkbox">
+                        <input class="form-check-input" type="checkbox" value="" id="nouns-checkbox" onClick="highlight('Noun', 'purple', event)">
                         <label class="form-check-label" for="nouns-checkbox">Nouns</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="verbs-checkbox">
+                        <input class="form-check-input" type="checkbox" value="" id="verbs-checkbox" onClick="highlight('Verb', 'green', event)">
                         <label class="form-check-label" for="verbs-checkbox">Verbs</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="adjectives-checkbox">
+                        <input class="form-check-input" type="checkbox" value="" id="adjectives-checkbox" onClick="highlight('Adjective', 'pink', event)">
                         <label class="form-check-label" for="adjectives-checkbox">Adjectives</label>
                     </div>
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="adverbs-checkbox">
+                        <input class="form-check-input" type="checkbox" value="" id="adverbs-checkbox" onClick="highlight('Adverb', 'orange', event)">
                         <label class="form-check-label" for="adverbs-checkbox">Adverbs</label>
                     </div>
                     <br>
