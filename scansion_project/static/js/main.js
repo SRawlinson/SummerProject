@@ -14,7 +14,14 @@ function textEntered() {
 
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
-
+    if (tabName == "Scanner") {
+        document.getElementById("word-to-be-edited").innerHTML = "";
+        document.getElementById("radio-button-space").innerHTML = "";
+        var words = document.getElementsByClassName("word");
+        for (var i = 0; i < words.length; i++){
+            words[i].style.backgroundColor = "transparent";
+        }
+    }
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = "none";
@@ -106,29 +113,24 @@ function toggleDetails() {
 
 function getDefinitionOrEdit(evt) {
     var word = evt.currentTarget;
-    // highlightText(word.id);
+
     if (document.getElementById("Scanner").style.display == "block") {
         getDefinition(word.id);
     } else {
-        editWord(word);
+        document.getElementById("word-to-be-edited").innerHTML = "";
+        document.getElementById("radio-button-space").innerHTML = "";
+        var words = document.getElementsByClassName("word");
+        for (var i = 0; i < words.length; i++){
+            words[i].style.backgroundColor = "transparent";
+        }
+        evt.currentTarget.style.backgroundColor = "yellow";
+        editWord(word, words);
+        
     }
 }
 
-// function highlightText(word) {
-//     // alert("Started highlight");
-//     var inputText = document.getElementById("lines-scan-output");
-//     var innerHTML = inputText.value;
-//     alert("Finished highlight");
 
-    // var index = innerHTML.indexOf(word);
-    // alert("Got halfway through highlight");
-    // if (index >= 0) {
-    //     innerHTML = innerHTML.substring(0, index) + "<span class ='highlight'>" + innerHTML.substring(index, index+text.length) + "</span>" + innerHTML.substring(index + text.length);
-    //     inputText.innerHTML = innerHTML;
-    // }
-// }
-
-function editWord(word) {
+function editWord(word, words) {
     // var wordInput = evt.currentTarget.id;
     var dropdownTent = word.getElementsByClassName("dropdown-content");
 
@@ -142,6 +144,8 @@ function editWord(word) {
     synsString = newString.substring(n+2);
     newString = newString.substring(0, n-9);
     document.getElementById("word-to-be-edited").innerHTML = newString;
+
+    // makeCheckButton(word.id);
 
     synsArray = synsString.split(" ");
     for (var i = 0; i < 3; i++) {
@@ -167,7 +171,7 @@ function makeRadioButton(type, text) {
     //Assign different attributes to the element.
     element.setAttribute("type", type);
     element.setAttribute("value", type);
-    element.setAttribute("name", type);
+    element.setAttribute("name", text);
 
     label.appendChild(element);
     label.innerHTML += " " + text;
@@ -177,6 +181,40 @@ function makeRadioButton(type, text) {
     space.appendChild(label);
     linebreak = document.createElement("br");
     space.appendChild(linebreak);
+}
+
+function makeCheckButton(word) {
+    var checkButtonLabel = "Highlight all examples of \"" + word + "\"";
+
+    var label = document.createElement("label");
+    var element = document.createElement("input");
+    element.setAttribute("type", "checkbox");
+    element.setAttribute("value", "checkbox");
+    element.setAttribute("id", "highlighterCheckbox");
+    var highlightAllExamples = "highlightAllExamples(" + word + ")";
+    element.setAttribute("onclick", highlightAllExamples);
+    label.appendChild(element);
+    label.innerHTML += " " + checkButtonLabel;
+    var space = document.getElementById("radio-button-space");
+    space.appendChild(label);
+    linebreak = document.createElement("br");
+    space.appendChild(linebreak);
+    space.appendChild(linebreak);
+
+}
+
+function highlightAllExamples(word) {
+    var checkbox = document.getElementById("highlighterCheckbox");
+    if (checkbox.checked == true) {
+        var words = document.getElementsByClassName("word");
+        for (var i = 0; i < words.length; i++) {
+            if (words[i].id == word) {
+                words[i].style.backgroundColor = "yellow";
+            }
+        }
+    } else {
+
+    }
 }
 // API related functions + data below
 var APIKey = "kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";
