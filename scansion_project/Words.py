@@ -303,13 +303,13 @@ class Word:
         return output
 
     def syll_str_separated(self):
-        output = "<span class=\"word\">"
+        output = "<span class=\"word\" id=\""+ str(self.num) + " " +  self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"" + self.wordClass + "\">"
         if self.known:
             for syll in self.sylls:
                 output += syll.colours() + " | "
         else:
             output += self.sylls.colours() + " | "
-        output += "<div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
+        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
         return output
 
     def getSyns(self):
@@ -354,7 +354,7 @@ class UnknownWord:
         self.pattern = "?"
         self.num = idNum
     def colours(self):
-        return "<output-font class=\"unknown\">" + self.__str__() + "</output-font>"
+        return "<output-font class=\"unknown\" id=\""+ str(self.num) + " " +  self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\">" + self.__str__() + "</output-font>"
     
     def __str__(self):
         return self.string
