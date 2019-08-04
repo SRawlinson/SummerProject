@@ -343,5 +343,31 @@ function addEdits() {
     space.appendChild(lineBreak);
     document.getElementById("word-to-be-edited").innerHTML = "";
     document.getElementById("radio-button-space").innerHTML = "";
-    alert(listOfEdits);
+    // alert(listOfEdits);
+}
+function scanTextForWordSwaps() {
+    // alert("method fired");
+    var lines = document.getElementsByClassName("line");
+    var words = document.getElementsByClassName("word");
+    var stringRep = "";
+    var wordsCounted = 0;
+    for (var i = 0; i < lines.length; i++) {
+        var numOfWordsForLine = parseInt(lines[i].id, 10);
+        // alert("numOfWordsForLine: " + numOfWordsForLine);
+        for (var j = wordsCounted; j < wordsCounted + numOfWordsForLine; j++) {
+            // alert("got here" + j + " " + wordsCounted + " " + (wordsCounted + numOfWordsForLine) );
+            if (words[j].id.length > 1) {
+                //TODO insert method/code for checking the ID of words[j] against those in listOfEdits
+                var tempString = words[j].id.split(' ');
+                stringRep += " " + tempString[1];
+            } else {
+                stringRep += words[j].innerHTML + " ";
+            }
+
+        }
+        stringRep += "\n";
+        wordsCounted += numOfWordsForLine;
+    }
+    alert(stringRep);
+
 }

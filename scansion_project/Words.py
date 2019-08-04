@@ -22,7 +22,14 @@ class Line:
                 self.list[x] = Word(self.list[x], lineTags[classes], idNum)
                 classes += 1
                 idNum.increaseNumber()
+            else: 
+                self.list[x] = "<span class=\"word\">" + self.list[x] + "</span>"
+        # self.list += "<span class=\"word\">" + '\n' + "</span>";
         #Identify the overall pattern of stresses in the line. 
+        # print("self.list: " + str(self.list))
+        self.numOfWords = 0
+        for item in self.list:
+            self.numOfWords += 1
         self.linePattern = ""
         self.getPattern()
         self.identifyPattern()
@@ -159,7 +166,7 @@ class Line:
         return stringRep      
 
     def syll_str_line(self):
-        outputLine = ""
+        outputLine = "<span class=\"line\" id=\"" + str(self.numOfWords) + "\">"
         for x in range(0, len(self.list)):
             z = re.match("\w", self.list[x].__str__())
             if z and (x > 0):
@@ -168,7 +175,7 @@ class Line:
                 outputLine += self.list[x].syll_str()
             if z == None:
                 outputLine += self.list[x].__str__()
-        outputLine += ""
+        outputLine += "</span>"
         return outputLine
 
     def syll_str_sep_line(self):
@@ -309,7 +316,7 @@ class Word:
                 output += syll.colours() + " | "
         else:
             output += self.sylls.colours() + " | "
-        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
+        output += "</div><div class=\"dropdown-content\" id=" + self.__str__() + ">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
         return output
 
     def getSyns(self):
@@ -375,6 +382,7 @@ def turnTextIntoObjects(text):
         length = len(listForLength)
         lineTags = pos_tags[x: x + length]
         x+=length
+        # line += "\n";
         l1 = Line(line, lineTags, id)
         lines.append(l1)
     return lines
@@ -385,9 +393,9 @@ class idNum:
 
     def increaseNumber(self):
         self.number += 1
-# text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
-# lines = []
-# textSplit =text.splitlines()
+text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
+lines = []
+textSplit =text.splitlines()
 # for line in textSplit:
 #     l1 = Line(line)
 #     lines.append(l1)
@@ -400,7 +408,7 @@ class idNum:
 #     x = re.match('POS', tag[1])
 #     if x:
 #         pos_tags.remove(tag)
-# # print(pos_tags)
+# # # print(pos_tags)
 # x = 0
 # for line in textSplit:
 #     listForLength = re.findall(r"[\w']+|[-.,!?;]", line)
@@ -421,3 +429,5 @@ class idNum:
 # l1 = Line("I whirled out wings that spell")
 # print(l1.linePattern)
 # print(l1.foot + " " + l1.numOfFeet)
+
+t = turnTextIntoObjects("Shall I compare thee to a summer's day?")
