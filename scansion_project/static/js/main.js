@@ -191,6 +191,7 @@ function editWord(word, words, wordString) {
     makeRadioButton("radio", "Choose your own:");
     textInput = document.createElement("input");
     textInput.setAttribute("type", "text");
+    textInput.setAttribute("id", "customInput");
     label = document.createElement("small");
     label.setAttribute("value", "Enter another word to replace the selected one");
     label.appendChild(textInput);
@@ -208,7 +209,8 @@ function makeRadioButton(type, text) {
     //Assign different attributes to the element.
     element.setAttribute("type", type);
     element.setAttribute("value", type);
-    element.setAttribute("name", "editor-type");
+    element.setAttribute("class", "editRadioButtons")
+    element.setAttribute("name", text);
 
     label.appendChild(element);
     label.innerHTML += " " + text;
@@ -284,3 +286,62 @@ function getDefinition(word) {
     xhttp.send();
 }
 
+//Functions for editing text below
+var listOfEdits = [];
+function addEdits() {
+    // alert(document.getElementById("customInput").value);
+    // alert("method went");
+    var arrayToGoInListOfEdits = [];
+    var editSpace = document.getElementById("word-to-be-edited");
+    var textArray = editSpace.innerHTML;
+    textArray = textArray.split(':');
+    var text = textArray[0];
+    arrayToGoInListOfEdits.push(text);
+    var wordsToChange = [];
+    var words = document.getElementsByClassName("word");
+    for (var i = 0; i < words.length; i++) {
+        if (words[i].style.backgroundColor == "yellow") {
+            wordsToChange.push(words[i]);
+        }
+    }
+    var textForUser = "";
+    if (wordsToChange.length > 1) {
+        textForUser = "Replace all instances of \"" + text + "\" with ";
+        arrayToGoInListOfEdits.push("all");
+    } else {
+        textForUser = "Replace \"" + text + "\" with ";
+        arrayToGoInListOfEdits.push(wordsToChange[0].id);
+    }
+    // alert(textForUser);
+    var radioButtons = document.getElementsByClassName("editRadioButtons");
+    var activeButton;
+    for (var j = 0; j < radioButtons.length; j++) {
+        if (radioButtons[j].checked) {
+            activeButton = radioButtons[j];
+            break;
+        }
+    }
+    // alert(activeButton.name);
+    if (activeButton.name.match("Choose your own:")) {
+        textForUser += "\"" + document.getElementById("customInput").value + "\""; 
+        arrayToGoInListOfEdits.push(document.getElementById("customInput").value);
+    } else {
+        textForUser += "\"" + activeButton.name + "\"";
+        arrayToGoInListOfEdits.push(activeButton.name);
+    }
+    // textForUser += "\"" + activeButton.name + "\"";
+    // alert(textForUser);
+    var replaceWords = document.createElement("P");
+    var lineBreak = document.createElement("br");
+    listOfEdits.push(arrayToGoInListOfEdits);
+    textForUser = listOfEdits.length + ": " + textForUser;
+    var textNode = document.createTextNode(textForUser);
+    replaceWords.appendChild(textNode);
+    var space = document.getElementById("edit-space");
+    space.appendChild(lineBreak);
+    space.appendChild(replaceWords);
+    space.appendChild(lineBreak);
+    document.getElementById("word-to-be-edited").innerHTML = "";
+    document.getElementById("radio-button-space").innerHTML = "";
+    alert(listOfEdits);
+}
