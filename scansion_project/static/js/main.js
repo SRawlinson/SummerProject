@@ -345,6 +345,7 @@ function addEdits() {
     document.getElementById("radio-button-space").innerHTML = "";
     // alert(listOfEdits);
 }
+//This actually works but the loop for each of the list of edits is making it repeat each word in the stringRep
 function scanTextForWordSwaps() {
     // alert("method fired");
     var lines = document.getElementsByClassName("line");
@@ -359,7 +360,23 @@ function scanTextForWordSwaps() {
             if (words[j].id.length > 1) {
                 //TODO insert method/code for checking the ID of words[j] against those in listOfEdits
                 var tempString = words[j].id.split(' ');
-                stringRep += " " + tempString[1];
+                // stringRep += " " + tempString[1];
+                for (var k = 0; k < listOfEdits.length; k++) {
+                    editsArray = listOfEdits[k];
+                    if (tempString[1] == editsArray[0]) {
+                        if (editsArray[1] == "all") {
+                            stringRep += " " + editsArray[2];
+                        } else {
+                            if (editsArray[1] == words[j].id) {
+                                stringRep += " " + editsArray[2];
+                            } else {
+                                stringRep += " " + tempString[1];
+                            }
+                        }
+                    } else {
+                        stringRep += " " + tempString[1];
+                    }
+                }
             } else {
                 stringRep += words[j].innerHTML + " ";
             }

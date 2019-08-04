@@ -393,9 +393,9 @@ class idNum:
 
     def increaseNumber(self):
         self.number += 1
-text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
-lines = []
-textSplit =text.splitlines()
+# text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
+# lines = []
+# textSplit =text.splitlines()
 # for line in textSplit:
 #     l1 = Line(line)
 #     lines.append(l1)
@@ -430,4 +430,4 @@ textSplit =text.splitlines()
 # print(l1.linePattern)
 # print(l1.foot + " " + l1.numOfFeet)
 
-t = turnTextIntoObjects("Shall I compare thee to a summer's day?")
+# t = turnTextIntoObjects("Shall I compare thee to a summer's day?")
