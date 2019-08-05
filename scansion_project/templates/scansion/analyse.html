@@ -132,7 +132,7 @@
                                 {% csrf_token %}
                                 <textarea class="form-control" type="text" id="textInput" name="text" rows="10" placeholder="Enter text here"></textarea>
                             <div class="tab">
-                                <button class="tablinks" type="submit">Submit</button>
+                                <button class="tablinks" id="submit-button" type="submit">Submit</button>
                             </div>
                             </form>
                     </div>
@@ -179,7 +179,9 @@
     document.getElementById("defaultToolsTab").click();
     document.getElementById("default-radio").click();
     document.getElementById("detailsButton").click();
-    document.getElementById("test-space").style.display = "none";
+    // document.getElementById("test-space").style.display = "none";
+    document.getElementById("user-form").style.display = "none";
+    document.getElementById("submit-button").style.display = "none";
 
 
 
