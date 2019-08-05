@@ -345,46 +345,58 @@ function addEdits() {
     document.getElementById("radio-button-space").innerHTML = "";
     // alert(listOfEdits);
 }
-//This actually works but the loop for each of the list of edits is making it repeat each word in the stringRep
+//This makes any changes to the text the user selects. Right now it just prints it to the screen - needs to POST to the backend. 
 function scanTextForWordSwaps() {
-    // alert("method fired");
+
     var lines = document.getElementsByClassName("line");
     var words = document.getElementsByClassName("word");
-    var stringRep = "";
-    var wordsCounted = 0;
-    for (var i = 0; i < lines.length; i++) {
-        var numOfWordsForLine = parseInt(lines[i].id, 10);
-        // alert("numOfWordsForLine: " + numOfWordsForLine);
-        for (var j = wordsCounted; j < wordsCounted + numOfWordsForLine; j++) {
-            // alert("got here" + j + " " + wordsCounted + " " + (wordsCounted + numOfWordsForLine) );
-            if (words[j].id.length > 1) {
-                //TODO insert method/code for checking the ID of words[j] against those in listOfEdits
-                var tempString = words[j].id.split(' ');
-                // stringRep += " " + tempString[1];
-                for (var k = 0; k < listOfEdits.length; k++) {
-                    editsArray = listOfEdits[k];
-                    if (tempString[1] == editsArray[0]) {
-                        if (editsArray[1] == "all") {
-                            stringRep += " " + editsArray[2];
-                        } else {
-                            if (editsArray[1] == words[j].id) {
-                                stringRep += " " + editsArray[2];
-                            } else {
-                                stringRep += " " + tempString[1];
-                            }
-                        }
-                    } else {
-                        stringRep += " " + tempString[1];
-                    }
-                }
-            } else {
-                stringRep += words[j].innerHTML + " ";
-            }
+    var textArray = [words.length];
 
+    //This makes an array of all words and characters in the text - at the same index as 'words'.
+    for (var i = 0; i < words.length; i++) {
+        if (words[i].id.length > 1) {
+            var tempString = words[i].id.split(' ');
+            textArray[i] = tempString[1];
+        } else {
+            textArray[i] = words[i].innerHTML;
+        }
+    }
+    
+    //This makes any swaps needed for the textArray object, based on the corresponding id's from the 'words' list. 
+    for (var j = 0; j < listOfEdits.length; j++){
+        editsArray = listOfEdits[j];
+        //If the edit is to replace all examples of a word, we cycle through and find all matches and swap the corresponding element in textArray. 
+        if (editsArray[1] == "all") {
+            // alert(editsArray);
+            for (var k = 0; k < words.length; k++) {
+                if (textArray[k] == editsArray[0]) {
+                    // alert("found match");
+                    textArray[k] = editsArray[2];
+                }
+            }
+        } else {
+            //If we're replacing one word, we go right to the index and make the swap. 
+            var index = editsArray[1].split(' ');
+            textArray[index[0]] = editsArray[2];
+        }
+    }
+
+    // This prints the textArray object as a string, including lines breaks.
+    var stringRep = "";
+    var wordsCounted = 0; 
+    for (var l = 0; l < lines.length; l++){
+        var numOfWordsForLine = parseInt(lines[l].id, 10);
+        for (var j = wordsCounted; j < wordsCounted + numOfWordsForLine; j++) {
+            if (words[j].id.length > 1) {
+                stringRep += " " + textArray[j];
+            } else {
+                stringRep += textArray[j] + " ";
+            }
         }
         stringRep += "\n";
         wordsCounted += numOfWordsForLine;
     }
+
     alert(stringRep);
 
 }
