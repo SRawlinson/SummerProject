@@ -12,15 +12,16 @@ def index(request):
 
     if request.method == 'POST':
         form = TextForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            text = cd.get('text')
+        # if form.is_valid():
+        #     cd = form.cleaned_data
+        #     text = cd.get('text')
             # text = text.splitlines()
-
-            lines = Words.turnTextIntoObjects(text)
-            foot = getBestMeter(lines)
-            context_dict = {'lines': lines, 'foot': foot}
-            return analyse(request, context_dict)
+        text = request.POST.get('text')
+        lines = Words.turnTextIntoObjects(text)
+        foot = getBestMeter(lines)
+        # newForm = TextForm()
+        context_dict = {'lines': lines, 'foot': foot}
+        return analyse(request, context_dict)
     else:
         form = TextForm()
     return render(request, 'scansion/index.html', {'form': form})

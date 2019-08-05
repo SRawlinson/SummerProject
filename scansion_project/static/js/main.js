@@ -396,7 +396,8 @@ function scanTextForWordSwaps() {
         stringRep += "\n";
         wordsCounted += numOfWordsForLine;
     }
-
     alert(stringRep);
+    // document.getElementById("test-space").style.display = "block";
+    document.getElementById("textInput").value = stringRep;
 
 }

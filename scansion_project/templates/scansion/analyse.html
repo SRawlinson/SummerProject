@@ -123,10 +123,19 @@
                         <button class="tablinks" id="add-edits-button" onClick="addEdits()">Add Edit</button>
                     </div>
                     <div id="edit-space"></div>
+                    
                     <div class ="tab">
                         <button class="tablinks" id="analyser-button" onClick="scanTextForWordSwaps()">Re-Scan Text</button>
                     </div>
-                    <div class="test-space"></div>
+                    <div class="test-space">
+                        <form id="user-form" method="POST" action="{% url 'index' %}">
+                                {% csrf_token %}
+                                <textarea class="form-control" type="text" id="textInput" name="text" rows="10" placeholder="Enter text here"></textarea>
+                            <div class="tab">
+                                <button class="tablinks" type="submit">Submit</button>
+                            </div>
+                            </form>
+                    </div>
                 </div>
                 <div id="Word Types" class="tabcontent">
                     Highlight:
@@ -170,6 +179,7 @@
     document.getElementById("defaultToolsTab").click();
     document.getElementById("default-radio").click();
     document.getElementById("detailsButton").click();
+    document.getElementById("test-space").style.display = "none";
 
 
 
