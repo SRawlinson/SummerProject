@@ -9,23 +9,20 @@ import collections
 # from prosodic import syllabifier as syl 
 
 def index(request):
-
+    # simple view, either presenting an input screen or the analysis version. 
     if request.method == 'POST':
         form = TextForm(request.POST)
-        # if form.is_valid():
-        #     cd = form.cleaned_data
-        #     text = cd.get('text')
-            # text = text.splitlines()
+
         text = request.POST.get('text')
         lines = Words.turnTextIntoObjects(text)
         foot = getBestMeter(lines)
-        # newForm = TextForm()
         context_dict = {'lines': lines, 'foot': foot}
         return analyse(request, context_dict)
     else:
         form = TextForm()
     return render(request, 'scansion/index.html', {'form': form})
 
+# Helper method which counts each lines analysis to determine which is the most recurring. 
 def getBestMeter(lines):
     allPatterns = []
     totalLines = len(lines)

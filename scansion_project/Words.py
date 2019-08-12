@@ -6,11 +6,50 @@ import collections
 # from PyDictionary import PyDictionary
 # dictionary = PyDictionary()
 
-# print(dictionary.meaning("indentation"))
+#This method takes the original string/text input, gathers relevant corresponding data, and splits it into lines. 
+def turnTextIntoObjects(text):
+    # A global idNum object is created to keep track of the words id tags. This is required over simply using an array's index due to 
+    # punctuation also technically being classed as 'word' object by the html.  
+    id = idNum()
+    text = text.replace('_', ' ')
+    textForNltk = text.replace('-', ' ')
+    # nltk provides the word classes such as nouns, verbs etc. It can only do this when the whole text is processed, rather than line by line, 
+    # requiring coupling between the creation of lines and this bank of word classes for the whoel text. 
+    tags = nltk.word_tokenize(textForNltk)
+    pos_tags = nltk.pos_tag(tags)
+    #This removes possessive endings, which are considered separate by nltk. 
+    for tag in pos_tags:
+        x = re.match('POS', tag[1])
+        if x:
+            pos_tags.remove(tag)
+    x = 0
+    lines = []
+    textSplit = text.splitlines()
+    #This creates each line object, with the string representation, the relevant portion of the wordclass list, and the idNUm object. 
+    for line in textSplit:
+        listForLength = re.findall(r"[\w']+|[-.,!?;]", line)
+        length = len(listForLength)
+        lineTags = pos_tags[x: x + length]
+        x+=length
+        # line += "\n";
+        l1 = Line(line, lineTags, id)
+        lines.append(l1)
+
+    return lines
+
+class idNum:
+    def __init__(self):
+        self.number = 0
+
+    def increaseNumber(self):
+        self.number += 1
+
+#The class for the line object. As well as creating each Word object found in its string representation, it calculates the meter of the line
+#based on its words' stress variations. 
 class Line:
     def __init__(self, lineString, lineTags, idNum):
         self.string = lineString
-        #Separate line into words and punctuation 
+        #Separates line into words and punctuation 
         self.list = re.findall(r"[\w']+|[-.,!?;]", lineString)
 
         classes = 0
@@ -19,14 +58,20 @@ class Line:
             y = self.list[x]
             z = re.match("\w+", y)
             if z:
-                self.list[x] = Word(self.list[x], lineTags[classes], idNum)
-                classes += 1
-                idNum.increaseNumber()
+                #I think here is where I'll need error handling for UnknownWords to appear.
+                try:
+                    self.list[x] = Word(self.list[x], lineTags[classes], idNum)
+                    classes += 1
+                    idNum.increaseNumber()
+                except AttributeError as error:
+                    self.list[x] = UnknownWord(self.list[x], lineTags[classes], idNum)
+                    classes += 1
+                    idNum.increaseNumber()
             else: 
+                #Punctuation is also given the 'word' tag for the html to capture it when refreshing the page with edits, but it is not
+                # given an id from idNum to prevent errors during that process. 
                 self.list[x] = "<span class=\"word\">" + self.list[x] + "</span>"
-        # self.list += "<span class=\"word\">" + '\n' + "</span>";
-        #Identify the overall pattern of stresses in the line. 
-        # print("self.list: " + str(self.list))
+        #Number of words is calculated so when the edits are made, the lines keep their formatting and line breaks. 
         self.numOfWords = 0
         for item in self.list:
             self.numOfWords += 1
@@ -59,6 +104,9 @@ class Line:
         patternLength = len(pattern)
         self.foot = ""
         self.numOfFeet = ""
+        #Scansion does not account for lines shorter than four syllables or longer than 24. Otherwise, is calculates the size of the 'foot'
+        # based on how many regular feet a line could have, and then counts which (if any) fit a known pattern such as iambic or anapestic. 
+        #A helper method is used to count the number of potential matches, and another to find any recurring patterns in those. 
         if patternLength < 4 or patternLength > 24:
             self.foot = "unknown"
             self.numOfFeet = " "
@@ -106,7 +154,8 @@ class Line:
             self.numOfFeet = "octometer"
         else:
             self.numOfFeet = "unknown"
-
+    #The two 'match' functions are what count the patterns, and determines a line fits a regular meter if over half of the 
+    # feet match the same pattern. 
     def matchForDoubleSylls(self, patternLength, pattern):
         listOfFeet = self.separateIntoFeet(pattern, 2)
         iambic = 0
@@ -154,6 +203,7 @@ class Line:
     def showFirstSyllStress(self):
         return self.list[0].sylls[0].stressed
 
+    #This is a simple toString method written for testing purposes. 
     def __str__(self):
         stringRep = ""
         for x in range(0, len(self.list)):
@@ -165,14 +215,18 @@ class Line:
         stringRep += "\n"
         return stringRep      
 
+    #The two following methods are what is used for the functionality of the site
     def syll_str_line(self):
+        # The line must include its length for the editing process to retain lines. 
         outputLine = "<span class=\"line\" id=\"" + str(self.numOfWords) + "\">"
+            #Each word in the line's string representation calls a specific method designed to hold all the relevant html code. 
         for x in range(0, len(self.list)):
             z = re.match("\w", self.list[x].__str__())
             if z and (x > 0):
                 outputLine += " " + self.list[x].syll_str()
             if z and (x == 0):
                 outputLine += self.list[x].syll_str()
+                #If the object on the line is simply punctutation, it uses the regular __str__ method. 
             if z == None:
                 outputLine += self.list[x].__str__()
         outputLine += "</span>"
@@ -191,48 +245,49 @@ class Line:
         outputLine += ""
         return outputLine
 
+# The word class. It uses prosodic to determine its stress pattern, which informs the line's stress pattern. 
 class Word:
     def __init__(self, stringOfWord, classList, idNum):
         self.string = stringOfWord
-        try:
-            t = p.Text(stringOfWord)
-            t.parse()
-            bestParses = t.bestParses()
-            bestParse = str(bestParses[0])
-            syllsList = bestParse.replace('|', ' ').replace('.', ' ').split()
-            self.syllsActual = []
-            self.sylls = []
+        t = p.Text(stringOfWord)
+        t.parse()
+        bestParses = t.bestParses()
+        bestParse = str(bestParses[0])
+        syllsList = bestParse.replace('|', ' ').replace('.', ' ').split()
+        self.syllsActual = []
+        self.sylls = []
 
-            x = 0
-            for syll in range(0, len(syllsList)):
-                y = x
-                x += len(syllsList[syll])
-                self.syllsActual.append(stringOfWord[y:x])
-            for syll in range(0, len(syllsList)):
-                self.sylls.append(Syllable(syllsList[syll], self.syllsActual[syll]))
-            self.getPattern() 
-            # self.getDefinition()
-            self.known = True
-            self.wordClass = ""
-            self.getWordClass(classList)
-            # self.synonyms = "Synonyms: "
-            self.getSyns()#
-            self.num = idNum.number
-        except AttributeError as error:
-            self.pattern = "Scansion could not find a stress pattern for this word"
-            self.sylls = UnknownWord(self.string, idNum)
-            self.known = False
-            self.wordClass = "Unknown"
-            # self.getDefinition()
-            print(error)
-        except Exception as exception:
-            self.pattern = "Scansion encountered an unexpected error"
-            self.sylls = UnknownWord(self.string, idNum)
-            # self.getDefinition()
-            self.known = False
-            self.wordClass = "Unknown"
-            print(exception)
-
+        x = 0
+        #Two syllable arrays, one for the 'actual' version from the string representation to be repeated and retain any 
+        #irregular capital letters, and one for the Syllables objects used for pattern finding etc. 
+        for syll in range(0, len(syllsList)):
+            y = x
+            x += len(syllsList[syll])
+            self.syllsActual.append(stringOfWord[y:x])
+        for syll in range(0, len(syllsList)):
+            self.sylls.append(Syllable(syllsList[syll], self.syllsActual[syll]))
+        self.getPattern() 
+        self.known = True
+        self.wordClass = ""
+        self.getWordClass(classList)
+        # self.synonyms = "Synonyms: "
+        self.getSyns()#
+        self.num = idNum.number
+        # except AttributeError as error:
+        #     self.pattern = "Scansion could not find a stress pattern for this word"
+        #     self.sylls = UnknownWord(self.string, classList, idNum)
+        #     self.known = False
+        #     self.wordClass = "Unknown"
+        #     # self.getDefinition()
+        #     print(error)
+        # except Exception as exception:
+        #     self.pattern = "Scansion encountered an unexpected error"
+        #     self.sylls = UnknownWord(self.string, classList, idNum)
+        #     # self.getDefinition()
+        #     self.known = False
+        #     self.wordClass = "Unknown"
+        #     print(exception)
+    #This simply translates the word class proived by nltk into a recognisable term. 
     def getWordClass(self, classList):
         if classList[1] == "JJ" or classList[1] == "JJR" or classList[1] == "JJS":
             self.wordClass = "Adjective"
@@ -288,6 +343,7 @@ class Word:
     def __str__(self):
         return self.string
 
+    #This gathers each pattern provided by the Syllable object. 
     def getPattern(self):
         output = ""
         for x in range(0, len(self.sylls)-1):
@@ -295,14 +351,17 @@ class Word:
         output += self.sylls[len(self.sylls)-1].pattern
         self.pattern = output
 
+    #The two methods below correspond to the simialr ones found in Line, and are used to provied the site with html data for the functionality. 
     def syll_str(self):
+        #Words are given one class with an id using their 'num' and string representation, and one for their word class. 
         output = "<span class=\"word\" id=\""+ str(self.num) + " " +  self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"" + self.wordClass + "\">"
         if self.known:
             for syll in self.sylls:
                 output += syll.colours()
         else:
             output += self.sylls.colours()
-        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " " <br> " + self.pattern + " <br> " + self.wordClass + " <br> "
+        #They are also provided with the 'dropdown content'
+        output += "</div><div class=\"dropdown-content\">" + self.__str__() + ": " + " <br> " + self.pattern + " <br> " + self.wordClass + " <br> "
         if self.synonyms != "none":
             output += str(self.synonyms) + " <br> "   
         #output += "<br>ID: " + str(self.num) #Included to check id-numbering was working properly. 
@@ -318,7 +377,7 @@ class Word:
             output += self.sylls.colours() + " | "
         output += "</div><div class=\"dropdown-content\" id=" + self.__str__() + ">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
         return output
-
+    #This uses nltk again to find synonyms for each word. This is used in the dropdown content and the editing functions. 
     def getSyns(self):
         synonyms = ""
         synCount = 0
@@ -333,7 +392,8 @@ class Word:
             self.synonyms = "none"
         # self.synonyms += " " + synonyms
 
-
+#The Syllable class simply separates the finding of each stress within words to make it easier to test and provide the html. It is provided
+#the 'stringActual' from prosodic, which will be capitalised if the syllable is to be stressed. 
 class Syllable:
     def __init__(self, stringRep, stringActual):
         self.stressed = True
@@ -345,7 +405,7 @@ class Syllable:
             self.pattern = "/"
         else:
             self.pattern = "x"
-            
+    #This is the method that corresponds to the output method for the site. Each syllable is given it's own class, again for the html functionaliy 
     def colours(self):
         if self.stressed:
             return "<output-font class=\"stress\">"+ self.__str__() + "</output-font>"
@@ -355,44 +415,34 @@ class Syllable:
     def __str__(self):
         return self.string
 
-class UnknownWord:
-    def __init__(self, stringRep, idNum):
+#This was to prevent any problems from prosodic not knowing a word, although it has not been effectively implemented as of yet. 
+class UnknownWord(Word):
+    def __init__(self, stringRep, classList, idNum):
         self.string = stringRep
         self.pattern = "?"
-        self.num = idNum
+        self.num = idNum.number
+        self.known = False
+        self.wordClass = "unknown"
+        # self.getWordClass(classList)
+
+    def syll_str(self):
+        output = "<span class=\"word\" id=\"" + str(self.num) + " " +  self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"" + self.wordClass + "\"><output-font class=\"unknown\">" + self.__str__()
+        output += "</output-font></div><div class=\"dropdown-content\">" + self.__str__() + ": " + "<br>" + self.pattern + "<br>" + self.wordClass + "<br>"
+        output += "</div></span>"
+        return output
+
+    def syll_str_separated(self):
+        return self.syll_str()
+
+    
     def colours(self):
-        return "<output-font class=\"unknown\" id=\""+ str(self.num) + " " +  self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\">" + self.__str__() + "</output-font>"
+        return "<output-font class=\"word\" id=\""+ str(self.num) + " " +  self.__str__() + "\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"" + self.wordClass + "\">" + self.__str__() 
+
     
     def __str__(self):
         return self.string
 
-def turnTextIntoObjects(text):
-    id = idNum()
-    tags = nltk.word_tokenize(text)
-    pos_tags = nltk.pos_tag(tags)
-    for tag in pos_tags:
-        x = re.match('POS', tag[1])
-        if x:
-            pos_tags.remove(tag)
-    x = 0
-    lines = []
-    textSplit = text.splitlines()
-    for line in textSplit:
-        listForLength = re.findall(r"[\w']+|[-.,!?;]", line)
-        length = len(listForLength)
-        lineTags = pos_tags[x: x + length]
-        x+=length
-        # line += "\n";
-        l1 = Line(line, lineTags, id)
-        lines.append(l1)
-    return lines
 
-class idNum:
-    def __init__(self):
-        self.number = 0
-
-    def increaseNumber(self):
-        self.number += 1
 # text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
 # lines = []
 # textSplit =text.splitlines()

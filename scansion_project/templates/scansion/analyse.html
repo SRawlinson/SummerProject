@@ -9,10 +9,9 @@
     </p2>
     </div>
     <br>
-    <!-- {{ text }} -->
     <br>
 
-        <!-- Two columns: left for input, right for output. Eventually, the right will show the stresses of each word/line-->
+        <!-- Two columns: left for input, right for output. The right one contains all its info/functions via multiple tabs.-->
         <div class="analyser-columns">
             <div class ="analyser-column-one" id="column-one">
                 <div class="tab">
@@ -20,18 +19,7 @@
                     <button class="viewtablinks" onClick="openViewTab(event, 'Separated')">Separated</button>
                     <button class="viewtablinks" onClick="openViewTab(event, 'Patterns')">Patterns</button>
                 </div>
-
-
-                <div id="Prosodic" class="viewtabcontent">
-                    <textarea type="text" readonly class="form-control-plaintext" id="prosodic-scan-output">
-                            {% for line in prosodicLines %}
-                            {{ line }} 
-                            {% endfor %}
-                    </textarea>
-            
-
-                </div>
-
+                <!-- This is the main/default tab -->
                 <div id="Lines" class="viewtabcontent" id="lines-scan-output">
                     <br>
                         {% for line in lines %}
@@ -41,7 +29,7 @@
                         {% endfor %}
                     <br>
                 </div>
-
+                <!-- This tab separates each syllable clearly to make them easier to distinguish -->
                 <div id="Separated" class="viewtabcontent" id="separated-sylls">
                     <br>
                         {% for line in lines %}
@@ -51,7 +39,7 @@
                         {% endfor %}
                     <br>
                 </div>
-
+                <!-- This is a visual representation of the patterns of each line. -->
                 <div id="Patterns" class="viewtabcontent" id="patterns-output">
                     <br>
                     {% for line in lines %}
@@ -64,20 +52,22 @@
 
 
             </div>
-
+            <!-- Here is the tabs which control the functionality of the site -->
             <div class = "analyser-column-one" id="column-two" name="column-two">
                 <div class="tab">
                     <button class="tablinks" id="defaultToolsTab" onClick="openTab(event, 'Scanner')">Scanner</button>
                     <button class="tablinks" onClick="openTab(event, 'Swap Words')">Swap Words</button>
                     <button class="tablinks" onClick="openTab(event, 'Word Types')">Word Types</button>
                 </div>
-
+                <!-- This is the default tab, which shows the results of Scansion's analysis of the meter. -->
                 <div id="Scanner" class="tabcontent">
                     <br>
+                    <!-- The user can select to view input text in a variety of ways which show the word stresses -->
                     <input type="radio" id="default-radio" name="display-type" onClick="displayNormalText()" value="normal"> Normal Text <br>
                     <input type="radio" name="display-type" value="colours" onClick="displayColours()"> Colours <br>
                     <input type="radio" name="display-type" value="bold" onClick="boldSylls()"> Bold <br>
-                    <!-- <input type="radio" name="display-type" value="separate" onClick="separateSylls()"> Separate <br> -->
+                    <!-- This container shows the user the results of the analysis in a quick overview, and provides a drop drown list
+                    if they would like to see line-by-line information. -->
                     <div id="infoBox">
                         {% if foot.message %}
                         <br> 
@@ -97,6 +87,8 @@
                             {% endautoescape %}
                             {% endfor %}
                         </div>
+                        <!-- This area is for the dictionary definition to appear in when a user clicks on a word 
+                        TODO: Swap out textarea for textNode created by getDefinition() -->
                         <div class="definition">
                             <textarea class="form-control" type="text" name="text-input" id="definition-output" value="" rows="20" placeholder="Enter text here">
     
@@ -105,20 +97,20 @@
                     </div>
 
                 </div>
-
+                <!-- This is where the information regarding editing text is generated and stored. -->
                 <div id="Swap Words" class="tabcontent">
                     <br>
                     <div id="editor-word">
+                        <!-- TODO: Swap out textarea again -->
                         <textarea class="form-control" id="word-to-be-edited" value="" rows="4">
                             </textarea>
 
-                        <!-- <textarea class="form-control" id="word-synonyms" value="" rows="4">
-                            </textarea> -->
                     </div>
 
                     <div id="radio-button-space"></div>
                     <br>
                     <br>
+                    <!-- TODO: Make these buttons invisible until required. -->
                     <div class ="tab">
                         <button class="tablinks" id="add-edits-button" onClick="addEdits()">Add Edit</button>
                     </div>
@@ -127,6 +119,7 @@
                     <div class ="tab">
                         <button class="tablinks" id="analyser-button" onClick="scanTextForWordSwaps()">Re-Scan Text</button>
                     </div>
+                    <!-- Here is the invisible form required to refresh the page. -->
                     <div class="test-space">
                         <form id="user-form" method="POST" action="{% url 'index' %}">
                                 {% csrf_token %}
@@ -137,6 +130,7 @@
                             </form>
                     </div>
                 </div>
+                <!-- The final tab allows the user to highlight words by their class type. -->
                 <div id="Word Types" class="tabcontent">
                     Highlight:
                     <br>
@@ -159,14 +153,6 @@
                     </div>
                     <br>
  
-
-                    
-                    <!-- <div class ="tab">
-                        <button class="tablinks" id="analyser-button" onClick="scanText()">Re-Scan Text</button>
-                    </div> -->
-
-
-
                 </div>
             </div>
 
@@ -174,7 +160,7 @@
 </div>
 
 <script type="text/javascript">
-
+    //These simply ensure the 'default' views are active, and makes the refresh form invisible. 
     document.getElementById("defaultViewTab").click();
     document.getElementById("defaultToolsTab").click();
     document.getElementById("default-radio").click();

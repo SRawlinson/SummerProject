@@ -3,17 +3,10 @@
 <p><h2>Welcome to Scansion</h2></p>
 <br>
 <div class="container">
-
+    
     <div class="analyser-columns">
         <div class="analyser-column-one" id="input-column">
-            <!-- <form id="input-form" method="post" action="{% url 'index' %}">
-                {% csrf_token %}
-
-                {{ form.as_p }}
-                <div class="tab">
-                <button class ="tablinks" type="submit">Submit</button>
-            </div>
-            </form> -->
+ 
             <form id="user-form" method="POST" action="{% url 'index' %}">
                 {% csrf_token %}
                 <textarea class="form-control" type="text" name="text" rows="10" placeholder="Enter text here"></textarea>
