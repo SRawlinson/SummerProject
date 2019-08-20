@@ -37,6 +37,20 @@ def turnTextIntoObjects(text):
 
     return lines
 
+def getBestMeterForTesting(lines):
+    allPatterns = []
+    totalLines = len(lines)
+
+    for line in lines:
+        allPatterns.append(str(line.foot + " " + line.numOfFeet))
+    
+    counter = collections.Counter(allPatterns)
+    data = counter.most_common(1)
+    for meter in data:
+        textMeter = meter
+    return textMeter[0]
+   
+
 class idNum:
     def __init__(self):
         self.number = 0
@@ -273,20 +287,7 @@ class Word:
         # self.synonyms = "Synonyms: "
         self.getSyns()#
         self.num = idNum.number
-        # except AttributeError as error:
-        #     self.pattern = "Scansion could not find a stress pattern for this word"
-        #     self.sylls = UnknownWord(self.string, classList, idNum)
-        #     self.known = False
-        #     self.wordClass = "Unknown"
-        #     # self.getDefinition()
-        #     print(error)
-        # except Exception as exception:
-        #     self.pattern = "Scansion encountered an unexpected error"
-        #     self.sylls = UnknownWord(self.string, classList, idNum)
-        #     # self.getDefinition()
-        #     self.known = False
-        #     self.wordClass = "Unknown"
-        #     print(exception)
+ 
     #This simply translates the word class proived by nltk into a recognisable term. 
     def getWordClass(self, classList):
         if classList[1] == "JJ" or classList[1] == "JJR" or classList[1] == "JJS":

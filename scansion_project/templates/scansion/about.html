@@ -1,8 +1,14 @@
 {% extends 'scansion/base.html' %}
 {% block body_block %}
-<p><h2>Welcome to the About page</h2></p>
-<br>
 <div class="container">
-    Scansion is a text manipulator. 
+    <p><h2>Welcome to the About page</h2></p>
+    <br>
+    <div class="container">
+        <p>Scansion is a tool for the metrical analysis of poetry.</p>
+        <p>In order to use Scansion, simply type in or copy and paste a text into the text are on the main page and click 'Scan Text'.</p>
+        <p>Scansion will then scan your text for any recurring metrical patterns, and tell you if it thinks it's found any.</p>
+        <p>From there, you can see its analysis in more detail, highlight the stress patterns in bold or by colour, or edit the text by swapping individual words. Alternatively, pressing 'Scansion' in the header will return you to the main entry screen.</p>
+        <p>Scansion was built by Stuart Rawlinson as part of an MSc in Software Engineering. It is powered by the PROSODIC Python library and the Wordnik API.</p> 
+    </div>
 </div>
 {% endblock %}

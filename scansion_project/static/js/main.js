@@ -288,7 +288,15 @@ function getDefinition(word) {
         if(this.readyState == 4 && this.status == 200) {
             var data = JSON.parse(this.responseText);
             var definition = word + ": \n\n" + data[0].text;
-            document.getElementById("definition-output").innerHTML = definition;
+            document.getElementById("definition-output").innerHTML = "";
+            var definitionPara = document.createElement("P");
+            var lineBreak = document.createElement("br");
+            var textNode = document.createTextNode(definition);
+            definitionPara.appendChild(textNode);
+            var space = document.getElementById("definition-output");
+            space.appendChild(lineBreak);
+            space.appendChild(definitionPara);
+            space.appendChild(lineBreak);
         }
     };
     xhttp.open("GET", defURL, true);

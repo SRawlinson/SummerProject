@@ -1,0 +1,156 @@
+FAIL	"FROM fairest creatures we desire increase,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"When forty winters shall beseige thy brow,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Look in thy glass, and tell the face thou viewest", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Unthrifty loveliness, why dost thou spend", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Those hours, that with gentle work did frame", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Then let not winter's ragged hand deface", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Lo! in the orient when the gracious light", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Music to hear, why hear'st thou music sadly?", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Is it for fear to wet a widow's eye", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"For shame! deny that thou bear'st love to any,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"As fast as thou shalt wane, so fast thou growest", Expected: iambic pentameter, Scansion's: unknown 
+PASS	"When I do count the clock that tells the time,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"O, that you were yourself! but, love, you are", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Not from the stars do I my judgment pluck;", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"When I consider every thing that grows", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"But wherefore do not you a mightier way", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Who will believe my verse in time to come,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Shall I compare thee to a summer's day?", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Devouring Time, blunt thou the lion's paws,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"A woman's face with Nature's own hand painted", Expected: iambic pentameter, Scansion's: unknown 
+PASS	"So is it not with me as with that Muse", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"My glass shall not persuade me I am old,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"As an unperfect actor on the stage", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Mine eye hath play'd the painter and hath stell'd", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Let those who are in favour with their stars", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Lord of my love, to whom in vassalage", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Weary with toil, I haste me to my bed,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"How can I then return in happy plight,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"When, in disgrace with fortune and men's eyes,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"When to the sessions of sweet silent thought", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Thy bosom is endeared with all hearts,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"If thou survive my well-contented day,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Full many a glorious morning have I seen", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Why didst thou promise such a beauteous day,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"No more be grieved at that which thou hast done:", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Let me confess that we two must be twain,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"As a decrepit father takes delight", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"How can my Muse want subject to invent,", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"O, how thy worth with manners may I sing,", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Take all my loves, my love, yea, take them all;", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Those petty wrongs that liberty commits,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"That thou hast her, it is not all my grief,", Expected: iambic pentameter, Scansion's: unknown 
+FAIL	"When most I wink, then do mine eyes best see,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"If the dull substance of my flesh were thought,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"The other two, slight air and purging fire,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Mine eye and heart are at a mortal war", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Betwixt mine eye and heart a league is took,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"How careful was I, when I took my way,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Against that time, if ever that time come,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"How heavy do I journey on the way,", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Thus can my love excuse the slow offence", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"So am I as the rich, whose blessed key", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"What is your substance, whereof are you made,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"O, how much more doth beauty beauteous seem", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Not marble, nor the gilded monuments", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Sweet love, renew thy force; be it not said", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Being your slave, what should I do but tend", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"That god forbid that made me first your slave,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"If there be nothing new, but that which is", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Like as the waves make towards the pebbled shore,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Is it thy will thy image should keep open", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Sin of self-love possesseth all mine eye", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Against my love shall be, as I am now,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"When I have seen by Time's fell hand defaced", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Since brass, nor stone, nor earth, nor boundless sea,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Tired with all these, for restful death I cry,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Ah! wherefore with infection should he live,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Thus is his cheek the map of days outworn,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Those parts of thee that the world's eye doth view", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"That thou art blamed shall not be thy defect,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"No longer mourn for me when I am dead", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"O, lest the world should task you to recite", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"That time of year thou mayst in me behold", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"But be contented: when that fell arrest", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"So are you to my thoughts as food to life,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Why is my verse so barren of new pride,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Thy glass will show thee how thy beauties wear,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"So oft have I invoked thee for my Muse", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Whilst I alone did call upon thy aid,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"O, how I faint when I of you do write,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Or I shall live your epitaph to make,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"I grant thou wert not married to my Muse", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"I never saw that you did painting need", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Who is it that says most? which can say more", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"My tongue-tied Muse in manners holds her still,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Was it the proud full sail of his great verse,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Farewell! thou art too dear for my possessing,", Expected: iambic pentameter, Scansion's: unknown 
+PASS	"When thou shalt be disposed to set me light,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Say that thou didst forsake me for some fault,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Then hate me when thou wilt; if ever, now;", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Some glory in their birth, some in their skill,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"But do thy worst to steal thyself away,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"So shall I live, supposing thou art true,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"They that have power to hurt and will do none,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"How sweet and lovely dost thou make the shame", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Some say thy fault is youth, some wantonness;", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"How like a winter hath my absence been", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"From you have I been absent in the spring,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"The forward violet thus did I chide:", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Where art thou, Muse, that thou forget'st so long", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"O truant Muse, what shall be thy amends", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"My love is strengthen'd, though more weak in seeming;", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Alack, what poverty my Muse brings forth,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"To me, fair friend, you never can be old,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Let not my love be call'd idolatry,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"When in the chronicle of wasted time", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Not mine own fears, nor the prophetic soul", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"What's in the brain that ink may character", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"O, never say that I was false of heart,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Alas, 'tis true I have gone here and there", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"O, for my sake do you with Fortune chide,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Your love and pity doth the impression fill", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Since I left you, mine eye is in my mind;", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Or whether doth my mind, being crown'd with you,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Those lines that I before have writ do lie,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Let me not to the marriage of true minds", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Accuse me thus: that I have scanted all", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Like as, to make our appetites more keen,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"What potions have I drunk of Siren tears,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"That you were once unkind befriends me now,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"'Tis better to be vile than vile esteem'd,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Thy gift, thy tables, are within my brain", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"No, Time, thou shalt not boast that I do change:", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"If my dear love were but the child of state,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Were 't aught to me I bore the canopy,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"O thou, my lovely boy, who in thy power", Expected: iambic pentameter, Scansion's: unknown 
+FAIL	"In the old age black was not counted fair,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"How oft, when thou, my music, music play'st,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"The expense of spirit in a waste of shame", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"My mistress' eyes are nothing like the sun;", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Thou art as tyrannous, so as thou art,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Thine eyes I love, and they, as pitying me,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Beshrew that heart that makes my heart to groan", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"So, now I have confess'd that he is thine,", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Whoever hath her wish, thou hast thy 'Will,'", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"If thy soul check thee that I come so near,", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Thou blind fool, Love, what dost thou to mine eyes,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"When my love swears that she is made of truth", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"O, call not me to justify the wrong", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Be wise as thou art cruel; do not press", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"In faith, I do not love thee with mine eyes,", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Love is my sin and thy dear virtue hate,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"Lo! as a careful housewife runs to catch", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Two loves I have of comfort and despair,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Those lips that Love's own hand did make", Expected: iambic pentameter, Scansion's: iambic tetrameter
+PASS	"Poor soul, the centre of my sinful earth,", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"My love is as a fever, longing still", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"O me, what eyes hath Love put in my head,", Expected: iambic pentameter, Scansion's: unknown  
+FAIL	"Canst thou, O cruel! say I love thee not,", Expected: iambic pentameter, Scansion's: unknown  
+PASS	"O, from what power hast thou this powerful might", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Love is too young to know what conscience is;", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"In loving thee thou know'st I am forsworn,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Cupid laid by his brand, and fell asleep:", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"The little Love-god lying once asleep", Expected: iambic pentameter, Scansion's: unknown  
+
+FAIL: 53 fails out of 154 poems.

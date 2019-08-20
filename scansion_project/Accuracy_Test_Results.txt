@@ -1,0 +1,10 @@
+PASS	"FROM fairest creatures we desire increase,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"When forty winters shall beseige thy brow,", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Look in thy glass, and tell the face thou viewest", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Unthrifty loveliness, why dost thou spend", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Those hours, that with gentle work did frame", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Then let not winter's ragged hand deface", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"Lo! in the orient when the gracious light", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"Music to hear, why hear'st thou music sadly?", Expected: iambic pentameter, Scansion's: unknown 
+PASS	"Is it for fear to wet a widow's eye", Expected: iambic pentameter, Scansion's: iambic pentameter
+PASS	"For shame! deny that thou bear'st love to any,", Expected: iambic pentameter, Scansion's: iambic pentameter
