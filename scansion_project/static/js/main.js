@@ -7,10 +7,10 @@ function toggleNavBar() {
     }
 }
 
-function textEntered() {
-    var enterredText = document.getElementById("text-input").value;
-    document.getElementById("scan-output").value = enterredText;
-}
+// function textEntered() {
+//     var enterredText = document.getElementById("text-input").value;
+//     document.getElementById("scan-output").value = enterredText;
+// }
 
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;

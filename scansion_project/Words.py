@@ -39,16 +39,25 @@ def turnTextIntoObjects(text):
 
 def getBestMeterForTesting(lines):
     allPatterns = []
-    totalLines = len(lines)
 
     for line in lines:
         allPatterns.append(str(line.foot + " " + line.numOfFeet))
-    
+    firstMeter = ""
+    secondMeter = ""
+    textMeter = ""
     counter = collections.Counter(allPatterns)
     data = counter.most_common(1)
     for meter in data:
         textMeter = meter
-    return textMeter[0]
+    if re.match("unknown", textMeter[0]):
+    
+        for meter in counter.most_common(2):
+            textMeterSecond = meter
+            secondMeter = textMeterSecond[0]
+    firstMeter = textMeter[0]
+    
+    info = {'firstMeter': firstMeter, 'secondMeter': secondMeter}
+    return info
    
 
 class idNum:
