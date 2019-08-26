@@ -15,7 +15,8 @@ function toggleNavBar() {
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
     if (tabName != "Swap Words") {
-        document.getElementById("word-to-be-edited").innerHTML = "";
+        document.getElementById("editor-word").innerHTML = "";
+        makeTextNodeHelperFunction("Click a word to begin editing", "editor-word");
         document.getElementById("radio-button-space").innerHTML = "";
         var words = document.getElementsByClassName("word");
         for (var i = 0; i < words.length; i++){
@@ -145,57 +146,67 @@ function getDefinitionOrEdit(evt) {
         // alert(word.name);
     } else if (document.getElementById("Swap Words").style.display == "block") {
         //This resets the editing space which shows the word and its synonyms, so that only one word is being edited at a time. 
-        document.getElementById("word-to-be-edited").innerHTML = "";
+        document.getElementById("editor-word").innerHTML = "";
         document.getElementById("radio-button-space").innerHTML = "";
         var words = document.getElementsByClassName("word");
         for (var i = 0; i < words.length; i++){
             words[i].style.backgroundColor = "transparent";
         }
         evt.currentTarget.style.backgroundColor = "yellow";
-        editWord(fullword, words, word);
-        
+        editWord(fullword, words, word);  
     }
 }
 
+function makeTextNodeHelperFunction(stringOfText, spaceForText) {
+    var space = document.getElementById(spaceForText);
+    var paragraph = document.createElement("P");
+    var textNode = document.createTextNode(stringOfText);
+
+    paragraph.appendChild(textNode);
+    space.appendChild(paragraph);
+    linebreak = document.createElement("br");
+    space.appendChild(linebreak);
+}
+var editedWord;
 //This function sets up the editing space for the selected word: it puts the word and pattern in the 'to-be-edited' space, and 
 //creates radio buttons for each synonym and space for the user to enter a word.
 function editWord(word, words, wordString) {
+    
     // var wordInput = evt.currentTarget.id;
-    var space = document.getElementById("radio-button-space");
+    
+    editedWord = word;
+    var synonmString = getWordToBeEdited(word);
+    makeTheRightNumberOfButtons(word, wordString, synonmString);
+}
 
-    var dropdownTent = word.getElementsByClassName("dropdown-content");
+function getWordToBeEdited(wordToBeEdited) {
+    var dropdownTent = wordToBeEdited.getElementsByClassName("dropdown-content");
     var stringRep = "";
     for (var i = 0; i < dropdownTent.length; i++){
         stringRep += dropdownTent[i].innerHTML;
     }
-    re = /<br>/g;
-    newString = stringRep.replace(re, '\n');
-    var allWordsText = document.createElement("P");
-    var allWords = document.createTextNode("Highlight all occurences of \'" + wordString + "\':");
-    allWordsText.appendChild(allWords);
-    space.appendChild(allWordsText);
+    // re = /<br>/g;
+    // newString = stringRep.replace(re, '\n');
+    stringArray = stringRep.split('<br>');
+    for (var i = 0; i < 3; i++) {
+        makeTextNodeHelperFunction(stringArray[i], "editor-word");
+    }
+    return stringArray[3];
+    // makeTextNodeHelperFunction(stringRep, "editor-word");
+    // return newString;
+
+}
+
+function makeTheRightNumberOfButtons(word, wordString, synonymString) {
+
     makeCheckButton(wordString, word);
-    var editorText = document.createElement("P");
-    var t = document.createTextNode("Select or type a word to replace selected word:")
-    // var innerText =  "Select or type a word to replace \"" + "\":";
-    editorText.appendChild(t);
-
-    space.appendChild(editorText);
+    makeTextNodeHelperFunction("Select or type a word to replace the selected one:", "radio-button-space");
+    makeSynonymRadioButtons(synonymString);
+    makeCustomRadioButton();
+}
 
 
-    if (newString.match("Synonyms:")) {
-        var n = newString.lastIndexOf(":");
-        synsString = newString.substring(n+2);
-        newString = newString.substring(0, n-9);    
-        synsArray = synsString.split(" ");
-        
-        for (var i = 0; i < 3; i++) {
-            makeRadioButton("radio", synsArray[i]);
-        }
-
-    } 
-    document.getElementById("word-to-be-edited").innerHTML = newString;
-
+function makeCustomRadioButton() {
     makeRadioButton("radio", "Choose your own:");
     textInput = document.createElement("input");
     textInput.setAttribute("type", "text");
@@ -203,10 +214,35 @@ function editWord(word, words, wordString) {
     label = document.createElement("small");
     label.setAttribute("value", "Enter another word to replace the selected one");
     label.appendChild(textInput);
+    var space = document.getElementById("radio-button-space");
     space.appendChild(label);
     linebreak = document.createElement("br");
     space.appendChild(linebreak);
+
 }
+
+
+function makeSynonymRadioButtons(newString) {
+    // alert(newString);
+    if (newString.match("Synonyms:")) {
+        var n = newString.lastIndexOf(":");
+        synsString = newString.substring(n+2);
+        synsString = synsString.trim();
+        // newString = newString.substring(0, n-9); 
+        // alert(synsString);   
+        synsArray = synsString.split(' ');
+        // alert("array: " + synsArray + "\nlength: " + synsArray.length);
+        for (var i = 0; i < synsArray.length; i++) {
+            if (synsArray[i] != " "){
+                makeRadioButton("radio", synsArray[i]);
+
+            }
+        }
+
+    }
+}
+
+
 //This simply makes a radion button, giving setting the 'name' value to be the same as the synonym it'll be labelled as. 
 function makeRadioButton(type, text) {
     var label = document.createElement("label");
@@ -289,14 +325,12 @@ function getDefinition(word) {
             var data = JSON.parse(this.responseText);
             var definition = word + ": \n\n" + data[0].text;
             document.getElementById("definition-output").innerHTML = "";
-            var definitionPara = document.createElement("P");
+
             var lineBreak = document.createElement("br");
-            var textNode = document.createTextNode(definition);
-            definitionPara.appendChild(textNode);
+
             var space = document.getElementById("definition-output");
             space.appendChild(lineBreak);
-            space.appendChild(definitionPara);
-            space.appendChild(lineBreak);
+            makeTextNodeHelperFunction(definition, "definition-output");
         }
     };
     xhttp.open("GET", defURL, true);
@@ -312,34 +346,20 @@ var listOfEdits = [];
 // string represenation of the word to replace the selected one. 
 //This could be expanded to include replacing or removing by word type, but this is currently seen as a low priority. 
 function addEdits() {
-    // alert(document.getElementById("customInput").value);
     // alert("method went");
     var arrayToGoInListOfEdits = [];
-    var editSpace = document.getElementById("word-to-be-edited");
-    //It was found to be easier to find the word to be edited from the space rather than being passed as a parameter. 
-    var textArray = editSpace.innerHTML;
-    // alert(textArray);
-    textArray = textArray.split(':');
-    var text = textArray[0];
-    arrayToGoInListOfEdits.push(text);
-    var wordsToChange = [];
-    var words = document.getElementsByClassName("word");
-    //The words will all be the same, but we push all into the array to help the logic of the next section. 
-    for (var i = 0; i < words.length; i++) {
-        if (words[i].style.backgroundColor == "yellow") {
-            wordsToChange.push(words[i]);
-        }
-    }
+    var word = getWordFromTheEditingSpace();
 
-//If the words collected number more than one, we know to replace all versions of the word. 
-    var textForUser = "";
-    if (wordsToChange.length > 1) {
-        textForUser = "Replace all instances of \"" + text + "\" with ";
+    arrayToGoInListOfEdits.push(word);
+
+    var oneOrManyVariable = oneWordOrMany();
+    if (oneOrManyVariable == "all") {
         arrayToGoInListOfEdits.push("all");
     } else {
-        textForUser = "Replace \"" + text + "\" with ";
-        arrayToGoInListOfEdits.push(wordsToChange[0].id);
+        arrayToGoInListOfEdits.push(editedWord.id);
     }
+ 
+
     // alert(textForUser);
     //This finds the word that will replace the selected one. 
     var radioButtons = document.getElementsByClassName("editRadioButtons");
@@ -352,29 +372,60 @@ function addEdits() {
     }
     // alert(activeButton.name);
     if (activeButton.value.match("Choose your own:")) {
-        textForUser += "\"" + document.getElementById("customInput").value + "\""; 
+        var replacement = document.getElementById("customInput").value
         arrayToGoInListOfEdits.push(document.getElementById("customInput").value);
     } else {
-        textForUser += "\"" + activeButton.value + "\"";
+        var replacement = activeButton.value;
         arrayToGoInListOfEdits.push(activeButton.value);
     }
-    // textForUser += "\"" + activeButton.name + "\"";
-    // alert(textForUser);
-    //Finally, the relevant information is appended to listOfEdits and then that list is printed to the screen for the user to keep track of. 
-    var replaceWords = document.createElement("P");
-    var lineBreak = document.createElement("br");
+
     listOfEdits.push(arrayToGoInListOfEdits);
-    textForUser = listOfEdits.length + ": " + textForUser;
-    var textNode = document.createTextNode(textForUser);
-    replaceWords.appendChild(textNode);
-    var space = document.getElementById("edit-space");
-    space.appendChild(lineBreak);
-    space.appendChild(replaceWords);
-    space.appendChild(lineBreak);
-    document.getElementById("word-to-be-edited").innerHTML = "";
+
+    textForUser = listOfEdits.length + ": Replace ";
+    if (oneOrManyVariable == "all"){
+        textForUser += "all instances of \"" + word + "\"";
+    } else {
+        textForUser += "\"" + word + "\"";
+    }
+    textForUser += " with \"" + replacement + "\"";
+    //Finally, the relevant information is appended to listOfEdits and then that list is printed to the screen for the user to keep track of. 
+    makeTextNodeHelperFunction(textForUser, "edit-space");
+
+    document.getElementById("editor-word").innerHTML = "";
     document.getElementById("radio-button-space").innerHTML = "";
     // alert(listOfEdits);
 }
+
+function getWordFromTheEditingSpace() {
+    var editSpace = document.getElementById("editor-word");
+    //It was found to be easier to find the word to be edited from the space rather than being passed as a parameter. 
+    var textArray = editSpace.innerHTML;
+    // alert(textArray);
+    textArray = textArray.split(':');
+    var text = textArray[0];
+    text = text.slice(3, text.length);
+    return text;
+}
+
+function oneWordOrMany() {
+    var wordsToChange = [];
+    var words = document.getElementsByClassName("word");
+    //The words will all be the same, but we push all into the array to help the logic of the next section. 
+    for (var i = 0; i < words.length; i++) {
+        if (words[i].style.backgroundColor == "yellow") {
+            wordsToChange.push(words[i]);
+        }
+    }
+
+//If the words collected number more than one, we know to replace all versions of the word. 
+    if (wordsToChange.length > 1) {
+        return "all";
+    } else {
+        return "one";
+    }
+}
+
+
 //This makes any changes to the text the user selects, based on the information in listOfEdits.
 function scanTextForWordSwaps() {
 
