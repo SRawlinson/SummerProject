@@ -1,0 +1,45 @@
+Shall I compare thee to summer's day--	7
+Line object's idea of length: 9
+NN, PRP, VBP, JJ, TO, NN, NN, 
+classes: 0 x: 0
+Shall
+classes: 1 x: 1
+I
+classes: 2 x: 2
+compare
+classes: 3 x: 3
+thee
+classes: 4 x: 4
+to
+classes: 5 x: 5
+summer's
+classes: 6 x: 6
+day
+classes: 7 x: 7
+<span class="word">-</span>
+classes: 7 x: 8
+<span class="word">-</span>
+THough art more temperate	4
+Line object's idea of length: 4
+IN, RB, RBR, JJ, 
+classes: 0 x: 0
+THough
+classes: 1 x: 1
+art
+classes: 2 x: 2
+more
+classes: 3 x: 3
+temperate
+happy-days --	2
+Line object's idea of length: 5
+JJ, NNS, 
+classes: 0 x: 0
+happy
+classes: 1 x: 1
+<span class="word">-</span>
+classes: 1 x: 2
+days
+classes: 2 x: 3
+<span class="word">-</span>
+classes: 2 x: 4
+<span class="word">-</span>

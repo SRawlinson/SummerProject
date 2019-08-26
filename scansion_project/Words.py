@@ -29,8 +29,10 @@ def turnTextIntoObjects(text):
     for line in textSplit:
         listForLength = re.findall(r"[\w']+|[-.,!?;]", line)
         length = len(listForLength)
-        lineTags = pos_tags[x: x + length]
-        x+=length
+        listOfPunct = re.findall(r"[-.,!?;]", line)
+        lengthForTags = length - len(listOfPunct)
+        lineTags = pos_tags[x: x + lengthForTags]
+        x+=lengthForTags
         # line += "\n";
         l1 = Line(line, lineTags, id)
         lines.append(l1)
@@ -74,14 +76,12 @@ class Line:
         self.string = lineString
         #Separates line into words and punctuation 
         self.list = re.findall(r"[\w']+|[-.,!?;]", lineString)
-
         classes = 0
         # For each element in self.list,if it's a word, replace with a Word object. 
         for x in range(0, len(self.list)):
             y = self.list[x]
             z = re.match("\w+", y)
             if z:
-                #I think here is where I'll need error handling for UnknownWords to appear.
                 try:
                     self.list[x] = Word(self.list[x], lineTags[classes], idNum)
                     classes += 1
@@ -90,6 +90,7 @@ class Line:
                     self.list[x] = UnknownWord(self.list[x], lineTags[classes], idNum)
                     classes += 1
                     idNum.increaseNumber()
+
             else: 
                 #Punctuation is also given the 'word' tag for the html to capture it when refreshing the page with edits, but it is not
                 # given an id from idNum to prevent errors during that process. 
