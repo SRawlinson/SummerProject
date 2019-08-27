@@ -28,9 +28,9 @@ def getBestMeter(lines):
     totalLines = 0
 
     for line in lines:
-        
-
-        allPatterns.append(str(line.foot + " " + line.numOfFeet))
+        if line.hasWords:
+            totalLines += 1
+            allPatterns.append(str(line.foot + " " + line.numOfFeet))
     
     counter = collections.Counter(allPatterns)
     data = counter.most_common(1)

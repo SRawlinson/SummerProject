@@ -77,6 +77,10 @@ class Line:
         self.string = lineString
         #Separates line into words and punctuation 
         self.list = re.findall(r"[\w']+|[-.,!?;]", lineString)
+        if len(self.list) > 1:
+            self.hasWords = True
+        else:
+            self.hasWords = False
         classes = 0
         # For each element in self.list,if it's a word, replace with a Word object. 
         for x in range(0, len(self.list)):

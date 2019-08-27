@@ -83,7 +83,11 @@
                         <div id="detailsInfo">
                             {% for line in lines %}
                             {% autoescape off %}
+                            {%if line.hasWords %}
                             {{ line.foot }} {{ line.numOfFeet }}<br>
+                            {% else %}
+                            <br>
+                            {% endif %}
                             {% endautoescape %}
                             {% endfor %}
                         </div>
