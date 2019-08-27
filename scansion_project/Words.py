@@ -28,6 +28,7 @@ def turnTextIntoObjects(text):
     #This creates each line object, with the string representation, the relevant portion of the wordclass list, and the idNUm object. 
     for line in textSplit:
         listForLength = re.findall(r"[\w']+|[-.,!?;]", line)
+        #Need to only send as many tags as there are words for each line (length of list - number of punctuation marks)
         length = len(listForLength)
         listOfPunct = re.findall(r"[-.,!?;]", line)
         lengthForTags = length - len(listOfPunct)
@@ -127,22 +128,28 @@ class Line:
         pattern = pattern.replace('/', 's')
         patternLength = len(pattern)
         self.foot = ""
-        self.numOfFeet = ""
+        self.numOfFeet = " "
         #Scansion does not account for lines shorter than four syllables or longer than 24. Otherwise, is calculates the size of the 'foot'
         # based on how many regular feet a line could have, and then counts which (if any) fit a known pattern such as iambic or anapestic. 
         #A helper method is used to count the number of potential matches, and another to find any recurring patterns in those. 
         if patternLength < 4 or patternLength > 24:
             self.foot = "unknown"
             self.numOfFeet = " "
-        elif patternLength % 2 == 0 and (patternLength != 6 or patternLength != 12) and patternLength < 17:
+        elif patternLength % 2 == 0 and patternLength != 6 and patternLength != 12 and patternLength < 17:
+            # file = open("SeparateIntoFeetText.txt", "w+")
+            # file.write("patternLength % 2 == 0 and (patternLength != 6 or patternLength != 12) and patternLength < 17:")
             self.countFeet(patternLength, 2)
             self.matchForDoubleSylls(patternLength, pattern)
             
-        elif patternLength % 3 == 0 and (patternLength != 6 or patternLength != 12):
+        elif patternLength % 3 == 0 and patternLength != 6 and patternLength != 12:
+            # file = open("SeparateIntoFeetText.txt", "w+")
+            # file.write("patternLength % 3 == 0 and (patternLength != 6 or patternLength != 12")
             self.countFeet(patternLength, 3)
             self.matchForTripleSylls(patternLength, pattern)
 
         elif patternLength == 6 or patternLength == 12:
+            # file = open("SeparateIntoFeetText.txt", "w+")
+            # file.write("patternLength == 6 or patternLength == 12")
             self.countFeet(patternLength, 3)
             self.matchForTripleSylls(patternLength, pattern)
             if self.foot == "unknown":
@@ -156,8 +163,12 @@ class Line:
 
     def separateIntoFeet(self, array, size):
         listOfFeet = []
+        # file = open("SeparateIntoFeetText.txt", "w+")
+
         for i in range(0, len(array), size):
             listOfFeet.append(array[i:i + size])
+        # for foot in listOfFeet:
+        #     file.write(foot + "\n")
         return listOfFeet   
 
     def countFeet(self, numOfSylls, divider):
@@ -177,7 +188,7 @@ class Line:
         elif numOfFeet == 8:
             self.numOfFeet = "octometer"
         else:
-            self.numOfFeet = "unknown"
+            self.numOfFeet = " "
     #The two 'match' functions are what count the patterns, and determines a line fits a regular meter if over half of the 
     # feet match the same pattern. 
     def matchForDoubleSylls(self, patternLength, pattern):

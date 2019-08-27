@@ -25,9 +25,11 @@ def index(request):
 # Helper method which counts each lines analysis to determine which is the most recurring. 
 def getBestMeter(lines):
     allPatterns = []
-    totalLines = len(lines)
+    totalLines = 0
 
     for line in lines:
+        
+
         allPatterns.append(str(line.foot + " " + line.numOfFeet))
     
     counter = collections.Counter(allPatterns)
@@ -36,12 +38,18 @@ def getBestMeter(lines):
         textMeter = meter
         count = frequency
     if re.match("unknown", textMeter):
+        print("Text meter: " + textMeter + " Count: " + str(count))
+
         
         for meter, frequency in counter.most_common(2):
             textMeter = meter
             count = frequency
+            print("New textMeter: " + textMeter + " count: " + str(count))
         info = {'meter': textMeter, 'count': count, 'total': totalLines, 'message': "Unknown"}
         return info
+    elif count < totalLines/2:
+        info = {'meter': textMeter, 'count': count, 'total': totalLines, 'message': "Unknown"}
+
     else:
         info = {'meter': textMeter, 'count': count, 'total': totalLines}
         return info
@@ -50,17 +58,6 @@ def getBestMeter(lines):
 def about(request):
     return render(request, 'scansion/about.html')
 
-def how_to(request):
-    return render(request, 'scansion/how_to.html')
-
 def analyse(request, context_dict):
     return render(request, 'scansion/analyse.html', context_dict)
-    
-def analyse_how_to(request):
-    return render(request, 'scansion/analyse_how_to.html')
 
-def writing(request):
-    return render(request, 'scansion/writing.html')
-
-def writing_how_to(request):
-    return render(request, 'scansion/writing_how_to.html')
