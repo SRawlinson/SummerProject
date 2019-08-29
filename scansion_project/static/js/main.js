@@ -1,3 +1,5 @@
+//The first few functions deal wiht the visual aspects of the site - both what tabs are visible
+//and the styling of the output text. 
 function toggleNavBar() {
     var panel = document.getElementById("panel");
     if (panel.style.display === "block") {
@@ -6,11 +8,6 @@ function toggleNavBar() {
         panel.style.display = "block";
     }
 }
-
-// function textEntered() {
-//     var enterredText = document.getElementById("text-input").value;
-//     document.getElementById("scan-output").value = enterredText;
-// }
 
 function openTab(evt, tabName) {
     var i, tabcontent, tablinks;
@@ -54,7 +51,6 @@ function openViewTab(evt, viewtabName) {
     evt.currentTarget.className += " active";
 }
 
-//Display text functions here
 
 //This function returns the text to its normal state - it's called at the start of the other display methods so only one can
 //be applied at any time. 
@@ -133,7 +129,7 @@ function toggleDetails() {
 }
 
 //The user can seek a definition for a word or highlight it to use the editing functions. This function determines which will be performed
-//based on which tab is open, after separating the html id tag to get just the word and not it's index. 
+//based on which tab is open, after separating the html id tag to get just the word. 
 function getDefinitionOrEdit(evt) {
     var fullword = evt.currentTarget;
     var fullID = fullword.id;
@@ -157,6 +153,8 @@ function getDefinitionOrEdit(evt) {
     }
 }
 
+//The definition function and most of the editing functions required adding text to the page - this is a helper 
+//function to reduce any repeated code. 
 function makeTextNodeHelperFunction(stringOfText, spaceForText) {
     var space = document.getElementById(spaceForText);
     var paragraph = document.createElement("P");
@@ -185,16 +183,12 @@ function getWordToBeEdited(wordToBeEdited) {
     for (var i = 0; i < dropdownTent.length; i++){
         stringRep += dropdownTent[i].innerHTML;
     }
-    // re = /<br>/g;
-    // newString = stringRep.replace(re, '\n');
+
     stringArray = stringRep.split('<br>');
     for (var i = 0; i < 3; i++) {
         makeTextNodeHelperFunction(stringArray[i], "editor-word");
     }
     return stringArray[3];
-    // makeTextNodeHelperFunction(stringRep, "editor-word");
-    // return newString;
-
 }
 
 function makeTheRightNumberOfButtons(word, wordString, synonymString) {
@@ -306,7 +300,6 @@ function highlightAllExamples(wordID, word) {
         }
     }
 }
-// API related functions + data below
 
 //Data needed for API calls. 
 var APIKey = "kcje7882nvil0mgncl2kio5pudxvpsz3ym5ispkp42ig69yqw";

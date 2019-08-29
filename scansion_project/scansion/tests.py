@@ -5,20 +5,13 @@ from scansion import views
 import re
 import collections
 
+#The 'TestInput' Class implements the error handling tests described in Chapter 4.1 of the report. 
+#It matches the output of the syll_str() method against an expected outcome across a variety of different inputs. 
+# The test mainly functioned as a way to detect errors thrown over the accuracy, but it also ensured the outputs were
+#  as expected and so could be used as designed in the front end. 
+
 class TestInput(TestCase):
-    # Full text of Shakespeare's sonnet 44
-    # text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
-    # lines = Words.turnTextIntoObjects(text)
-    # # print(lines[0])
-    # #line == the first line of above
-    # line = lines[0].syll_str_line()
-    # # print(line)
-    # #firstWord == the first word's string output for the site
-    # firstWord = lines[0].list[1].syll_str()
-    # print(firstWord)
-    # # firstSyll == the first syllable of the first word - in this case it inclludes the whole word of 'If'
-    # firstSyll = lines[0].list[0].sylls[0].colours()
-    # # print(firstSyll)
+
     def test_turnTextIntoObjects_works_with_unproblematic_inputs(self):
         expectedFirstWordOutput = "<span class=\"word\" id=\"0 If\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"Preposition or suburdinating conjunction\"><output-font class=\"unstressed\">If</output-font></div><div class=\"dropdown-content\">If:  <br> x <br> Preposition or suburdinating conjunction <br> </div></span>"
         text = "If the dull substance of my flesh were thought,"
@@ -55,7 +48,6 @@ class TestInput(TestCase):
         secondWord = lines[0].list[1].syll_str()
         self.assertEqual(secondWord, expectedSecondWordOutput)
     
-    #Failing as of 10/08
     def test_input_with_dashes(self):
         expectedFirstWordOutput = "<span class=\"word\" id=\"0 If\" onClick=\"getDefinitionOrEdit(event)\"><div class=\"Preposition or suburdinating conjunction\"><output-font class=\"unstressed\">If</output-font></div><div class=\"dropdown-content\">If:  <br> x <br> Preposition or suburdinating conjunction <br> </div></span>"
         text = "If-the-dull-substance-of-my-flesh-were-thought,"
@@ -115,7 +107,13 @@ class TestInput(TestCase):
         self.assertEqual(firstWord, expectedFirstWordOutput)
 
         
-
+#The 'TestAccuracy' Class was used to implement the accuracy evaluations detailed in Chapter 4.2 of the report. 
+#The methods load pre-prepared files containing lists of poems and runs the 'getBestMeter()' method from the views
+# via the 'helper_test_a_file_of_poems()' method. It returns a new file with the outcome of each test. 
+# The three files currently being tested are located in the same folder as the 'scansion_project' folder, and are titled
+# 'all_sonnets.txt', 'mix_of_contemporary.txt.', and 'mix_of_older_poems.txt'. These files can be added to, as long as 
+# each new poem is separated from the last by two lines, and each first line of a new entry contains the expected poetic 
+# meter. 
 class TestAccuracy(TestCase):
     
     def test_all_sonnets(self):

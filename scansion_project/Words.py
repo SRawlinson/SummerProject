@@ -3,8 +3,7 @@ import re
 import nltk
 from nltk.corpus import wordnet
 import collections
-# from PyDictionary import PyDictionary
-# dictionary = PyDictionary()
+
 
 #This method takes the original string/text input, gathers relevant corresponding data, and splits it into lines. 
 def turnTextIntoObjects(text):
@@ -34,34 +33,10 @@ def turnTextIntoObjects(text):
         lengthForTags = length - len(listOfPunct)
         lineTags = pos_tags[x: x + lengthForTags]
         x+=lengthForTags
-        # line += "\n";
         l1 = Line(line, lineTags, id)
         lines.append(l1)
 
     return lines
-
-def getBestMeterForTesting(lines):
-    allPatterns = []
-    
-    for line in lines:
-        allPatterns.append(str(line.foot + " " + line.numOfFeet))
-    firstMeter = ""
-    secondMeter = ""
-    textMeter = ""
-    counter = collections.Counter(allPatterns)
-    data = counter.most_common(1)
-    for meter in data:
-        textMeter = meter
-    if re.match("unknown", textMeter[0]):
-    
-        for meter in counter.most_common(2):
-            textMeterSecond = meter
-            secondMeter = textMeterSecond[0]
-    firstMeter = textMeter[0]
-    
-    info = {'firstMeter': firstMeter, 'secondMeter': secondMeter}
-    return info
-   
 
 class idNum:
     def __init__(self):
@@ -71,7 +46,7 @@ class idNum:
         self.number += 1
 
 #The class for the line object. As well as creating each Word object found in its string representation, it calculates the meter of the line
-#based on its words' stress variations. 
+#based on each word's stress variations. 
 class Line:
     def __init__(self, lineString, lineTags, idNum):
         self.string = lineString
@@ -82,7 +57,8 @@ class Line:
         else:
             self.hasWords = False
         classes = 0
-        # For each element in self.list,if it's a word, replace with a Word object. 
+        # For each element in self.list,if it's a word, replace with a Word object. If PROSODIC can't recognise it, it 
+        #will throw an Attribute error during the __init__() function, and so should instead be classed as an 'UnknownWord'. 
         for x in range(0, len(self.list)):
             y = self.list[x]
             z = re.match("\w+", y)
@@ -107,6 +83,7 @@ class Line:
         self.linePattern = ""
         self.getPattern()
         self.identifyPattern()
+
     #getPattern is more for the display purposes, builds a html string similar to the below methods. 
     def getPattern(self):
         linePattern = "<pre>"
@@ -140,20 +117,14 @@ class Line:
             self.foot = "unknown"
             self.numOfFeet = " "
         elif patternLength % 2 == 0 and patternLength != 6 and patternLength != 12 and patternLength < 17:
-            # file = open("SeparateIntoFeetText.txt", "w+")
-            # file.write("patternLength % 2 == 0 and (patternLength != 6 or patternLength != 12) and patternLength < 17:")
             self.countFeet(patternLength, 2)
             self.matchForDoubleSylls(patternLength, pattern)
             
         elif patternLength % 3 == 0 and patternLength != 6 and patternLength != 12:
-            # file = open("SeparateIntoFeetText.txt", "w+")
-            # file.write("patternLength % 3 == 0 and (patternLength != 6 or patternLength != 12")
             self.countFeet(patternLength, 3)
             self.matchForTripleSylls(patternLength, pattern)
 
         elif patternLength == 6 or patternLength == 12:
-            # file = open("SeparateIntoFeetText.txt", "w+")
-            # file.write("patternLength == 6 or patternLength == 12")
             self.countFeet(patternLength, 3)
             self.matchForTripleSylls(patternLength, pattern)
             if self.foot == "unknown":
@@ -193,6 +164,7 @@ class Line:
             self.numOfFeet = "octometer"
         else:
             self.numOfFeet = " "
+
     #The two 'match' functions are what count the patterns, and determines a line fits a regular meter if over half of the 
     # feet match the same pattern. 
     def matchForDoubleSylls(self, patternLength, pattern):
@@ -238,9 +210,6 @@ class Line:
         else:
             self.foot = "unknown"
             self.numOfFeet = " "
-
-    def showFirstSyllStress(self):
-        return self.list[0].sylls[0].stressed
 
     #This is a simple toString method written for testing purposes. 
     def __str__(self):
@@ -403,6 +372,7 @@ class Word:
             output += self.sylls.colours() + " | "
         output += "</div><div class=\"dropdown-content\" id=" + self.__str__() + ">" + self.__str__() + ": " "<br>" + self.pattern + "<br>" + self.wordClass + "<br></div></span>"
         return output
+
     #This uses nltk again to find synonyms for each word. This is used in the dropdown content and the editing functions. 
     def getSyns(self):
         synonyms = ""
@@ -467,43 +437,3 @@ class UnknownWord(Word):
     
     def __str__(self):
         return self.string
-
-
-# text = "If the dull substance of my flesh were thought, \n Injurious distance should not stop my way; \n For then despite of space I would be brought, \n From limits far remote where thou dost stay. \n No matter then although my foot did stand \n Upon the farthest earth removed from thee; \n For nimble thought can jump both sea and land \n As soon as think the place where he would be. \n But ah! thought kills me that I am not thought, \n To leap large lengths of miles when thou art gone, \n But that so much of earth and water wrought \n I must attend time's leisure with my moan, \n Receiving nought by elements so slow \n But heavy tears, badges of either's woe. \n "
-# lines = []
-# textSplit =text.splitlines()
-# for line in textSplit:
-#     l1 = Line(line)
-#     lines.append(l1)
-# listForTags = re.findall(r"[\w']+|[-.,!?;]", text)
-# #Tokenizes using nltk
-# tags = nltk.word_tokenize(text)
-# pos_tags = nltk.pos_tag(tags)
-# # print(pos_tags)
-# for tag in pos_tags:
-#     x = re.match('POS', tag[1])
-#     if x:
-#         pos_tags.remove(tag)
-# # # print(pos_tags)
-# x = 0
-# for line in textSplit:
-#     listForLength = re.findall(r"[\w']+|[-.,!?;]", line)
-#     length = len(listForLength)
-#     lineTags = pos_tags[x: x + length]
-#     x += length
-
-# t = turnTextIntoObjects("dog")
-# print(t[0].list[0].synonyms)
-
-
-# l1 = Line("Shall, I compare thee?")
-# print(l1.syll_str_line())
-# print(l1.list[0].syll_str())
-# print(l1.list[0].sylls[0].colours())
-# w1 = Word("Shallow")
-# print(w1)
-# l1 = Line("I whirled out wings that spell")
-# print(l1.linePattern)
-# print(l1.foot + " " + l1.numOfFeet)
-
-# t = turnTextIntoObjects("Shall I compare thee to a summer's day?")
