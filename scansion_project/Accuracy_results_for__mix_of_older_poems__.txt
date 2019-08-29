@@ -1,10 +1,19 @@
-FAIL	"Tyger Tyger, burning bright, ", Expected: ﻿unknown, Scansion's: unknown   (Best guess: iambic tetrameter)
-FAIL	"In these deep solitudes and awful cells, ", Expected: iambic pentameter, Scansion's: unknown   (Best guess: iambic pentameter)
-FAIL	"It little profits that an idle king, ", Expected: iambic pentameter, Scansion's: unknown   (Best guess: iambic pentameter)
-PASS	"When our two sould stand up erect and strong, ", Expected: iambic pentameter, Scansion's: iambic pentameter
-FAIL	"Long have I long’d to see my love againe, ", Expected: iambic pentameter, Scansion's: unknown   (Best guess: iambic pentameter)
-FAIL	"Just for a handful of silver he left us, ", Expected: dactylic tetrameter, Scansion's: unknown   (Best guess: iambic pentameter)
-FAIL	"Oh, good gigantic smile o’ the brown old earth, ", Expected: iambic pentameter, Scansion's: unknown   (Best guess: iambic pentameter)
-FAIL	"The Assyrian came down like the wolf on the fold,", Expected: anapestic tetrameter, Scansion's: unknown   (Best guess: anapestic tetrameter)
+FAIL	"In these deep solitudes and awful cells, ", Expected: ﻿iambic pentameter, Scansion's best guess: iambic pentameter
+FAIL	"It little profits that an idle king, ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
+FAIL	"When our two sould stand up erect and strong, ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
+FAIL	"Long have I long’d to see my love againe, ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
+FAIL	"Just for a handful of silver he left us, ", Expected: dactylic tetrameter, Scansion's best guess: iambic pentameter
+FAIL	"Oh, good gigantic smile o’ the brown old earth, ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
+FAIL	"The Assyrian came down like the wolf on the fold,", Expected: anapestic tetrameter, Scansion's best guess: anapestic tetrameter
+PASS	"Where the remote Bermudas ride ", Expected: iambic tetrameter, Scansion's: iambic tetrameter
+PASS	"Had we but world enough and time, ", Expected: iambic tetrameter, Scansion's: iambic tetrameter
+FAIL	"As some brave admiral, in former war ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
+FAIL	"I cannot change, as others do, ", Expected: iambic tetrameter, Scansion's best guess: iambic tetrameter
+FAIL	"O what can ail thee, knight-at-arms, ", Expected: iambic tetrameter, Scansion's best guess: iambic tetrameter
+FAIL	"The day is gone, and all its sweets are gone! ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
+FAIL	"Bright star, would I were stedfast as thou art— ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
+FAIL	"Huge vapours brood above the clifted shore, ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
+PASS	"So many years have passed, ", Expected: iambic pentameter, Scansion's: iambic pentameter
+FAIL	"On thy stupendous summit, rock sublime! ", Expected: iambic pentameter, Scansion's best guess: iambic pentameter
 
-FAIL: 7 fails out of 8 poems.
+FAIL: 14 fails out of 17 poems. 12 correct 'best guesses'.

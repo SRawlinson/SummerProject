@@ -1,6 +1,7 @@
 from django.test import TestCase
 import unittest
 import Words
+from scansion import views
 import re
 import collections
 
@@ -135,6 +136,7 @@ def helper_test_a_file_of_poems(fileName):
     fileText = fileContents.read()
     fileContents.close()
     fails = 0
+    correctGuesses = 0
     result = ""
 
     poems_array = fileText.split("\n\n\n")
@@ -145,16 +147,20 @@ def helper_test_a_file_of_poems(fileName):
         expectedMeter = poem.partition("\n")[0]
         poemText = poem.partition("\n")[2]
         poemObject = Words.turnTextIntoObjects(poemText)
-        scansionMeter = Words.getBestMeterForTesting(poemObject)
-        if re.match(expectedMeter, scansionMeter['firstMeter']):
+        scansionMeter = views.getBestMeter(poemObject)
+        z = re.match(expectedMeter, scansionMeter['meter'])
+        if z and scansionMeter['count'] >= scansionMeter['total']/2:
             textFile.write("PASS")
+            textFile.write("\t\"" + poemText.split("\n")[0] + "\", Expected: " + expectedMeter + ", Scansion's: " + scansionMeter['meter'])
         else:
             textFile.write("FAIL")
             poemFailed = True
             fails+=1
-        textFile.write("\t\"" + poemText.split("\n")[0] + "\", Expected: " + expectedMeter + ", Scansion's: " + scansionMeter['firstMeter'])
-        if poemFailed:
-            textFile.write(" (Best guess: " + scansionMeter['secondMeter'] + ")")
+            textFile.write("\t\"" + poemText.split("\n")[0] + "\", Expected: " + expectedMeter + ", Scansion's best guess: " + scansionMeter['meter'])
+            if z:
+                correctGuesses +=1
+        # if poemFailed:
+        #     textFile.write(" (Best guess: " + scansionMeter['secondMeter'] + ")")
         textFile.write("\n")
     if (fails <= len(poems_array)/10):
         stringForTextFile = "\nPASS"
@@ -164,7 +170,7 @@ def helper_test_a_file_of_poems(fileName):
         result = "FAIL"
     stringForTextFile += ": "
     stringForTextFile += str(fails)
-    stringForTextFile += " fails out of " + str(len(poems_array)) + " poems."
+    stringForTextFile += " fails out of " + str(len(poems_array)) + " poems. " + str(correctGuesses) + " correct 'best guesses'."
     textFile.write(stringForTextFile)
     textFile.close()
     return result    

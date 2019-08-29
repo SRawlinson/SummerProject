@@ -34,6 +34,8 @@ def getBestMeter(lines):
     
     counter = collections.Counter(allPatterns)
     data = counter.most_common(1)
+    textMeter = "unknown"
+    count = "unknown"
     for meter, frequency in data:
         textMeter = meter
         count = frequency
@@ -46,13 +48,13 @@ def getBestMeter(lines):
             count = frequency
             print("New textMeter: " + textMeter + " count: " + str(count))
         info = {'meter': textMeter, 'count': count, 'total': totalLines, 'message': "Unknown"}
-        return info
+     
     elif count < totalLines/2:
         info = {'meter': textMeter, 'count': count, 'total': totalLines, 'message': "Unknown"}
-
+       
     else:
         info = {'meter': textMeter, 'count': count, 'total': totalLines}
-        return info
+    return info
 
 
 def about(request):

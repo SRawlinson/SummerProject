@@ -42,7 +42,7 @@ def turnTextIntoObjects(text):
 
 def getBestMeterForTesting(lines):
     allPatterns = []
-
+    
     for line in lines:
         allPatterns.append(str(line.foot + " " + line.numOfFeet))
     firstMeter = ""
