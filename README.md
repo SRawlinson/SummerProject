@@ -16,7 +16,7 @@ Scansion identified the meter as if it did not find a exact match.
 
 This project was completed as part of a MSc in Software Engineering at the University of Glasgow in 2019. 
 
-An up to date requirements file is present in order to allow users to install the relevant packages when downloaded. 
+An up to date requirements file is contained in 'requirements.txt'. Once you have downloaded the code repository into a virtual environment, 'pip install -r requirements.txt' should install the relevant packages needed to run Scansion. 
 
 
 
